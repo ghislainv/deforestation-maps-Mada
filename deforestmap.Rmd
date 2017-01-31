@@ -1,0 +1,71 @@
+---
+title: "Sixty-five years of deforestation and forest degradation in Madagascar"
+bibliography: bib/biblio.bib
+csl: bib/conservation-letters.csl
+output: 
+  html_document:
+    fig_caption: yes
+  pdf_document:
+    fig_caption: true
+    keep_tex: true
+---
+
+```{r load_data}
+load("deforestmap.rda")
+```
+
+#### Ghislain Vieilledent<sup>*,1,2</sup>, Clovis Grinand<sup>3</sup>, Fety A. Rakotomalala<sup>3</sup>, Jean-Roger Rakotoarijaona<sup>5</sup>, and Frédéric Achard<sup>1</sup>
+
+(*) /Email: ghislain.vieilledent@cirad.fr, /Phone: +39.329.457.2273
+
+1. Joint Research Center of the European Commission, Bio-economy Unit (JRC.D.1), I-21027 Ispra (VA), ITALY
+2. Cirad, UPR Forêts et Sociétés, F-34398 Montpellier, FRANCE
+3. ETC Terra, F-75016 Paris, FRANCE
+4. Wildlife Conservation Society, 101 Antananarivo, MADAGASCAR
+5. Office National de l'Environnement, 101 Antananarivo, MADAGASCAR
+
+## Summary
+
+1. xxx
+
+2. xxx
+
+**Keywords**: biodiversity, climate-change, deforestation, Landsat, protected areas, Madagascar, tropical forest, tree cover.
+
+**Potential journals** (2015 IF): Conservation Letters (7.126), Conservation Biology (4.257), Environmental Research Letters (4.134), Biological Conservation (3.985), Landscape Ecology (3.657), Ambio (2.555), Environmental Conservation (2.235), Biotropica (1.944), Tropical Conservation Science (1.55).
+
+## 1. Introduction
+
+Tropical forests provide important ecosystem services at the global scale, such as biodiversity conservation and climate regulation [@Costanza1997] but also many at the regional scale for local populations. At the local scale, tropical forests supply clean water, can preserve populations from flood [@Bradshaw2007] and provide wood for construction and fuel and other non-woody products for food and health. On the island of Madagascar, three types of tropical forests, covering about 9 millions of hectares (15% of the country area) can be found: the moist forest in the East, the dry forest in the West and the spiny forest in the South [@Vieilledent2016]. Among all the ecosystem services cited previously, Malagasy forests are particularly important for the unique biodiversity they shelter, both in term of number of species and endemism in many taxonomic groups [@Goodman2005]. 
+
+- Harper,
+- Hansen,
+- Kim,
+- ONE/PERR-FH (http://www.etcterra.org/fr/projets/perrfh)
+
+## 2. Materials and Methods
+
+### 2.1 Historical deforestation maps
+
+We derived 30m cloud-free forest maps for Madagascar for the years 1990, 2000, 2010 and 2014 combining the 1990 and 2000 forest maps by @Harper2007 and the 2000-2014 tree percent cover map by @Hansen2013. On Harper's map, ~200,000 ha clouds are present over the ~4.2 million ha moist forest ecoregion (4.8% of clouds). To remove these clouds, we used the 2000 cloud-free tree percent cover map provided by @Hansen2013 (also at 30~m resolution) and we chose a threshold of 75% of tree cover to decide whether to replace cloud pixels with forest or non-forest pixels [@Achard2014]. We thus obtained a cloud-free year 2000 forest map for Madagascar. From this map, using tree cover loss data from 2000 to 2014 by @Hansen2013, we obtained cloud-free forest maps in 2010 and 2014 at 30~m resolution. Finally, we corrected the cloudy 1990 Harper forest map assuming that if forest was present in 2000, it was also present in 1990. Doing so, all clouds were removed and we obtained a cloud-free 1990 forest map for Madagascar. These maps are freely available at http:/bioscenemada.cirad.fr/forestmaps.
+
+### 2.2 Deforestation intensity
+
+### 2.3 Fragmentation
+
+## 3. Results
+
+## 4. Discussion
+
+## Acknowledgements
+
+This study is part of the BioSceneMada project (http://bioscenemada.cirad.fr) and the ReCaREDD project (http://roadlessforests.org). The BioSceneMada project is funded by FRB (Fondation pour la Recherche sur la Biodiversité) and the FFEM (Fond Français pour l'Environnement Mondial) under the project agreement AAP-SCEN-2013 I. The ReCaREDD project is funded by the European Commission.
+
+## Data availability statement
+
+All the data and codes used for this study are made publicly available in the `deforestmap` GitHub repository (https://github.com/ghislainv/deforestmap.git). The results and the manuscript are fully reproducible running the R script `deforestmap.R` located inside the `deforestmap` repository.
+
+## Supplementary materials
+
+
+## References

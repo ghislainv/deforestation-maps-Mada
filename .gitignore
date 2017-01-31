@@ -1,6 +1,17 @@
+# Raw data which is downloaded
+deforestmap_data.zip
+gisdata
+
+# Markdown files
+report
+
+# biblio bak
+bib/biblio.bib.bak
+
 # History files
 .Rhistory
 .Rapp.history
+Rplots.pdf
 
 # Session Data files
 .RData
@@ -31,3 +42,4 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+.Rproj.user
