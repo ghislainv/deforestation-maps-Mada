@@ -2,11 +2,18 @@
 deforestmap_data.zip
 gisdata
 
+# GRASS data
+grassdata
+
 # Markdown files
 report
 
 # biblio bak
 bib/biblio.bib.bak
+
+# Outputs
+figs
+rast
 
 # History files
 .Rhistory
