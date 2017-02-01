@@ -7,7 +7,7 @@
 ## gdal library is needed to run this script
 ## http://www.gdal.org/
 
-## GRASS GIS 7.x.x is also needed to run this script
+## GRASS GIS 7.2.x is also needed to run this script
 ## https://grass.osgeo.org/
 
 ## Read argument for download
@@ -47,16 +47,15 @@ initGRASS(gisBase="/usr/local/grass-7.2.0",home=tempdir(),
 
 ##======================================================================
 ## Download data (263.6 Mo): will have to be done from a Zenodo repository
-if (down) {
-  d <- "http://bioscenemada.cirad.fr/githubdata/deforestmap/deforestmap_data.zip"
+#if (down) {
+#  d <- "http://bioscenemada.cirad.fr/githubdata/deforestmap/deforestmap_data.zip"
   download.file(url=d,destfile="deforestmap_data.zip",method="wget",quiet=TRUE)
   unzip("deforest_data.zip")
 }
 
 ##===========================================================
-## Create new directories to save figures and new raster data
-dir.create("figs")
-dir.create("rast")
+## Create new directories to save outputs
+dir.create("outputs")
 
 #= Projection UTM38S (EPSG:32738)
 
@@ -69,23 +68,23 @@ nodat <- "0"
 proj.s <- "EPSG:32638"
 proj.t <- "EPSG:32738"
 Input <- "gisdata/rasters/harper/905_dsp_nosea.img"
-Output <- "rast/Forest_CI_905_30m.tif"
+Output <- "outputs/harper.tif"
 # gdalwarp
 system(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
              " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 
-#= Import Forest_CI_905_30m.tif into grass location
-system("r.in.gdal --o input=rast/Forest_CI_905_30m.tif output=Forest_CI_905_30m")
+#= Import harper into grass location
+system("r.in.gdal --o input=outputs/harper.tif output=harper")
 # Set region
-system("g.region rast=Forest_CI_905_30m -ap")
+system("g.region rast=harper -ap")
 
 #= Typology of CI map
-system("r.info Forest_CI_905_30m")
-system("r.describe Forest_CI_905_30m") 
+system("r.info harper")
+system("r.describe harper") 
 # * 111 112 115 122 152 155 222 444 555 755 775 777
 # 1=forest, 2=nonforest, 5=cloud, 4=water, 7=mangrove
 
-system("r.report Forest_CI_905_30m units=h")
+system("r.report harper units=h")
 
 ## +-----------------------------------------------------------------------------+
 ## |                         RASTER MAP CATEGORY REPORT                          |
@@ -97,7 +96,7 @@ system("r.report Forest_CI_905_30m units=h")
 ## |-----------------------------------------------------------------------------|
 ## |MASK: none                                                                   |
 ## |-----------------------------------------------------------------------------|
-## |MAP: (untitled) (Forest_CI_905_30m in PERMANENT)                             |
+## |MAP: (untitled) (harper in PERMANENT)                             |
 ## |-----------------------------------------------------------------------------|
 ## |                      Category Information                       |           |
 ## |  #|description                                                  |   hectares|
@@ -125,7 +124,7 @@ system("r.report Forest_CI_905_30m units=h")
 
 #= Mosaic with gdalbuildvrt
 Input <- "gisdata/rasters/hansen/treecover2000/*.tif"
-Output <- "rast/treecover2000.vrt"
+Output <- "outputs/treecover2000.vrt"
 system(paste0("gdalbuildvrt -overwrite ",Output," ",Input))
 #= Resample with gdalwrap
 # Region
@@ -135,34 +134,34 @@ nodat <- "None"
 proj.s <- "EPSG:4326"
 proj.t <- "EPSG:32738"
 otype <- "Byte"
-Input <- "rast/treecover2000.vrt"
-Output <- "rast/treecover2000.tif"
+Input <- "outputs/treecover2000.vrt"
+Output <- "outputs/treecover2000.tif"
 # gdalwarp
 system(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
              " -tr ",Res," ",Res," -r bilinear -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
-#= Import treecover2000_38S.tif into grass location
-system("r.in.gdal --o input=rast/treecover2000.tif output=tc2000")
+#= Import treecover2000.tif into grass location
+system("r.in.gdal --o input=outputs/treecover2000.tif output=tc2000")
 
 #= Forest in 2000
 # Integrating classes of forest in 2000 (111, 112, 115, 775 and 777) and uncertainties (152, 155, 555 and 755)
-system("r.mapcalc 'for2000_temp = if(Forest_CI_905_30m==111 || Forest_CI_905_30m==112 || Forest_CI_905_30m==115 || \\
-       Forest_CI_905_30m==775 || Forest_CI_905_30m==777 || Forest_CI_905_30m==152 || Forest_CI_905_30m==155 || \\
-       Forest_CI_905_30m==555 || Forest_CI_905_30m==755, 1, null())'")
+system("r.mapcalc 'for2000_temp = if(harper==111 || harper==112 || harper==115 || \\
+       harper==775 || harper==777 || harper==152 || harper==155 || \\
+       harper==555 || harper==755, 1, null())'")
 # Replace uncertainties using Hansen tree cover and a threshold of 75\%
-system("r.mapcalc --o 'for2000 = if((Forest_CI_905_30m==152 || Forest_CI_905_30m==155 || \\
-       Forest_CI_905_30m==555 || Forest_CI_905_30m==755) && tc2000<75 , null(), for2000_temp)'")
-system("r.stats -c for2000_temp")
+system("r.mapcalc --o 'for2000 = if((harper==152 || harper==155 || \\
+       harper==555 || harper==755) && tc2000<75 , null(), for2000_temp)'")
+#system("r.stats -c for2000_temp")
 #1 110878983
 #* 1250064481
-system("r.stats -c for2000")
+#system("r.stats -c for2000")
 #1 109763775
 #* 1251179689
 system("g.remove -f type=raster name=for2000_temp")
 
 #= lossyear Hansen
 #= Mosaic with gdalbuildvrt
-Input <- "gisdata/rasters/hansen/lossyear/*E.tif"
-Output <-"rast/lossyear.vrt"
+Input <- "gisdata/rasters/hansen/lossyear/*.tif"
+Output <-"outputs/lossyear.vrt"
 system(paste("gdalbuildvrt -overwrite ",Output," ",Input,sep=""))
 #= Resample with gdalwrap
 # Region
@@ -172,17 +171,15 @@ nodat <- "None"
 proj.s <- "EPSG:4326"
 proj.t <- "EPSG:32738"
 otype <- "Byte"
-Input <- "rast/lossyear.vrt"
-Output <- "rast/lossyear.tif"
+Input <- "outputs/lossyear.vrt"
+Output <- "outputs/lossyear.tif"
 # gdalwarp
 system(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
              " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 #= Import lossyear.tif into grass location
-system("r.in.gdal --o input=rast/lossyear.tif output=lossyear")
-system("r.describe lossyear")
+system("r.in.gdal --o input=outputs/lossyear.tif output=lossyear")
+#system("r.describe lossyear")
 # * 1-14
-
-## RESTART PROOFREADING FROM HERE
 
 #= Forest in 2001-2014
 for (i in 1:14) {
@@ -199,15 +196,15 @@ for (i in 1:14) {
 }
 
 #= Export forest2010
-system("r.out.gdal --o input=for2014 createopt='compress=lzw,predictor=2' type='Byte' output='rast/for2014.tif'")
-system("r.out.gdal --o input=for2010 createopt='compress=lzw,predictor=2' type='Byte' output='rast/for2010.tif'")
-system("r.out.gdal --o input=for2005 createopt='compress=lzw,predictor=2' type='Byte' output='rast/for2005.tif'")
-system("r.out.gdal --o input=for2000 createopt='compress=lzw,predictor=2' type='Byte' output='rast/for2000.tif'")
+system("r.out.gdal --o input=for2014 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2014.tif")
+system("r.out.gdal --o input=for2010 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2010.tif")
+system("r.out.gdal --o input=for2005 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2005.tif")
+system("r.out.gdal --o input=for2000 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2000.tif")
 
 ##= Compute fordefor2010. For test of function .sample() in  Python deforestprob module
-system("r.mapcalc --o 'fordefor2010 = if(isnull(for2010_30m) && for2000_30m == 1, 0, for2010_30m)'")
+system("r.mapcalc --o 'fordefor2010 = if(isnull(for2010) && for2000 == 1, 0, for2010)'")
 system("echo '1 26:152:80 \n 0 red' | r.colors fordefor2010 rules=-")
-system(paste("r.out.gdal --o input=fordefor2010 createopt='compress=lzw,predictor=2' type='Byte' output='",gis.path("Forest_CI/fordefor2010.tif"),"'",sep=""))
+system("r.out.gdal --o input=fordefor2010 createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordefor2010.tif")
 
 #= Deforestation statistics
 defor.df <- data.frame(Year=2000:2014,ncells=NA,area=NA,theta=NA)
@@ -216,54 +213,66 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",i,"\n",sep=""))
   # Computation
-  statcell <- system(paste("r.stats -c for",Year[i],"_30m",sep=""), intern=TRUE)
+  statcell <- system(paste("r.stats -c for",Year[i],sep=""), intern=TRUE)
   defor.df$ncells[i] <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
   defor.df$area[i] <- round(defor.df$ncells[i]*(as.numeric(Res)^2)/10000)
 }
 for (i in 2:length(Year)) {
   defor.df$theta[i] <- round(100*(defor.df$area[i-1]-defor.df$area[i])/defor.df$area[i-1],2)  
 }
-write.table(defor.df,"defor.df.30m.txt",row.names=FALSE,sep="\t")
+write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
 
 #====================================================================================
 # Forest in 1990
 
 #= Integrating classes of forest in 1990 (111, 112, 122, 115, 152, 155, 755, 775 and 777) and uncertainties (555)
-system("r.mapcalc --o 'for1990_temp = if(Forest_CI_905_30m==111 || Forest_CI_905_30m==112 || Forest_CI_905_30m==122 || \\
-       Forest_CI_905_30m==115 || Forest_CI_905_30m==152 || Forest_CI_905_30m==155 || Forest_CI_905_30m==755 || \\
-       Forest_CI_905_30m==775 || Forest_CI_905_30m==777 || Forest_CI_905_30m==555,1,null())'")
+system("r.mapcalc --o 'for1990_temp = if(harper==111 || harper==112 || harper==122 || \\
+       harper==115 || harper==152 || harper==155 || harper==755 || \\
+       harper==775 || harper==777 || harper==555, 1, null())'")
 
 # How many ha of uncertainties ?
-# 9603 ha of 555 in Forest_CI_905_30m
+# 9603 ha of 555 in harper
 
 #= Removing uncertainties (555) using land-cover in 2000
-system("r.mapcalc --o 'for1990_30m = if(Forest_CI_905_30m==555 && isnull(for2000_30m), null(), for1990_temp)'")
+system("r.mapcalc --o 'for1990 = if(harper==555 && isnull(for2000), null(), for1990_temp)'")
 system("r.stats -c for1990_temp") # 1 119671405
-system("r.stats -c for1990_30m") # 1 119582639
+system("r.stats -c for1990") # 1 119582639
 system("g.remove -f type=raster name=for1990_temp")
 
 #= Export
-system(paste("r.out.gdal --o input=for1990_30m createopt='compress=lzw,predictor=2' type='Byte' output='",gis.path("Forest_CI/for1990_30m.tif"),"'",sep=""))
+system("r.out.gdal --o input=for1990 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1990.tif")
 
 #====================================================================================
 # Forest c.1973
 
-#= Import forest map for the year 1973
-system(paste("r.in.gdal --o input=",gis.path("Forest_c1973/for1973_38s.tif")," output=for1973cloud",sep=""))
+#= Reproject
+Extent <- "298440 7155900 1100820 8682420"
+Res <- "30"
+nodat <- "0"
+proj.s <- "EPSG:32638"
+proj.t <- "EPSG:32738"
+Input <- "gisdata/rasters/harper/for1973.tif"
+Output <- "outputs/harper1973.tif"
+# gdalwarp
+system(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+              " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 
-#= Corrections from for1990_30m
-system("r.mapcalc --o 'for1973_30m = if(!isnull(for1990_30m), for1990_30m, for1973cloud)'")
+#= Import forest map for the year 1973
+system("r.in.gdal --o input=outputs/harper1973.tif output=harper1973")
+
+#= Corrections from for1990
+system("r.mapcalc --o 'for1973 = if(!isnull(for1990), for1990, harper1973)'")
 
 #= Combine mangrove (7) and forest (1)
-system("r.mapcalc --o 'for1973_30m = if(for1973_30m==7, 1, for1973_30m)'")
+system("r.mapcalc --o 'for1973 = if(for1973==7, 1, for1973)'")
 
 #= Deforestation rate 1973-1990
-system("r.stats -c for1973_30m")
+system("r.stats -c for1973")
 ## 1 158236269
 ## 5 36850880
 ## * 1165856315
 
-system("r.stats -c for1990_30m")
+system("r.stats -c for1990")
 ## 1 119582639
 ## * 1241360825
 
@@ -272,71 +281,69 @@ Y <- 1990-1973
 theta <- 1-(1-theta.prim)^(1/Y) # 1.6 %.yr-1 (ok, in line with Harper et al. 2007)
 
 #= Export
-system(paste("r.out.gdal --o input=for1973_30m createopt='compress=lzw,predictor=2' type='Byte' output='",gis.path("Forest_CI/for1973_30m.tif"),"'",sep=""))
+system("r.out.gdal --o input=for1973 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1973.tif")
 
 #====================================================================================
 # Reproject c.1953
 
-# Region
+#= Reproject
 Extent <- "298440 7155900 1100820 8682420"
 Res <- "30"
 nodat <- "0"
-otype <- "Byte"
 proj.s <- "EPSG:32638"
 proj.t <- "EPSG:32738"
-Input <- gis.path("Forest_1950s/madagascar_1950_4bit.img")
-Output <- gis.path("Forest_CI/for1953_orig_30m.tif")
+Input <- "gisdata/rasters/harper/madagascar_1950_4bit.img"
+Output <- "outputs/harper1953.tif"
 # gdalwarp
-system(paste("gdalwarp -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
-             " -tr ",Res," ",Res," -r near -overwrite ",Input," ",Output,sep=""))
+system(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+              " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 
 #= Import for1953_orig_30m.tif into grass location
-system(paste("r.in.gdal --o input=",gis.path("Forest_CI/for1953_orig_30m.tif")," output=for1953_orig_30m",sep=""))
-system("r.info for1953_orig_30m")
-system("r.stats -c for1953_orig_30m")
+system("r.in.gdal --o input=outputs/harper1953.tif output=harper1953")
+system("r.info harper1953")
+system("r.stats -c harper1953")
 
-#= Corrections from for1973_30m
-system("r.mapcalc --o 'for1953_30m = if(!isnull(for1973_30m) &&& (for1973_30m==1 || for1973_30m==7), 1, for1953_orig_30m)'")
-system("r.mapcalc --o 'for1953_30m = if(for1953_30m!=1,null(),1)'")
-system("r.stats -c for1953_30m")
+#= Corrections from for1973
+system("r.mapcalc --o 'for1953 = if(!isnull(for1973) &&& (for1973==1 || for1973==7), 1, harper1953)'")
+system("r.mapcalc --o 'for1953 = if(for1953!=1,null(),1)'")
+system("r.stats -c for1953")
 ## 1 225792265
 ## * 1135151199
 
 #= Export
-system(paste("r.out.gdal --o input=for1953_30m createopt='compress=lzw,predictor=2' type='Byte' output='",gis.path("Forest_CI/for1953_30m.tif"),"'",sep=""))
+system("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1953.tif")
 
 #====================================================================================
 # Export images
 
 #= Colors
-system("echo '1 26:152:80' | r.colors for1953_30m rules=-")
-# system("echo '1 26:152:80 \n 5 grey \n 7 blue' | r.colors for1973_30m rules=-")
-system("echo '1 26:152:80 \n 5 white' | r.colors for1973_30m rules=-")
-system("echo '1 26:152:80' | r.colors for1990_30m rules=-")
-system("echo '1 26:152:80' | r.colors for2000_30m rules=-")
-system("echo '1 26:152:80' | r.colors for2010_30m rules=-")
-system("echo '1 26:152:80' | r.colors for2014_30m rules=-")
+system("echo '1 26:152:80' | r.colors for1953 rules=-")
+system("echo '1 26:152:80 \n 5 grey' | r.colors for1973 rules=-")
+system("echo '1 26:152:80' | r.colors for1990 rules=-")
+system("echo '1 26:152:80' | r.colors for2000 rules=-")
+system("echo '1 26:152:80' | r.colors for2010 rules=-")
+system("echo '1 26:152:80' | r.colors for2014 rules=-")
 
 #= PNG
 system("g.region res=1000")
-system("r.out.png input=for1953_30m output=./for1953.png")
-system("r.out.png input=for1973_30m output=./for1973.png")
-system("r.out.png input=for1990_30m output=./for1990.png")
-system("r.out.png input=for2000_30m output=./for2000.png")
-system("r.out.png input=for2010_30m output=./for2010.png")
-system("r.out.png input=for2014_30m output=./for2014.png")
+system("r.out.png input=for1953 output=outputs/for1953.png")
+system("r.out.png input=for1973 output=outputs/for1973.png")
+system("r.out.png input=for1990 output=outputs/for1990.png")
+system("r.out.png input=for2000 output=outputs/for2000.png")
+system("r.out.png input=for2010 output=outputs/for2010.png")
+system("r.out.png input=for2014 output=outputs/for2014.png")
 
 #= Label and convert to gif
-system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1953'\" for1953.png for1953.gif")
-system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1973'\" for1973.png for1973.gif")
-system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1990'\" for1990.png for1990.gif")
-system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2000'\" for2000.png for2000.gif")
-system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2010'\" for2010.png for2010.gif")
-system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2014'\" for2014.png for2014.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1953'\" outputs/for1953.png outputs/for1953.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1973'\" outputs/for1973.png outputs/for1973.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1990'\" outputs/for1990.png outputs/for1990.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2000'\" outputs/for2000.png outputs/for2000.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2010'\" outputs/for2010.png outputs/for2010.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2014'\" outputs/for2014.png outputs/for2014.gif")
 ## system("rm *.png")
 
 #= Animated gif
-system("convert -delay 100 -loop 0 *.gif defor_Mada.gif")
+system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
 #= See also OpenShot app for movie and transition effects
 
 ##========================

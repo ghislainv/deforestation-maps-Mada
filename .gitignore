@@ -12,8 +12,10 @@ report
 bib/biblio.bib.bak
 
 # Outputs
-figs
-rast
+outputs
+
+# log
+deforestmap.log
 
 # History files
 .Rhistory
