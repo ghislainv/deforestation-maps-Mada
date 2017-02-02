@@ -47,8 +47,8 @@ initGRASS(gisBase="/usr/local/grass-7.2.0",home=tempdir(),
 
 ##======================================================================
 ## Download data (263.6 Mo): will have to be done from a Zenodo repository
-#if (down) {
-#  d <- "http://bioscenemada.cirad.fr/githubdata/deforestmap/deforestmap_data.zip"
+if (down) {
+  d <- "http://bioscenemada.cirad.fr/githubdata/deforestmap/deforestmap_data.zip"
   download.file(url=d,destfile="deforestmap_data.zip",method="wget",quiet=TRUE)
   unzip("deforest_data.zip")
 }
@@ -201,27 +201,6 @@ system("r.out.gdal --o input=for2010 createopt='compress=lzw,predictor=2' type=B
 system("r.out.gdal --o input=for2005 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2005.tif")
 system("r.out.gdal --o input=for2000 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2000.tif")
 
-##= Compute fordefor2010. For test of function .sample() in  Python deforestprob module
-system("r.mapcalc --o 'fordefor2010 = if(isnull(for2010) && for2000 == 1, 0, for2010)'")
-system("echo '1 26:152:80 \n 0 red' | r.colors fordefor2010 rules=-")
-system("r.out.gdal --o input=fordefor2010 createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordefor2010.tif")
-
-#= Deforestation statistics
-defor.df <- data.frame(Year=2000:2014,ncells=NA,area=NA,theta=NA)
-Year <- as.character(2000:2014)
-for (i in 1:length(Year)) {
-  # Message
-  cat(paste("Year: ",i,"\n",sep=""))
-  # Computation
-  statcell <- system(paste("r.stats -c for",Year[i],sep=""), intern=TRUE)
-  defor.df$ncells[i] <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
-  defor.df$area[i] <- round(defor.df$ncells[i]*(as.numeric(Res)^2)/10000)
-}
-for (i in 2:length(Year)) {
-  defor.df$theta[i] <- round(100*(defor.df$area[i-1]-defor.df$area[i])/defor.df$area[i-1],2)  
-}
-write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
-
 #====================================================================================
 # Forest in 1990
 
@@ -346,13 +325,41 @@ system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2014'\" outputs/f
 system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
 #= See also OpenShot app for movie and transition effects
 
+##==========================
+## Statistics
+##==========================
+
+#= Deforestation statistics
+Year <- c(1953,1973,1990,2000,2010,2014)
+defor.df <- data.frame(Year=Year,ncells=NA,area=NA,theta=NA)
+Year <- as.character(Year)
+# Areas
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  statcell <- system(paste("r.stats -c for",Year[i],sep=""), intern=TRUE)
+  defor.df$ncells[i] <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
+  defor.df$area[i] <- round(defor.df$ncells[i]*(as.numeric(Res)^2)/10000)
+}
+# Annual rates
+for (i in 2:length(Year)) {
+  theta.prim <- (defor.df$area[i-1]-defor.df$area[i])/defor.df$area[i-1]
+  Y <- defor.df$Year[i]-defor.df$Year[i-1]
+  defor.df$theta[i] <- round(100*(1-(1-theta.prim)^(1/Y)),2)
+}
+write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
+
 ##========================
 ## Save objects
-# load("menabe.rda")
+##========================
+
+# load("deforestmap.rda")
 save(list=ls(all.names=TRUE),file="deforestmap.rda")
 
 ##========================
 ## Knit the document
+##========================
 
 ## Set knitr chunk default options
 opts_chunk$set(echo=FALSE, cache=FALSE,
