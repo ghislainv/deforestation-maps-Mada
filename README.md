@@ -2,4 +2,4 @@
 
 Sixty-five years of deforestation and degradation in Madagascar
 
-![Evolution deforestation](outputs/defor_Mada.gif)
+<img alt="Evolution deforestation" src="outputs/defor_Mada.gif" width="350">
