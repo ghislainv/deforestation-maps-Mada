@@ -1,5 +1,5 @@
 ---
-title: "Sixty-five years of deforestation and forest degradation in Madagascar"
+title: "Sixty years of deforestation and forest degradation in Madagascar"
 bibliography: bib/biblio.bib
 csl: bib/conservation-letters.csl
 output: 
