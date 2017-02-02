@@ -326,6 +326,22 @@ system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
 #= See also OpenShot app for movie and transition effects
 
 ##==========================
+## Forest fragmentation
+##==========================
+
+Year <- c(1953,1973,1990,2000,2010,2014)
+system("g.region rast=harper -ap")
+system("g.region rast=harper w=340000 e=412000 s=7420000 n=7500000 -ap")
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  system(paste0("r.mapcalc --o 'for",Year[i],"_0 = if(!isnull(for",Year[i],"), 1, 0)'"))
+  system(paste0("r.forestfrag input=for",Year[i],"_0 output=frag",Year[i]," size=7 --overwrite"))
+  system(paste0("r.out.gdal --o input=frag",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/frag",Year[i],".tif"))
+}
+
+##==========================
 ## Statistics
 ##==========================
 
@@ -349,6 +365,22 @@ for (i in 2:length(Year)) {
   defor.df$theta[i] <- round(100*(1-(1-theta.prim)^(1/Y)),2)
 }
 write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
+
+#= Fragmentation statistics
+Year <- c(1953,1973,1990,2000,2010,2014)
+frag.df <- data.frame(Year=Year,forest=NA,patch=NA,transitional=NA,
+                      edge=NA,perforated=NA,interior=NA,undetermined=NA)
+# Areas
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  statcell <- system(paste("r.stats -c frag",Year[i],sep=""), intern=TRUE)
+  ncells <- as.numeric(matrix(unlist(strsplit(statcell,split=" ")),ncol=2,byrow=TRUE)[-1,2])
+  frag.df$forest[i] <- round(sum(ncells)*(as.numeric(Res)^2)/10000)
+  frag.df[i,c(3:8)] <- round(100*ncells/sum(ncells),2)
+}
+write.table(frag.df,"outputs/frag.txt",row.names=FALSE,sep="\t")
 
 ##========================
 ## Save objects
