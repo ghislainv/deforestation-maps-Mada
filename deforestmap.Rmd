@@ -14,7 +14,7 @@ output:
 load("deforestmap.rda")
 ```
 
-#### Ghislain Vieilledent<sup>*,1,2</sup>, Clovis Grinand<sup>3</sup>, Fety A. Rakotomalala<sup>3</sup>, Jean-Roger Rakotoarijaona<sup>5</sup>, and Frédéric Achard<sup>1</sup>
+#### Ghislain Vieilledent<sup>*,1,2</sup>, Clovis Grinand<sup>3</sup>, Fety A. Rakotomalala<sup>3</sup>, Rija Ranaivosoa<sup>5</sup>, Jean-Roger Rakotoarijaona<sup>5</sup>, Thomas F. Allnutt<sup>4</sup>, and Frédéric Achard<sup>1</sup>
 
 (*) /Email: ghislain.vieilledent@cirad.fr, /Phone: +39.329.457.2273
 
