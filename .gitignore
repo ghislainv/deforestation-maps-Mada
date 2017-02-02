@@ -12,7 +12,8 @@ report
 bib/biblio.bib.bak
 
 # Outputs
-outputs
+outputs/*
+!outputs/defor_Mada.gif
 
 # log
 deforestmap.log
