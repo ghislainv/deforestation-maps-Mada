@@ -1,5 +1,5 @@
 ##=========================================================================
-## Sixty years of deforestation and forest fragmentation in Madagascar
+## Six decades of deforestation and forest fragmentation in Madagascar
 ## Ghislain Vieilledent <ghislain.vieilledent@cirad.fr>
 ## January 2017
 ##=========================================================================
