@@ -533,7 +533,12 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  system(paste0("r.mapcalc --o 'for",Year[i],"_0 = if(!isnull(for",Year[i],"), 1, 0)'"))
+  if (Year[i]==1973) {  # ! 1975 with 5 (clouds) 
+    system(paste0("r.mapcalc --o 'for1973_0 = if(!isnull(for1973) && for1973==1, 1, 0)'"))
+  }
+  else {
+    system(paste0("r.mapcalc --o 'for",Year[i],"_0 = if(!isnull(for",Year[i],"), 1, 0)'"))
+  }
   system(paste0("r.forestfrag input=for",Year[i],"_0 output=frag",Year[i]," size=7 --overwrite"))
   system(paste0("r.out.gdal --o input=frag",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/frag",Year[i],".tif"))
 }
@@ -544,15 +549,15 @@ for (i in 1:length(Year)) {
 
 #= Deforestation statistics
 Year <- c(1953,1973,1990,2000,2010,2014)
-defor.df <- data.frame(Year=Year,ncells=NA,area=NA,ann.defor=NA,theta=NA)
+defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
 # Areas
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
   statcell <- system(paste0("r.stats -c for",Year[i]), intern=TRUE)
-  defor.df$ncells[i] <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
-  defor.df$area[i] <- round(defor.df$ncells[i]*(as.numeric(Res)^2)/10000)
+  ncells <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
+  defor.df$area[i] <- round(ncells*(as.numeric(Res)^2)/10000)
 }
 # Annual rates
 for (i in 2:length(Year)) {
@@ -573,7 +578,7 @@ for (i in 1:length(Year)) {
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
   statcell <- system(paste0("r.stats -c frag",Year[i]), intern=TRUE)
-  ncells <- as.numeric(matrix(unlist(strsplit(statcell,split=" ")),ncol=2,byrow=TRUE)[-1,2])
+  ncells <- as.numeric(matrix(unlist(strsplit(statcell,split=" ")),ncol=2,byrow=TRUE)[-c(1,8),2])
   frag.df$forest[i] <- round(sum(ncells)*(as.numeric(Res)^2)/10000)
   frag.df[i,c(3:8)] <- round(100*ncells/sum(ncells),2)
 }

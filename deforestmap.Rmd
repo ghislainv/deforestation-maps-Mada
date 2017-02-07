@@ -63,7 +63,7 @@ We estimated the accuracy of our approach combining Harper's and Hansen's produc
 
 ### 2.3 Fragmentation
 
-We report an analysis of the evolution of forest fragmentation based on the forest-cover maps for Madagascar for the years _c._ 1953, _c._ 1973, 1990, 2000, 2010 and 2014. We used the method developed by @Riitters2000 which uses a moving window to characterize the fragmentation around each forested pixel. Computation were done using function `r.forestfrag` from GRASS GIS software [@Neteler2008]. Six categories of fragmentation are identified from the amount of forest and its occurrence as adjacent forest pixels: interior, perforated, edge, transitional, patch, and undetermined. We used a moving window of 7x7 pixels (4.41 km<sup>2</sup>). Using this window size, forest edge had a width of about 100 m. The interior category can be interpreted as the most intact forest (sensus @Potapov2017). We reported the area of forest in each fragmentation category for the six years and analysed the evolution of the fragmentation with time.
+We report an analysis of the evolution of forest fragmentation based on the forest-cover maps for Madagascar for the years _c._ 1953, _c._ 1973, 1990, 2000, 2010 and 2014. We used the method developed by @Riitters2000 which uses a moving window to characterize the fragmentation around each forested pixel. Computation were done using function `r.forestfrag` from GRASS GIS software [@Neteler2008]. Six categories of fragmentation are identified from the amount of forest and its occurrence as adjacent forest pixels: interior, perforated, edge, transitional, patch, and undetermined. We used a moving window of 7x7 pixels (4.41 km<sup>2</sup>). Using this window size, forest edge had a width of about 90 m [@Riitters2000]. The interior category can be interpreted as the most intact forest (sensus @Potapov2017). We reported the area of forest in each fragmentation category for the six years and analysed the evolution of the fragmentation with time.
 
 ## 3. Results
 
@@ -100,11 +100,20 @@ kable(tab.1)
 Table 1: **Comparison of the forest cover and deforestation rates between our study and the study by @Rakotomalala2015**. This comparison is done only for the humid ecoregion for the periods 2005-2010-2013, which is the extent and time-periods of the @Rakotomalala2015 map. @Rakotomalala2015 map has been validated using 10,854 independant visual interpretation points leading to a rather high accuracy (Kappa=0.79 and overall-accuracy=0.89). Our study (suffix _"Vieil"_) estimated a forest cover greater by about `r mean.diff`% compared to @Rakotomalala2015 (suffix _"Rakot"_). But the difference (_"diff.area"_) did not vary much between dates (between 3.56 and 6.18%). Our study also estimated higher annual deforestation (_"ad"_) and deforestation rates (_"theta"_) but the same trend for the deforestation was observed between the two studies, with a doubling of the deforestation for the period 2010-2013 compared to 2005-2010. The differences between the two studies could be attributed to the forest definition which might be different in the two studies and to the post-processing in @Rakotomalala2015 map.
 
 ```{r defor, results="asis"}
-tab.2 <- defor.df[,-c(2)]
+tab.2 <- defor.df
+names(tab.2) <- c("Year","Forest (ha)", "Annual defor. (ha/yr)", "theta (%/yr)")
 kable(tab.2)
 ```
 
-Table 2: **Evolution of the forest cover and deforestation intensity from 1950s to 2014 in Madagascar**. 
+Table 2: **Evolution of the forest cover and deforestation intensity from 1950s to 2014 in Madagascar**. Madagascar has lost 37% of its natural forest in 40 years between _c._ 1973 and 2014 (and roughly 56% in 60 years since _c._ 1953). If the deforestation has progressively slowed down from _c._ 1953 to 2010 (from 1.76 to 0.59%/yr), most likely due to a decrease of available arable lands under the remaining forests and to a decrease of forest accessibility, the deforestation has recently increased, with a doubling deforestation on the period 2010-2014 compared to 2000-2010. This increase could be attributed to both political instability (political crisis in 2009) and to an explosion of the demography (according to the @UN2015, population has increased from about 16M inhabitants in 2000 to 24M in 2014). Natural forest cover 8.9 Mha in 2014 and current (period 2000-2014) mean annual deforestation rate is of about 70,000 ha/yr.   
+
+```{r frag, results="asis"}
+tab.3 <- frag.df
+names(tab.3) <- c("Year","Forest (ha)", "patch (%)", "transitional (%)", "edge (%)", "perforated (%)", "interior (%)", "NA (%)")
+kable(tab.3)
+```
+
+Table 3: **Evolution of the forest fragmentation from 1950s to 2014 in Madagascar**. Forest fragmentation has progressively increased from _c._ 1953. The percentage of forest belonging to the interior category (the most intact forest) has fallen from 94 in _c._ 1973 to 48% in 2014. More than 15% of the forest belong to the patch and transitional categories (isolated small forest patches) in 2014. This increase in forest fragmentation has a great impact on both carbon emissions [@Putz2014] and biodiversity loss [@Gibson2013, @Murcia1995].
 
 ## 6. Figure captions
 
