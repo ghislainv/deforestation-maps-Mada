@@ -585,6 +585,59 @@ for (i in 1:length(Year)) {
 write.table(frag.df,"outputs/frag.txt",row.names=FALSE,sep="\t")
 
 ##========================
+## Forest-cover change map
+##========================
+
+## Raster of water-bodies over Madagascar
+# Region
+Extent <- "298440 7155900 1100820 8682420"
+Res <- "30"
+proj.s <- "EPSG:4326"
+proj.t <- "EPSG:32738"
+Input <- "outputs/water.vrt"
+Output <- "outputs/water.tif"
+# gdalbuildvrt
+system("gdalbuildvrt -overwrite outputs/water.vrt gisdata/rasters/waterbodies/*.tif")
+# gdalwarp
+system(paste0("gdalwarp -overwrite -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+              " -tr ",Res," ",Res," -r near -ot Byte -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
+# Import
+system("r.in.gdal --o input=outputs/water.tif output=water")
+
+## FCC map
+
+# Mask on Harper map
+system("r.null map=harper setnull=0 --verbose")
+system("r.mask --o raster=harper")
+# Compute fcc
+system(paste0("r.mapcalc --o 'fcc = if(!isnull(for2014),24,if(!isnull(for2000),23,if(!isnull(for1990),22, \\
+       if(!isnull(for1973) &&& for1973==1,21,if(!isnull(water) &&& water>0,water, \\
+              if(!isnull(for1953),20,if(!isnull(for1973) &&& for1973==5,215,0)))))))'"))
+# Color palette
+system("r.colors map=fcc rules=- << EOF
+0 243:243:220
+1 153:217:234
+12 0:0:170
+20 0:0:0
+21 255:255:0
+215 184:184:184
+22 255:165:0
+23 255:0:0
+24 34:139:34
+nv 255:255:255
+EOF")
+# Export
+system("r.out.gdal --o input=fcc createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc.tif")
+fcc <- raster("outputs/fcc.tif")
+plot(fcc)
+for1953 <- raster("outputs/for1953.tif")
+plot(for1953)
+
+water <- raster("outputs/water.tif")
+plot(water)
+plot(MASK)
+
+##========================
 ## Save objects
 ##========================
 
