@@ -19,7 +19,7 @@ if (length(arg)>0) {
 }
 
 ##= Libraries
-pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra",
+pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra","RColorBrewer",
          "rasterVis","knitr","rmarkdown","rgeos","rgdal","rgrass7")
 ## broom: to convert map into data-frame with tiny()
 ## gridExtra: to combine several ggplots
@@ -663,22 +663,41 @@ theme_base <- theme(axis.line=element_blank(),
                     panel.grid.minor=element_blank(),
                     panel.border=element_blank())
 
-## colors
-forest.col = rgb(34/255,139/255,34/255)
-nonforest.col = rgb(243/255,243/255,220/255)
-
+## Colors
+# Discrete values: 0,1:12,20,21,215,22,23,24,215
+for2014.col = rgb(34/255,139/255,34/255) # forest green
+nofor73.col = rgb(243/255,243/255,220/255) # light yellow
+defor73_90.col = rgb(255/255,255/255,102/255) # yellow-orange
+defor90_00.col = rgb(255/255,165/255,0/255) # orange
+defor00_14.col = rgb(255/255,0/255,0/255) # red
+w1.col = rgb(153/255,217/255,234/255)
+w2.col = rgb(0/255,0/255,170/255)
+water.col <-colorRampPalette(c(w1.col,w2.col))(12)
+# Building palette
+fcc.col <- c(nofor73.col,water.col,nofor73.col,
+              defor73_90.col,nofor73.col,defor90_00.col,defor00_14.col,for2014.col)
+fcc.name <- c(0,1:12,20,21,215,22,23,24)
+fcc.palette <- paste0("c(",paste0("\"",fcc.name,"\"","=","\"",fcc.col,"\"",collapse=","),")")
+fcc.palette <- eval(parse(text=fcc.palette))
 
 ## Forest in 1953 on a separate plot
 for1953 <- raster("outputs/fcc_for1953.tif")
 plot.for1953 <- gplot(for1953,maxpixels=res.rast) +
   geom_raster(aes(fill=factor(value))) +
-  scale_fill_manual(values=c(nonforest.col,green.col),na.value="transparent") +
+  scale_fill_manual(values=c("0"=nonforest.col,"20"=green.col),na.value="transparent") +
   theme_bw() + theme_base + theme(plot.margin=unit(c(-0.25,-0.25,-0.5,-0.5),"line")) +
   coord_equal()
-plot.for1953
 ## Grob
 grob.for1953 <- ggplotGrob(plot.for1953)
 
+## FCC
+fcc <- raster("outputs/fcc.tif")
+plot.fcc <- gplot(fcc,maxpixels=res.rast) +
+  geom_raster(aes(fill=factor(value))) +
+  scale_fill_manual(values=fcc.palette,na.value="transparent") +
+  theme_bw() + theme_base + theme(plot.margin=unit(c(-0.25,-0.25,-0.5,-0.5),"line")) +
+  coord_equal()
+plot.fcc
 
 ##========================
 ## Save objects
