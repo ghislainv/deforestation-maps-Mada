@@ -277,14 +277,13 @@ Output <- "outputs/harper1953.tif"
 system(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
               " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 
-#= Import for1953_orig_30m.tif into grass location
+#= Import harper1953.tif into grass location
 system("r.in.gdal --o input=outputs/harper1953.tif output=harper1953")
 system("r.info harper1953")
 system("r.stats -c harper1953")
 
-#= Corrections from for1973
-system("r.mapcalc --o 'for1953 = if(!isnull(for1973) &&& (for1973==1 || for1973==7), 1, harper1953)'")
-system("r.mapcalc --o 'for1953 = if(for1953!=1,null(),1)'")
+#= Compute for1933
+system("r.mapcalc --o 'for1953 = if(harper1953!=1,null(),1)'")
 system("r.stats -c for1953")
 ## 1 225792265
 ## * 1135151199
@@ -613,14 +612,26 @@ system("r.mask --o raster=harper")
 system(paste0("r.mapcalc --o 'fcc = if(!isnull(for2014),24,if(!isnull(for2000),23,if(!isnull(for1990),22, \\
        if(!isnull(for1973) &&& for1973==1,21,if(!isnull(water) &&& water>0,water, \\
               if(!isnull(for1953),20,if(!isnull(for1973) &&& for1973==5,215,0)))))))'"))
+# fcc_for1953
+system(paste0("r.mapcalc --o 'fcc_for1953 = if(!isnull(for1953),20,0)'"))
 # Color palette
+# 0 243:243:220
+# 1 153:217:234
+# 12 0:0:170
+# 20 0:0:0
+# 21 255:255:0
+# 215 184:184:184
+# 22 255:165:0
+# 23 255:0:0
+# 24 34:139:34
+# nv 255:255:255
 system("r.colors map=fcc rules=- << EOF
 0 243:243:220
 1 153:217:234
 12 0:0:170
-20 0:0:0
-21 255:255:0
-215 184:184:184
+20 243:243:220
+21 255:255:102
+215 243:243:220
 22 255:165:0
 23 255:0:0
 24 34:139:34
@@ -628,14 +639,46 @@ nv 255:255:255
 EOF")
 # Export
 system("r.out.gdal --o input=fcc createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc.tif")
-fcc <- raster("outputs/fcc.tif")
-plot(fcc)
-for1953 <- raster("outputs/for1953.tif")
-plot(for1953)
+system("r.out.gdal --o input=fcc_for1953 createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc_for1953.tif")
 
-water <- raster("outputs/water.tif")
-plot(water)
-plot(MASK)
+# Remove mask
+system("r.mask -r")
+
+## =======================================
+## Plot raster with gplot() from rasterVis
+
+## Resolution of rasters
+high.res <- TRUE
+res.rast <- ifelse(high.res,10e5,10e3)
+
+## Setting basic theme options for plot with ggplot2
+theme_base <- theme(axis.line=element_blank(),
+                    axis.text.x=element_blank(),
+                    axis.text.y=element_blank(),
+                    axis.ticks=element_blank(),
+                    axis.title.x=element_blank(),
+                    axis.title.y=element_blank(),
+                    legend.position="none",
+                    panel.grid.major=element_blank(),
+                    panel.grid.minor=element_blank(),
+                    panel.border=element_blank())
+
+## colors
+forest.col = rgb(34/255,139/255,34/255)
+nonforest.col = rgb(243/255,243/255,220/255)
+
+
+## Forest in 1953 on a separate plot
+for1953 <- raster("outputs/fcc_for1953.tif")
+plot.for1953 <- gplot(for1953,maxpixels=res.rast) +
+  geom_raster(aes(fill=factor(value))) +
+  scale_fill_manual(values=c(nonforest.col,green.col),na.value="transparent") +
+  theme_bw() + theme_base + theme(plot.margin=unit(c(-0.25,-0.25,-0.5,-0.5),"line")) +
+  coord_equal()
+plot.for1953
+## Grob
+grob.for1953 <- ggplotGrob(plot.for1953)
+
 
 ##========================
 ## Save objects
