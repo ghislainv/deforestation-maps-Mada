@@ -1,7 +1,14 @@
+#!/usr/bin/Rscript
+
+# ==============================================================================
+# author          :Ghislain Vieilledent
+# email           :ghislain.vieilledent@cirad.fr, ghislainv@gmail.com
+# web             :https://ghislainv.github.io
+# license         :GPLv3
+# ==============================================================================
+
 ##=========================================================================
 ## Six decades of deforestation and forest fragmentation in Madagascar
-## Ghislain Vieilledent <ghislain.vieilledent@cirad.fr>
-## January 2017
 ##=========================================================================
 
 ## gdal library is needed to run this script
@@ -646,81 +653,14 @@ system("r.mask -r")
 
 ## =======================================
 ## Plot raster with gplot() from rasterVis
+source(file="R/plotfcc.R")
 
-## Resolution of rasters
-high.res <- FALSE
-res.rast <- ifelse(high.res,10e5,10e4)
 
-## Setting basic theme options for plot with ggplot2
-theme_base <- theme(axis.line=element_blank(),
-                    axis.text.x=element_blank(),
-                    axis.text.y=element_blank(),
-                    axis.ticks=element_blank(),
-                    axis.title.x=element_blank(),
-                    axis.title.y=element_blank(),
-                    legend.position="none",
-                    panel.grid.major=element_blank(),
-                    panel.grid.minor=element_blank(),
-                    panel.border=element_blank())
 
-## Colors
-# Discrete values: 0,1:12,20,21,215,22,23,24,215
-for2014.col = rgb(34/255,139/255,34/255) # forest green
-nofor73.col = rgb(243/255,243/255,220/255) # light yellow
-#defor73_90.col = rgb(255/255,255/255,102/255) # yellow-orange
-defor73_90.col = rgb(100/255,100/255,100/255) # grey
-defor90_00.col = rgb(255/255,165/255,0/255) # orange
-defor00_14.col = rgb(255/255,0/255,0/255) # red
-w1.col = rgb(153/255,217/255,234/255)
-w2.col = rgb(0/255,0/255,170/255)
-water.col <-colorRampPalette(c(w1.col,w2.col))(12)
-# Building palette
-fcc.col <- c(nofor73.col,water.col,nofor73.col,
-              defor73_90.col,nofor73.col,defor90_00.col,defor00_14.col,for2014.col)
-fcc.name <- c(0,1:12,20,21,215,22,23,24)
-fcc.palette <- paste0("c(",paste0("\"",fcc.name,"\"","=","\"",fcc.col,"\"",collapse=","),")")
-fcc.palette <- eval(parse(text=fcc.palette))
-fcc_for1953.col <- c(nofor73.col,water.col,for2014.col)
-fcc_for1953.name <- c(0,1:12,20)
-fcc_for1953.palette <- paste0("c(",paste0("\"",fcc_for1953.name,"\"","=","\"",fcc_for1953.col,"\"",collapse=","),")")
-fcc_for1953.palette <- eval(parse(text=fcc_for1953.palette))
 
-## Forest in 1953 on a separate plot
-for1953 <- raster("outputs/fcc_for1953.tif")
-plot.for1953 <- gplot(for1953,maxpixels=res.rast) +
-  geom_raster(aes(fill=factor(value))) +
-  scale_fill_manual(values=fcc_for1953.palette,na.value="transparent") +
-  theme_bw() + theme_base + theme(plot.margin=unit(c(-0.25,-0.25,-0.5,-0.5),"line")) +
-  coord_equal()
-## Grob
-grob.for1953 <- ggplotGrob(plot.for1953)
-
-## Zoom
-zoom.w <- c(346000,439000,7387000,7480000)
-zoom.e <- c(793000,886000,7810000,7903000)
 
 ## FCC
-fcc <- raster("outputs/fcc.tif")
-plot.fcc <- gplot(fcc,maxpixels=res.rast) +
-  # fcc
-  geom_raster(aes(fill=factor(value))) +
-  # detail
-  geom_rect(aes(xmin=346000,xmax=439000,ymin=7387000,ymax=7480000),
-            fill="transparent",colour="black",size=0.3) +
-  geom_rect(aes(xmin=793000,xmax=886000,ymin=7810000,ymax=7903000),
-            fill="transparent",colour="black",size=0.3) +
-  # legend
-  scale_fill_manual(values=fcc.palette,
-                    name="Cover 1973-2014",
-                    breaks=c(24,23,22,21,0,12),
-                    labels=c("Forest 2014","Defor. 2000-2014","Defor. 1990-2000",
-                             "Defor. 1973-1990", "Non-forest 1973","Water"),
-                    na.value="transparent") +
-  # thee
-  theme_bw() + theme_base + 
-  theme(plot.margin=unit(c(-0.25,-0.25,-0.5,-0.5),"line"),
-        legend.position="right") +
-  coord_equal()
+
 plot.fcc
 ggsave(filename="outputs/fcc.png",plot=plot.fcc,
        width=15,height=10,unit="cm")
