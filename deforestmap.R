@@ -535,6 +535,7 @@ system("r.mask -r")
 
 Year <- c(1953,1973,1990,2000,2010,2014)
 system("g.region rast=harper -ap")
+system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
@@ -548,6 +549,7 @@ for (i in 1:length(Year)) {
   system(paste0("r.forestfrag input=for",Year[i],"_0 output=frag",Year[i]," size=7 --overwrite"))
   system(paste0("r.out.gdal --o input=frag",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/frag",Year[i],".tif"))
 }
+system("r.mask -r")
 
 ##==========================
 ## Statistics
