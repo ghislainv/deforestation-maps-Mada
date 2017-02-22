@@ -1,5 +1,5 @@
 ---
-title: "Combining global tree cover loss data with historical forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar"
+title: "Combining global tree cover loss data with national historical forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar"
 bibliography: bib/biblio.bib
 csl: bib/conservation-letters.csl
 output: 
@@ -112,7 +112,7 @@ Table 3: **Evolution of the forest fragmentation from 1950s to 2014 in Madagasca
 
 ## 6. Figures
 
-![Figure 1: **Forest-cover change on six decades from _c._ 1953 to 2014 in Madagascar.** Forest cover changes from _c._ 1973 to 2014 are shown in the main figure, and forest cover in _c._ 1953 is shown in the lower-right inset. Two zooms in the western dry (left) and eastern moist (right) regions present more detailed views of ](outputs/fig_fcc.png)
+![Figure 1: **Forest-cover change on six decades from _c._ 1953 to 2014 in Madagascar.** Forest cover changes from _c._ 1973 to 2014 are shown in the main figure, and forest cover in _c._ 1953 is shown in the bottom-right inset. Two zooms in the western dry (left part) and eastern moist (right part) ecoregions present more detailed views of (from top to bottom): forest-cover in 1950s, forest-cover change from _c._ 1973 to 2014, forest fragmentation in 2014 and distance to forest edge in 2014. Data on water bodies (blue) and water seasonality (light blue for seasonal water to dark blue for permanent water) has been extracted from @Pekel2016.](outputs/fig_fcc.png)
 
 ## Acknowledgements
 

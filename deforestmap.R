@@ -552,6 +552,25 @@ for (i in 1:length(Year)) {
 system("r.mask -r")
 
 ##==========================
+## Distance to forest edge
+##==========================
+
+Year <- c(1953,1973,1990,2000,2010,2014)
+system("g.region rast=harper -ap")
+for (i in 1:length(Year)) {
+  i=1
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Export
+  system(paste0("r.out.gdal --o input=for",Year[i],"_0 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for",Year[i],"_0.tif"))
+  # Computation
+  system(paste0("gdal_proximity.py outputs/for",Year[i],"_0.tif outputs/dist_edge_",Year[i],".tif -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \
+    -values 0 -ot UInt32 -distunits GEO"))
+  system("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' outputs/_dist_edge_",Year[i],".tif outputs/dist_edge_",Year[i],".tif")
+  system(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i],".tif"))
+}
+
+##==========================
 ## Statistics
 ##==========================
 
@@ -656,16 +675,6 @@ system("r.mask -r")
 ## =======================================
 ## Plot raster with gplot() from rasterVis
 source(file="R/plotfcc.R")
-
-
-
-
-
-## FCC
-
-plot.fcc
-ggsave(filename="outputs/fcc.png",plot=plot.fcc,
-       width=15,height=10,unit="cm")
 
 
 ##========================
