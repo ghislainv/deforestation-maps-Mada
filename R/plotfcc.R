@@ -19,17 +19,17 @@ zooms <- list(zoom.w,zoom.e)
 
 # Compute zooms
 for (z in 1:length(zooms)) {
-  Extent1 <- paste(zooms[[z]]$xmin,zooms[[z]]$ymin,zooms[[z]]$xmax,zooms[[z]]$ymax)
-  Input <- c("fcc.tif","fcc_for1953.tif","frag2014.tif")
+  ExtentZ <- paste(zooms[[z]]$xmin,zooms[[z]]$ymin,zooms[[z]]$xmax,zooms[[z]]$ymax)
+  Input <- c("fcc.tif","fcc_for1953.tif","frag2014.tif","dist_edge_2014.tif")
   Output <- paste0(sub(".tif","",Input),"_zoom",z,".tif")
   for (i in 1:length(Input)) {
-    system(paste0("gdalwarp -overwrite -srcnodata 255 -dstnodata 255 -te ",Extent1," -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",
+    system(paste0("gdalwarp -overwrite -srcnodata 255 -dstnodata 255 -te ",ExtentZ," -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",
                   paste0("outputs/",Input[i])," ",paste0("outputs/",Output[i])))
   }
 }
 
 # Resolution
-res <- 10e5
+res <- 10e3
 
 # get_legend()
 get_legend <- function(myggplot) {
@@ -94,6 +94,18 @@ plot_zoom <- function(rast_file,res,palette) {
   return(pzoom)
 }
 
+# plot_zoom_dist()
+plot_zoom_dist <- function(rast_file,res) {
+  # Function to plot zoom
+  r <- raster(rast_file)
+  pzoom <- gplot(r,maxpixels=res) +
+    geom_raster(aes(fill=value)) +
+    theme_bw() + theme_zoom +
+    coord_equal()
+  return(pzoom)
+}
+
+
 
 ## Palette
 # fcc
@@ -115,6 +127,13 @@ frag.name <- c(0:6)
 frag.palette <- paste0("c(",paste0("\"",frag.name,"\"","=","\"",
                                    frag.col,"\"",collapse=","),")")
 frag.palette <- eval(parse(text=frag.palette))
+# distance to forest edge
+cf <- colorRampPalette(c("darkred","orange","darkgreen"))(255)
+dist.col <- c(nofor73.col,cf)
+dist.name <- c(0:6)
+dist.palette <- paste0("c(",paste0("\"",frag.name,"\"","=","\"",
+                                   frag.col,"\"",collapse=","),")")
+dist.palette <- eval(parse(text=frag.palette))
 
 
 ## for1953
@@ -187,13 +206,20 @@ ze.frag <- plot_zoom("outputs/frag2014_zoom2.tif",res,frag.palette) + ylab("") +
   guides(fill=guide_legend(title="Frag. index",title.position="top",label.position="right"))
 
 ## Zooms dist
-zw.dist <- plot_zoom("outputs/frag2014_zoom1.tif",res,fcc.palette) + ylab("Dist. to forest edge 2014") +
-  scale_fill_manual(values=frag.palette,breaks=c(1:5),na.value="transparent") +
-  theme(legend.position="bottom", 
+res <- 10e5
+v <- c(1,100,500,1000,5000)
+vr <- c(0,v/5000)
+dist.palette <- colorRampPalette(c("darkred","orange","darkgreen"))(5)
+zw.dist <- plot_zoom_dist("outputs/dist_edge_2014_zoom1.tif",res) + ylab("Dist. to forest edge 2014") +
+  scale_fill_gradientn(colours=c(nofor73.col,dist.palette),na.value="transparent",
+                       values=vr,
+                       breaks=c(1,250,500,750,1000,1500,2000),labels=c(">0","0.25","0.50","0.75","1.00","1.50","2.00")) +
+  theme(legend.position="right")
+, 
         legend.margin=margin(-1.5,-1,-1,-1,"lines")) +
-  guides(fill=guide_legend(title="Dist. to edge (m)",title.position="top",label.position="bottom"))
+  #guides(fill=guide_legend(title="Dist. to edge (km)",title.position="top",label.position="bottom"))
 
-ze.dist <- plot_zoom("outputs/frag2014_zoom2.tif",res,frag.palette) + ylab("") +
+ze.dist <- plot_zoom("outputs/dist_edge_zoom2.tif",res,frag.palette) + ylab("") +
   scale_fill_manual(values=frag.palette,breaks=c(1:5),na.value="transparent")
 
 ## Combine and export

@@ -13,7 +13,6 @@ bib/biblio.bib.bak
 
 # Outputs
 outputs/*
-!outputs/defor_Mada.gif
 !outputs/fig_fcc.png
 
 # log
