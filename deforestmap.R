@@ -533,6 +533,9 @@ system("r.mask -r")
 ## Forest fragmentation
 ##==========================
 
+## The GRASS Add-on r.forestfrag must be installed
+## https://grass.osgeo.org/grass72/manuals/addons/r.forestfrag.html
+
 Year <- c(1953,1973,1990,2000,2010,2014)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
@@ -541,7 +544,7 @@ for (i in 1:length(Year)) {
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
   if (Year[i]==1973) {  # ! 1975 with 5 (clouds) 
-    system(paste0("r.mapcalc --o 'for1973_0 = if(!isnull(for1973) && for1973==1, 1, 0)'"))
+    system(paste0("r.mapcalc --o 'for1973_0 = if(!isnull(for1973) &&& for1973==1, 1, 0)'"))
   }
   else {
     system(paste0("r.mapcalc --o 'for",Year[i],"_0 = if(!isnull(for",Year[i],"), 1, 0)'"))
@@ -558,15 +561,14 @@ system("r.mask -r")
 Year <- c(1953,1973,1990,2000,2010,2014)
 system("g.region rast=harper -ap")
 for (i in 1:length(Year)) {
-  i=1
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
-  # Export
-  system(paste0("r.out.gdal --o input=for",Year[i],"_0 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for",Year[i],"_0.tif"))
   # Computation
-  system(paste0("gdal_proximity.py outputs/for",Year[i],"_0.tif outputs/dist_edge_",Year[i],".tif -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \
-    -values 0 -ot UInt32 -distunits GEO"))
-  system("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' outputs/_dist_edge_",Year[i],".tif outputs/dist_edge_",Year[i],".tif")
+  system(paste0("gdal_proximity.py outputs/for",Year[i],".tif outputs/_dist_edge_",Year[i],".tif \\
+                -co 'COMPRESS=LZW' -co 'PREDICTOR=2' -values 255 -ot UInt32 -distunits GEO"))
+  system(paste0("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \\
+                outputs/_dist_edge_",Year[i],".tif outputs/dist_edge_",Year[i],".tif"))
+  file.remove(paste0("outputs/_dist_edge_",Year[i],".tif"))
   system(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i],".tif"))
 }
 
