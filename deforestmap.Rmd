@@ -48,7 +48,9 @@ In this study, we present a simple approach combining maps from @Harper2007 and 
 
 ### 2.1 Historical deforestation maps
 
-We derived 30m cloud-free forest maps for Madagascar for the years 1990, 2000, 2010 and 2014 combining the 1990 and 2000 forest maps by @Harper2007 and the 2000-2014 tree percent cover map by @Hansen2013. On Harper's map, ~200,000 ha clouds are present over the ~4.2 million ha moist forest ecoregion (4.8% of clouds). To remove these clouds, we used the 2000 cloud-free tree percent cover map provided by @Hansen2013 (also at 30~m resolution) and we chose a threshold of 75% of tree cover [@Achard2014] to decide whether to replace cloud pixels with forest or non-forest pixels. We thus obtained a cloud-free year 2000 forest map for Madagascar. From this map, using tree cover loss data from 2000 to 2014 provided by @Hansen2013, we obtained cloud-free forest maps in 2010 and 2014 at 30~m resolution. Finally, we corrected the cloudy 1990 Harper forest map assuming that if forest was present in 2000, it was also present in 1990. Doing so, all clouds were removed and we obtained a cloud-free 1990 forest map for Madagascar. These maps are freely available at http:/bioscenemada.cirad.fr/forestmaps. On the basis of the forest-cover maps, we computed the mean annual deforestation intensity (in hectares of forest and in percentage) on six decades for 5 time periods from _c._ 1953 to 2014 (_c._ 1953-_c._ 1973-1990-2000-2010-2014).
+We derived 30m cloud-free forest maps for Madagascar for the years 1990, 2000, 2010 and 2014 combining the 1990 and 2000 forest maps by @Harper2007 and the 2000-2014 tree cover and tree cover loss maps by @Hansen2013. On the 2000 Harper's map, ~200,000 ha clouds are present over the ~4.2 million ha moist forest ecoregion (4.8% of clouds). To remove these clouds, we used the 2000 cloud-free tree cover map provided by @Hansen2013 (also at 30~m resolution) and we chose a threshold of 75% of tree cover [@Achard2014] to decide whether to replace cloud pixels with forest or non-forest pixels. We thus obtained a cloud-free year 2000 forest map for Madagascar. From this map, using tree cover loss data from 2000 to 2014 provided by @Hansen2013, we obtained cloud-free forest maps in 2010 and 2014 at 30~m resolution. Finally, we corrected the cloudy 1990 Harper forest map assuming that if forest was present in 2000, it was also present in 1990. Doing so, all clouds were removed and we obtained a cloud-free 1990 forest map for Madagascar. 
+For all forest cover maps, we also removed the isolated non-forest pixels if all the height surrounding pixels were covered by forest, assuming that small-scaled deforestation on a 30m square pixel inside the forest is unlikely. This was important in order not to over-estimate forest fragmentation.  
+These maps are freely available at http:/bioscenemada.cirad.fr/forestmaps. On the basis of the forest-cover maps, we computed the mean annual deforestation intensity (in hectares of forest and in percentage) on six decades for 5 time periods from _c._ 1953 to 2014 (_c._ 1953-_c._ 1973-1990-2000-2010-2014).
 
 ### 2.2 Comparison with other historical deforestation maps
 
@@ -60,11 +62,11 @@ We report an analysis of the evolution of forest fragmentation based on the fore
 
 ## 3. Results
 
-### 3.1 Validation
+### 3.1 Evolution of forest cover and deforestation intensity
+
+### 3.2 Comparison with previous forest-cover change studies in Madagascar
 
 Difference might be due to post-processing of @Rakotomalala2015 map.
-
-### 3.2 Evolution of forest cover and deforestation intensity
 
 ### 3.3 Evolution of forest fragmentation with time
 
@@ -75,6 +77,10 @@ Difference might be due to post-processing of @Rakotomalala2015 map.
 ### 4.1 Evolution of deforestation and forest fragmentation in Madagascar on the last 60 years
 
 Regarding the potential forest regrowth, we made the same choice as @Harper2007 and did not consider it in our study, although @Hansen2013 are also providing tree cover gain data over the period 2010-2014. We made this choice for several reasons. First, there is little evidence of natural forest regeneration in Madagascar on the long term [@Harper2007, @Grouzis2001]. This can be explained by several ecological mechanisms following burning practice such as soil erosion [@Grinand2017] and reduced seed bank due to fire and soil loss [@Grouzis2001]. Moreover, in the areas where forest regeneration is ecologically possible, young regrowth forests are more easilly re-burnt for agriculture and pasture. Finally, young secondary forests do not provide the same ecosystem services (in terms of biodiversity and carbon storage) as old-growth natural forests.
+
+Should be used to actualize FAO report.
+
+There has been a long debate about whether Madagascar has lost 90% of its forest since the arrival of the humans on the island [@Virah-Sawmy2009, @Agarwal2005]. What it sure now, is that Madgascar has lost around 50% of its natural forest in six decades since _c._ 1953.
 
 ### 4.2 Interest of such an approach and limitations
 
