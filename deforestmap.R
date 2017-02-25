@@ -425,6 +425,27 @@ for (i in 2:length(Year)) {
 }
 write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
 
+#= Deforestation statistics for comparison
+Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2005 and 2013
+defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
+# Areas
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  statcell <- system(paste0("r.stats -c for",Year[i]), intern=TRUE)
+  ncells <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
+  defor.df$area[i] <- round(ncells*(as.numeric(Res)^2)/10000)
+}
+# Annual rates
+for (i in 2:length(Year)) {
+  theta.prim <- (defor.df$area[i-1]-defor.df$area[i])/defor.df$area[i-1]
+  Y <- defor.df$Year[i]-defor.df$Year[i-1]
+  defor.df$ann.defor[i] <- round((defor.df$area[i-1]-defor.df$area[i])/Y)
+  defor.df$theta[i] <- round(100*(1-(1-theta.prim)^(1/Y)),2)
+}
+write.table(defor.df,"outputs/defor_for_comp.txt",row.names=FALSE,sep="\t")
+
 #= Fragmentation statistics
 Year <- c(1953,1973,1990,2000,2010,2014)
 frag.df <- data.frame(Year=Year,forest=NA,patch=NA,transitional=NA,
@@ -493,6 +514,30 @@ for (j in 1:3) {
     defor.df$ann.defor[i] <- round((defor.df$area[i-1]-defor.df$area[i])/Y)
     defor.df$theta[i] <- round(100*(1-(1-theta.prim)^(1/Y)),2)
   }
+  # Export
+  write.table(defor.df,paste0("outputs/defor_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
+  # ==========================================
+  # B. Deforestation statistics for comparison
+  Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2005 and 2013 for comparison
+  defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
+  # Areas
+  for (i in 1:length(Year)) {
+    # Message
+    cat(paste0("Year: ",Year[i]))
+    # Computation
+    statcell <- system(paste0("r.stats -c for",Year[i]), intern=TRUE)
+    ncells <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
+    defor.df$area[i] <- round(ncells*(as.numeric(Res)^2)/10000)
+  }
+  # Annual rates
+  for (i in 2:length(Year)) {
+    theta.prim <- (defor.df$area[i-1]-defor.df$area[i])/defor.df$area[i-1]
+    Y <- defor.df$Year[i]-defor.df$Year[i-1]
+    defor.df$ann.defor[i] <- round((defor.df$area[i-1]-defor.df$area[i])/Y)
+    defor.df$theta[i] <- round(100*(1-(1-theta.prim)^(1/Y)),2)
+  }
+  # Export
+  write.table(defor.df,paste0("outputs/defor_",ecoregion[j],"_for_comp.txt"),row.names=FALSE,sep="\t")
   # # ===========================
   # # B. Fragmentation statistics
   # Year <- c(1953,1973,1990,2000,2010,2014)
@@ -524,8 +569,6 @@ for (j in 1:3) {
   #   dist.df$sd[i] <- unlist(strsplit(statcell[12],split=" "))[2]
   # }
   
-  # Export
-  write.table(defor.df,paste0("outputs/defor_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
   #write.table(frag.df,paste0("outputs/frag_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
   #write.table(dist.df,paste0("outputs/dist_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
   
@@ -538,7 +581,6 @@ for (j in 1:3) {
 ##========================================================
 
 df.comp <- read.csv("data/fcc_comp.csv",header=TRUE)
-
 
 ##========================
 ## Forest-cover change map
