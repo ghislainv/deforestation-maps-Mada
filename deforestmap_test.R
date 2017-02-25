@@ -106,6 +106,8 @@ for (i in 1:length(Year)) {
 ## Statistics whole forest
 ##========================
 
+Res <- 30
+
 #= Deforestation statistics
 Year <- c(1953,1973,1990,2000,2010,2014)
 defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
