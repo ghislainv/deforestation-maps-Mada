@@ -464,17 +464,19 @@ write.table(frag.df,"outputs/frag.txt",row.names=FALSE,sep="\t")
 
 #= Distance to forest edge statistics
 Year <- c(1953,1973,1990,2000,2010,2014)
-dist.df <- data.frame(Year=Year,min=NA,max=NA,mean=NA,sd=NA)
+dist.df <- data.frame(Year=Year,min=NA,max=NA,mean=NA,sd=NA,q1=NA,q2=NA)
 # Areas
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  statcell <- system(paste0("r.univar dist_edge_",Year[i]), intern=TRUE)
+  statcell <- system(paste0("r.univar -e percentile=5,95 map=dist_edge_",Year[i]), intern=TRUE)
   dist.df$min[i] <- unlist(strsplit(statcell[7],split=" "))[2]
   dist.df$max[i] <- unlist(strsplit(statcell[8],split=" "))[2]
   dist.df$mean[i] <- unlist(strsplit(statcell[10],split=" "))[2]
-  dist.df$sd[i] <- unlist(strsplit(statcell[12],split=" "))[2]
+  dist.df$sd[i] <- unlist(strsplit(statcell[12],split=" "))[3]
+  dist.df$q1[i] <- unlist(strsplit(statcell[19],split=" "))[3]
+  dist.df$q2[i] <- unlist(strsplit(statcell[20],split=" "))[3]
 }
 write.table(dist.df,"outputs/dist.txt",row.names=FALSE,sep="\t")
 
@@ -674,6 +676,28 @@ system("r.mask -r")
 ## Plot raster with gplot() from rasterVis
 source(file="R/plotfcc.R")
 
+##==================================================
+## Plot for evolution of the distance to forest edge
+##==================================================
+
+# Data
+dist.df <- read.table(file="outputs/dist.txt", header=TRUE)
+
+# Plot
+png(file="outputs/dist.png",width=800,height=600)
+par(mar=c(4,4,0,0),cex=2,lwd=2)
+plot(NA, xlim=c(1953,2014), ylim=c(0,5000),
+     xlab="Year",
+     ylab="Distance to forest edge (km)",
+     
+     axes=FALSE)
+segments(x0=dist.df$Year,x1=dist.df$Year,y0=dist.df$q1,y1=dist.df$q2,lty=2)
+segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q2,y1=dist.df$q2,lty=1)
+segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q1,y1=dist.df$q1,lty=1)
+axis(1,at=c(1953,1973,1990,2000,2010,2014),labels=c(1953,1973,1990,2000,2010,2014),las=3)
+axis(2,at=seq(0,5000,by=1000),labels=seq(0,5,by=1))
+points(dist.df$Year, dist.df$mean, type="b", pch=19)
+dev.off()
 
 ##========================
 ## Save objects
