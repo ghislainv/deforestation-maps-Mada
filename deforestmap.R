@@ -27,7 +27,7 @@ if (length(arg)>0) {
 
 ##= Libraries
 pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra","RColorBrewer",
-         "rasterVis","knitr","rmarkdown","rgeos","rgdal","rgrass7")
+         "rasterVis","knitr","rmarkdown","rgeos","rgdal","rgrass7","xtable")
 ## broom: to convert map into data-frame with tiny()
 ## gridExtra: to combine several ggplots
 ## rasterVis: for gplot()
@@ -580,7 +580,34 @@ for (j in 1:3) {
 ## Comparison with previous studies on forest-cover change
 ##========================================================
 
+# Historical data
 df.comp <- read.csv("data/fcc_comp.csv",header=TRUE)
+# This study
+defor_for_comp <- read.table("outputs/defor_for_comp.txt",header=TRUE)
+defor_moist_for_comp <- read.table("outputs/defor_moist_for_comp.txt",header=TRUE)
+defor_dry_for_comp <- read.table("outputs/defor_dry_for_comp.txt",header=TRUE)
+defor_spiny_for_comp <- read.table("outputs/defor_spiny_for_comp.txt",header=TRUE)
+defor_mangroves_for_comp <- read.table("outputs/defor_mangroves_for_comp.txt",header=TRUE)
+# Complete data
+df.comp[df.comp$ForestType=="Total" & df.comp$Source=="this study", 3:9] <- defor_for_comp$area
+df.comp[df.comp$ForestType=="Moist" & df.comp$Source=="this study", 3:9] <- defor_moist_for_comp$area
+df.comp[df.comp$ForestType=="Dry" & df.comp$Source=="this study", 3:9] <- defor_dry_for_comp$area
+df.comp[df.comp$ForestType=="Spiny" & df.comp$Source=="this study", 3:9] <- defor_spiny_for_comp$area
+df.comp[df.comp$ForestType=="Mangroves" & df.comp$Source=="this study", 3:9] <- defor_mangroves_for_comp$area
+# This study for year 2014
+defor <- read.table("outputs/defor.txt",header=TRUE)
+defor_moist <- read.table("outputs/defor_moist.txt",header=TRUE)
+defor_dry <- read.table("outputs/defor_dry.txt",header=TRUE)
+defor_spiny <- read.table("outputs/defor_spiny.txt",header=TRUE)
+defor_mangroves <- read.table("outputs/defor_mangroves.txt",header=TRUE)
+# Complete data for year 2014
+df.comp$y2014[df.comp$ForestType=="Total" & df.comp$Source=="this study"] <- defor$area[defor$Year==2014]
+df.comp$y2014[df.comp$ForestType=="Moist" & df.comp$Source=="this study"] <- defor_moist$area[defor_moist$Year==2014]
+df.comp$y2014[df.comp$ForestType=="Dry" & df.comp$Source=="this study"] <- defor_dry$area[defor_dry$Year==2014]
+df.comp$y2014[df.comp$ForestType=="Spiny" & df.comp$Source=="this study"] <- defor_spiny$area[defor_spiny$Year==2014]
+df.comp$y2014[df.comp$ForestType=="Mangroves" & df.comp$Source=="this study"] <- defor_mangroves$area[defor_mangroves$Year==2014]
+# Save results
+write.table(df.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
 
 ##========================
 ## Forest-cover change map
@@ -665,6 +692,7 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
                message=FALSE, highlight=TRUE,
                fig.show="hide", size="small",
                tidy=FALSE)
+options(knitr.kable.NA = "-")
 
 ## Knit and translate to html and pdf
 dir.create("report")

@@ -90,31 +90,39 @@ There has been a long debate about whether Madagascar has lost 90% of its forest
 
 ## 5. Tables
 
-```{r comp, results="asis"}
-tab.1 <- comp_moist.df
-mean.diff <- round(100*(sum(tab.1$BSM)-sum(tab.1$PERR_FH))/sum(tab.1$PERR_FH))
-names(tab.1) <- c("Year","Vieil (ha)", "Rakot (ha)", "Rakot_NA (ha)", "ad_Vieil (ha/yr)", "ad_Rakot (ha/yr)", "theta_Vieil (%/yr)", "theta_Rakoto (%/yr)", "diff.area (%)")
-tab.1 <- tab.1[,c(1:4,9,5:8)]
+```{r defor, results="asis"}
+perc.1 <- round(100*(defor.df$area[defor.df$Year==1973]-defor.df$area[defor.df$Year==2014])/defor.df$area[defor.df$Year==1973])
+perc.2 <- round(100*(defor.df$area[defor.df$Year==1953]-defor.df$area[defor.df$Year==2014])/defor.df$area[defor.df$Year==1953])
+d.1 <- defor.df$theta[defor.df$Year==1990]
+d.2 <- defor.df$theta[defor.df$Year==2010]
+tab.1 <- defor.df
+names(tab.1) <- c("Year","Forest (ha)", "Annual defor. (ha/yr)", "theta (%/yr)")
 kable(tab.1)
 ```
 
-Table 1: **Comparison of the forest cover and deforestation rates between our study and the study by @Rakotomalala2015**. This comparison is done only for the humid ecoregion for the periods 2005-2010-2013, which is the extent and time-periods of the @Rakotomalala2015 map. @Rakotomalala2015 map has been validated using 10,854 independant visual interpretation points leading to a rather high accuracy (Kappa=0.79 and overall-accuracy=0.89). Our study (suffix _"Vieil"_) estimated a forest cover greater by about `r mean.diff`% compared to @Rakotomalala2015 (suffix _"Rakot"_). But the difference (_"diff.area"_) did not vary much between dates (between 3.56 and 6.18%). Our study also estimated higher annual deforestation (_"ad"_) and deforestation rates (_"theta"_) but the same trend for the deforestation was observed between the two studies, with a doubling of the deforestation for the period 2010-2013 compared to 2005-2010. The differences between the two studies could be attributed to the forest definition which might be different in the two studies and to the post-processing in @Rakotomalala2015 map.
+Table 1: **Evolution of the forest cover and deforestation intensity from 1950s to 2014 in Madagascar**. Madagascar has lost `r perc.1`% of its natural forest in 40 years between _c._ 1973 and 2014 (and about `r perc.2`% in 60 years since _c._ 1953). If the deforestation has progressively slowed down from _c._ 1973 to 2010 (from `r d.1` to `r d.2`%/yr), most likely due to a decrease of available arable lands under the remaining forests and to a decrease of forest accessibility, the deforestation has recently increased, with a doubling deforestation on the period 2010-2014 compared to 2000-2010. This increase could be attributed to both political instability (political crisis in 2009) and to an explosion of the demography (according to the @UN2015, population has increased from about 16M inhabitants in 2000 to 24M in 2014). Natural forest covers 8.9 Mha in 2014 and current (period 2000-2014) mean annual deforestation rate is of about 70,000 ha/yr. 
 
-```{r defor, results="asis"}
-tab.2 <- defor.df
-names(tab.2) <- c("Year","Forest (ha)", "Annual defor. (ha/yr)", "theta (%/yr)")
-kable(tab.2)
+```{r comp, results="asis"}
+tab.2 <- df.comp
+tab.2 <- tab.2[,c(2,1,3:10)]
+tab.2$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
+col.names <- c("Forest type","Source","1953","1973","1990","2000","2005","2010","2013","2014")
+kable(tab.2,col.names=col.names,align=c("l","l",rep("r",8)))
+#print(xtable(tab.2,col.names=col.names,align=c("llrrrrrrrrr")),type="html")
 ```
 
-Table 2: **Evolution of the forest cover and deforestation intensity from 1950s to 2014 in Madagascar**. Madagascar has lost 37% of its natural forest in 40 years between _c._ 1973 and 2014 (and roughly 56% in 60 years since _c._ 1953). If the deforestation has progressively slowed down from _c._ 1953 to 2010 (from 1.76 to 0.59%/yr), most likely due to a decrease of available arable lands under the remaining forests and to a decrease of forest accessibility, the deforestation has recently increased, with a doubling deforestation on the period 2010-2014 compared to 2000-2010. This increase could be attributed to both political instability (political crisis in 2009) and to an explosion of the demography (according to the @UN2015, population has increased from about 16M inhabitants in 2000 to 24M in 2014). Natural forest cover 8.9 Mha in 2014 and current (period 2000-2014) mean annual deforestation rate is of about 70,000 ha/yr.   
+Table 2: **Comparison of Madagascar forest-cover estimates (in ha) with previous studies on the period 1953-2014**. We found similiar forest-cover estimates compared to previous studies [@Harper2007;@MEFT2009;@ONE2015]. Our study extends the forest-cover monitoring on a six decades period (from 1953 to 2014) while harmonizing the data from the previous studies. Our method provides cloud-free forest-cover estimates from 1990 to 2014 and corrections for the forest-cover in 1973.
 
 ```{r frag, results="asis"}
 tab.3 <- frag.df
+p.1 <- round(frag.df$interior[frag.df$Year==1973])
+p.2 <- round(frag.df$interior[frag.df$Year==2014])
+p.3 <- round(frag.df$patch[frag.df$Year==2014]+frag.df$transitional[frag.df$Year==2014])
 names(tab.3) <- c("Year","Forest (ha)", "patch (%)", "transitional (%)", "edge (%)", "perforated (%)", "interior (%)", "NA (%)")
 kable(tab.3)
 ```
 
-Table 3: **Evolution of the forest fragmentation from 1950s to 2014 in Madagascar**. Forest fragmentation has progressively increased from _c._ 1953. The percentage of forest belonging to the interior category (the most intact forest) has fallen from 94 in _c._ 1973 to 48% in 2014. More than 15% of the forest belong to the patch and transitional categories (isolated small forest patches) in 2014. This increase in forest fragmentation has a great impact on both carbon emissions [@Putz2014] and biodiversity loss [@Gibson2013, @Murcia1995].
+Table 3: **Evolution of the forest fragmentation from 1950s to 2014 in Madagascar**. Forest fragmentation has progressively increased from _c._ 1953. The percentage of forest belonging to the "interior"" category (the most intact forest) has fallen from `r p.1`% in _c._ 1973 to `r p.2`% in 2014. More than `r p.3`% of the forest belong to the "patch"" and "transitional" categories (isolated small forest patches) in 2014. This increase in forest fragmentation has a great impact on both carbon emissions [@Putz2014] and biodiversity loss [@Gibson2013, @Murcia1995].
 
 ## 6. Figures
 
