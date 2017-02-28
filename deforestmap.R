@@ -582,6 +582,7 @@ for (j in 1:3) {
 ## Comparison with previous studies on forest-cover change
 ##========================================================
 
+## Forest-cover
 # Historical data
 df.comp <- read.csv("data/fcc_comp.csv",header=TRUE)
 # This study
@@ -610,6 +611,28 @@ df.comp$y2014[df.comp$ForestType=="Spiny" & df.comp$Source=="this study"] <- def
 df.comp$y2014[df.comp$ForestType=="Mangroves" & df.comp$Source=="this study"] <- defor_mangroves$area[defor_mangroves$Year==2014]
 # Save results
 write.table(df.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
+
+## Deforestation
+# Historical data
+df.comp <- read.table("outputs/fcc_comp.txt",header=TRUE)
+# Deforestation ha/yr
+defor.ha.comp <- df.comp[,c(2,1,3:8)]
+periods <- c("1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
+lp <- c(20,17,10,5,5,3)
+names(defor.ha.comp)[3:8] <- periods
+for (i in 1:length(periods)) {
+  defor.ha.comp[,2+i] <- round((df.comp[,2+i]-df.comp[,2+1+i])/lp[i])
+}
+# Deforestation %/yr
+defor.perc.comp <- defor.ha.comp
+for (i in 1:length(periods)) {
+  defor.perc.comp[,2+i] <- round(100*(1-(1-(df.comp[,2+i]-df.comp[,2+1+i])/df.comp[,2+i])^(1/lp[i])),2)
+}
+# Combining ha and percentages
+ha <- as.numeric(unlist(defor.ha.comp[,3:8]))
+perc <- sprintf("%.2f", as.numeric(unlist(defor.perc.comp[,3:8])))
+defor.comp[,3:8] <- data.frame(matrix(paste(ha," (",perc,")", sep=""),ncol=6))
+defor.comp[defor.comp=="NA (NA)"] <- NA
 
 ##========================
 ## Forest-cover change map
