@@ -85,7 +85,7 @@ system("r.in.gdal --o input=outputs/harper.tif output=harper")
 # Set region
 system("g.region rast=harper -ap")
 
-#= Typology of CI map
+#= Typology of harper map 1990-2000-2005
 system("r.info harper")
 system("r.describe harper")
 # * 111 112 115 122 152 155 222 444 555 755 775 777
@@ -95,7 +95,7 @@ system("r.report harper units=h")
 
 ## +-----------------------------------------------------------------------------+
 ## |                         RASTER MAP CATEGORY REPORT                          |
-## |LOCATION: Forest90-00-10_Mada                        Fri Oct 10 09:30:06 2014|
+## |LOCATION: deforestmap                                Wed Mar  1 09:22:04 2017|
 ## |-----------------------------------------------------------------------------|
 ## |          north: 8682420    east: 1100820                                    |
 ## |REGION    south: 7155900    west:  298440                                    |
@@ -202,7 +202,7 @@ for (i in 1:14) {
   }
 }
 
-#= Export forest2010
+#= Export forest-cover for years 2000, 2005, 2010, 2014
 system("r.out.gdal --o input=for2014 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2014.tif")
 system("r.out.gdal --o input=for2010 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2010.tif")
 system("r.out.gdal --o input=for2005 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2005.tif")
@@ -214,16 +214,24 @@ system("r.out.gdal --o input=for2000 createopt='compress=lzw,predictor=2' type=B
 #= Integrating classes of forest in 1990 (111, 112, 122, 115, 152, 155, 755, 775 and 777) and uncertainties (555)
 system("r.mapcalc --o 'for1990_temp = if(harper==111 || harper==112 || harper==122 || \\
        harper==115 || harper==152 || harper==155 || harper==755 || \\
-       harper==775 || harper==777 || harper==555, 1, null())'")
+       harper==775 || harper==777, 1, if(harper==555, 5, null()))'")
+system("r.stats -c for1990_temp")
 
-# How many ha of uncertainties ?
-# 9603 ha of 555 in harper
+#= If forest in 2000, then forest in 1990
+system("r.mapcalc --o 'for1990_temp = if(!isnull(for2000) &&& for1990_temp==5, 1, for1990_temp)'")
+system("r.stats -c for1990_temp")
 
-#= Removing uncertainties (555) using land-cover in 2000
-system("r.mapcalc --o 'for1990 = if(harper==555 && isnull(for2000), null(), for1990_temp)'")
-system("r.stats -c for1990_temp") # 1 119671405
-system("r.stats -c for1990") # 1 119582639
-system("g.remove -f type=raster name=for1990_temp")
+#= How many ha of remaining clouds in harper for the year 1990
+stats.epsilon <- system("r.stats -c for1990_temp", intern=TRUE)
+df.stats.epsilon <- data.frame(matrix(as.numeric(unlist(strsplit(stats.epsilon," "))), ncol=2, byrow=TRUE))
+names(df.stats.epsilon) <- c("class","ncells")
+df.stats.epsilon$area <- round(df.stats.epsilon$ncells*30*30/10000)
+epsilon_1990 <- df.stats.epsilon$area[df.stats.epsilon$class==5 & !is.na(df.stats.epsilon$class)]
+
+#= Removing remaining uncertainties (5) using forest-cover in 2000
+system("r.mapcalc --o 'for1990 = if(for1990_temp==5, for2000, for1990_temp)'")
+# system("r.stats -c for1990") # 1 119582639
+# system("g.remove -f type=raster name=for1990_temp")
 
 #= Export
 system("r.out.gdal --o input=for1990 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1990.tif")
@@ -252,19 +260,12 @@ system("r.mapcalc --o 'for1973 = if(!isnull(for1990), for1990, harper1973)'")
 #= Combine mangrove (7) and forest (1)
 system("r.mapcalc --o 'for1973 = if(for1973==7, 1, for1973)'")
 
-#= Deforestation rate 1973-1990
-system("r.stats -c for1973")
-## 1 158236269
-## 5 36850880
-## * 1165856315
-
-system("r.stats -c for1990")
-## 1 119582639
-## * 1241360825
-
-theta.prim <- (158236269-119582639)/158236269
-Y <- 1990-1973
-theta <- 1-(1-theta.prim)^(1/Y) # 1.6 %.yr-1 (ok, in line with Harper et al. 2007)
+#= Cloud cover on for1973
+stats.1973 <- system("r.stats -c for1973", intern=TRUE)
+df.stats.1973 <- data.frame(matrix(as.numeric(unlist(strsplit(stats.1973," "))), ncol=2, byrow=TRUE))
+names(df.stats.1973) <- c("class","ncells")
+df.stats.1973$area <- round(df.stats.1973$ncells*30*30/10000)
+cloud_1973 <- df.stats.1973$area[df.stats.1973$class==5 & !is.na(df.stats.1973$class)]
 
 #= Export
 system("r.out.gdal --o input=for1973 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1973.tif")
@@ -289,7 +290,7 @@ system("r.in.gdal --o input=outputs/harper1953.tif output=harper1953")
 system("r.info harper1953")
 system("r.stats -c harper1953")
 
-#= Compute for1933
+#= Compute for1953
 system("r.mapcalc --o 'for1953 = if(harper1953!=1,null(),1)'")
 system("r.stats -c for1953")
 ## 1 225792265
@@ -614,7 +615,7 @@ write.table(df.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
 
 ## Deforestation
 # Historical data
-df.comp <- read.table("outputs/fcc_comp.txt",header=TRUE)
+df.comp <- read.csv("data/defor_comp.csv",header=TRUE)
 # Deforestation ha/yr
 defor.ha.comp <- df.comp[,c(2,1,3:8)]
 periods <- c("1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
@@ -633,6 +634,8 @@ ha <- as.numeric(unlist(defor.ha.comp[,3:8]))
 perc <- sprintf("%.2f", as.numeric(unlist(defor.perc.comp[,3:8])))
 defor.comp[,3:8] <- data.frame(matrix(paste(ha," (",perc,")", sep=""),ncol=6))
 defor.comp[defor.comp=="NA (NA)"] <- NA
+# Save results
+write.table(defor.comp,file="outputs/defor_comp.txt",row.names=FALSE)
 
 ##========================
 ## Forest-cover change map
