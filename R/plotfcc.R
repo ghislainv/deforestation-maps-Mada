@@ -159,6 +159,23 @@ plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
 }
 
 # ================
+# Ecoregions
+
+# Import
+ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_redd_utm38s")
+plot(ecoregion)
+ecoregion.df <- tidy(ecoregion)
+
+# Plot
+plot.ecoregion <- ggplot(data=ecoregion.df,aes(x=long,y=lat,group=group,fill=id)) +
+  geom_polygon(colour=grey(0.4),size=0.2) +
+  theme_bw() + theme_base + theme(plot.margin=unit(c(-0.25,-0.25,-0.5,-0.5),"line")) +
+  coord_equal()
+
+## Grob
+grob.Mada <- ggplotGrob(plot.ecoregion)
+
+# ================
 # Maps
 
 ## for1953
