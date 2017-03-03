@@ -151,7 +151,7 @@ plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
                         breaks=c(1,500,1000,1500,2000),
                         labels=c(">0","0.5","1","1.5","2"),
                         guide=guide_colorbar(title="Distance (km)",title.position="top",
-                                            label.position="bottom", barwidth=10)) +
+                                            label.position="bottom",barwidth=10)) +
     theme_bw() + theme_zoom + coord_equal() +
     theme(legend.position="bottom", 
           legend.margin=margin(-1.5,-1,-1,-1,"lines"))
@@ -172,6 +172,9 @@ xt <- c(850000,580000,530000,600000)
 yt <- c(7920000,8060000,7250000,8460000)
 t.df <- data.frame(text=c("Moist","Dry","Spiny","Mangroves"),x=xt,y=yt)
 
+# Forest 2014  # If we want to add forest to ecoregions, to be done...
+# for2014 <- raster("outputs/for2014.tif")
+
 # Segments
 seg.df <- data.frame(x=c(720000),y=c(8282000),
                      xend=c(600000),yend=c(8405000))
@@ -187,14 +190,14 @@ eco.col <- c("2"=green.t,"3"=orange.t,"0"=red.t,"1"="blue")
 plot.ecoregion <- ggplot() +
   geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(id))) +
   scale_fill_manual(values=eco.col) +
-  geom_text(data=t.df, aes(x=x, y=y, label=text), size=9) +
-  geom_segment(data=seg.df, aes(x=x, xend=xend, y=y, yend=yend)) +
+  geom_text(data=t.df, aes(x=x, y=y, label=text), size=4) +
+  geom_segment(data=seg.df, aes(x=x, xend=xend, y=y, yend=yend), size=0.25) +
   theme_bw() + theme_base +
   theme(legend.position="null") +
   scale_y_continuous(limits=c(7165000,8685000),expand=c(0,0)) +
   scale_x_continuous(limits=c(300000,1100000),expand=c(0,0)) +
   coord_equal()
-ggsave("outputs/ecoregion.png", plot.ecoregion, width=5, height=9, units="in")
+ggsave("outputs/ecoregion.png", plot.ecoregion, width=5, height=9, units="cm")
 
 # ================
 # Maps
