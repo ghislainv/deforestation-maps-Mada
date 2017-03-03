@@ -161,19 +161,40 @@ plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
 # ================
 # Ecoregions
 
+# devtools::install_github("paleolimbot/ggspatial")
+library(ggspatial)  # for geom_spatial()
+
 # Import
 ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_redd_utm38s")
-plot(ecoregion)
-ecoregion.df <- tidy(ecoregion)
+
+# Text
+xt <- c(850000,580000,530000,600000)
+yt <- c(7920000,8060000,7250000,8460000)
+t.df <- data.frame(text=c("Moist","Dry","Spiny","Mangroves"),x=xt,y=yt)
+
+# Segments
+seg.df <- data.frame(x=c(720000),y=c(8282000),
+                     xend=c(600000),yend=c(8405000))
+
+# Colors
+red.t <- adjustcolor("red",alpha.f=0.5)
+blue.t <- adjustcolor("blue",alpha.f=0.5)
+green.t <- adjustcolor("dark green",alpha.f=0.5)
+orange.t <- adjustcolor("orange",alpha.f=0.5)
+eco.col <- c("2"=green.t,"3"=orange.t,"0"=red.t,"1"="blue")
 
 # Plot
-plot.ecoregion <- ggplot(data=ecoregion.df,aes(x=long,y=lat,group=group,fill=id)) +
-  geom_polygon(colour=grey(0.4),size=0.2) +
-  theme_bw() + theme_base + theme(plot.margin=unit(c(-0.25,-0.25,-0.5,-0.5),"line")) +
+plot.ecoregion <- ggplot() +
+  geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(id))) +
+  scale_fill_manual(values=eco.col) +
+  geom_text(data=t.df, aes(x=x, y=y, label=text), size=9) +
+  geom_segment(data=seg.df, aes(x=x, xend=xend, y=y, yend=yend)) +
+  theme_bw() + theme_base +
+  theme(legend.position="null") +
+  scale_y_continuous(limits=c(7165000,8685000),expand=c(0,0)) +
+  scale_x_continuous(limits=c(300000,1100000),expand=c(0,0)) +
   coord_equal()
-
-## Grob
-grob.Mada <- ggplotGrob(plot.ecoregion)
+ggsave("outputs/ecoregion.png", plot.ecoregion, width=5, height=9, units="in")
 
 # ================
 # Maps
@@ -197,6 +218,7 @@ grob.for1953 <- ggplotGrob(for1953.plot)
 ## fcc
 fcc <- raster("outputs/fcc.tif")
 fcc.plot <- gplot(fcc,maxpixels=res) +
+  annotation_custom(grob=grob.ecoregion,xmin=810000,xmax=1110000,ymin=7800000,ymax=7800000) +
   annotation_custom(grob=grob.for1953,xmin=810000,xmax=1110000,ymin=7110000,ymax=7800000) +
   geom_raster(aes(fill=factor(value))) +
   geom_rect(aes(xmin=346000,xmax=439000,ymin=7387000,ymax=7480000),
