@@ -22,6 +22,7 @@ deforestmap.log
 .Rhistory
 .Rapp.history
 Rplots.pdf
+deforestation.rda
 
 # Session Data files
 .RData
