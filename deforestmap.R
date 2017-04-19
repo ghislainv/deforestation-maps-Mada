@@ -158,11 +158,11 @@ system("r.report --o map=ecoregion,harper units=h output='outputs/report_harper_
 
 # Moist ecoregions
 # Import the GRASS report into R
-r <- readLines("outputs/report_harper_ecoregion.txt")
-r <- r[c(47:57)] # select outputs for the moist ecoregion
-writeLines(r, "outputs/report_harper.txt")
-report.harper <- read.table(file="outputs/report_harper.txt", sep="|", header=FALSE)
-report.harper <- report.harper[,c(2,4)]
+#r <- readLines("outputs/report_harper_ecoregion.txt")
+#r <- r[c(47:57)] # select outputs for the moist ecoregion
+#writeLines(r, "outputs/report_harper_ecoregion.txt")
+report.harper.moist <- read.table(file="outputs/report_harper_ecoregion.txt", sep="|", header=FALSE)
+report.harper.moist <- report.harper[,c(2,4)]
 names(report.harper) <- c("code", "area")
 report.harper$area <- as.numeric(gsub(pattern=",", replacement="", report.harper$area))
 
