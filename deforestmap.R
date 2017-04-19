@@ -91,7 +91,7 @@ system("r.describe harper")
 # * 111 112 115 122 152 155 222 444 555 755 775 777
 # 1=forest, 2=nonforest, 5=cloud, 4=water, 7=mangrove
 
-system("r.report harper units=h")
+system("r.report --o harper units=h output='outputs/report_harper.txt'")
 
 ## +-----------------------------------------------------------------------------+
 ## |                         RASTER MAP CATEGORY REPORT                          |
@@ -125,6 +125,47 @@ system("r.report harper units=h")
 ## |TOTAL                                                            |122,484,912|
 ## +-----------------------------------------------------------------------------+
 
+# Import the GRASS report into R
+#r <- readLines("outputs/report_harper.txt")
+#r <- r[-c(1:15,28:31)]
+#writeLines(r, "outputs/report_harper.txt")
+report.harper <- read.table(file="outputs/report_harper.txt", sep="|", header=FALSE)
+report.harper <- report.harper[,c(2,4)]
+names(report.harper) <- c("code", "area")
+report.harper$area <- as.numeric(gsub(pattern=",", replacement="", report.harper$area))
+
+#====================================================================================
+# Report on clouds
+
+# Hectares of cloud in 2000 Harper map
+ha.cloud.2000 <- sum(report.harper$area[report.harper$code %in% c(152, 155, 555, 755)]) # 208192 ha
+
+# Ecoregions
+# 1: spiny, 2: mangroves, 3: moist, 4: dry
+# Rasterize ecoregions
+Extent <- "298440 7155900 1100820 8682420"
+Res <- "30"
+nodat <- "255"
+Input <- "gisdata/vectors/madagascar_ecoregion_tenaizy_38s.shp"
+Output <- "outputs/ecoregion.tif"
+# gdalwarp
+system(paste0("gdal_rasterize -a 'ecoregion' -ot Byte -a_nodata 255 -te ",Extent,
+              " -tr ",Res," ",Res," -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
+# Import into grass
+system("r.in.gdal --o input=outputs/ecoregion.tif output=ecoregion")
+# Cross-tabulation table
+system("r.report --o map=ecoregion,harper units=h output='outputs/report_harper_ecoregion.txt'")
+
+# Moist ecoregions
+# Import the GRASS report into R
+r <- readLines("outputs/report_harper_ecoregion.txt")
+r <- r[c(47:57)] # select outputs for the moist ecoregion
+writeLines(r, "outputs/report_harper.txt")
+report.harper <- read.table(file="outputs/report_harper.txt", sep="|", header=FALSE)
+report.harper <- report.harper[,c(2,4)]
+names(report.harper) <- c("code", "area")
+report.harper$area <- as.numeric(gsub(pattern=",", replacement="", report.harper$area))
+
 #====================================================================================
 # The objective is to remove clouds (above the moist forest in the year 2000).
 # To do so, we will use the tree cover map by Hansen et al. using a threshold of 75\%
@@ -154,6 +195,7 @@ system("r.in.gdal --o input=outputs/treecover2000.tif output=tc2000")
 system("r.mapcalc 'for2000_temp = if(harper==111 || harper==112 || harper==115 || \\
        harper==775 || harper==777 || harper==152 || harper==155 || \\
        harper==555 || harper==755, 1, null())'")
+
 # Replace uncertainties using Hansen tree cover and a threshold of 75\%
 system("r.mapcalc --o 'for2000 = if((harper==152 || harper==155 || \\
        harper==555 || harper==755) && tc2000<75 , null(), for2000_temp)'")
@@ -188,7 +230,7 @@ system("r.in.gdal --o input=outputs/lossyear.tif output=lossyear")
 #system("r.describe lossyear")
 # * 1-14
 
-#= Forest in 2001-2014
+#= Forest in year 2001-2014 ("at the end of the year", since 1 in lossyear is deforestation in 2001)
 for (i in 1:14) {
   # Message
   cat(paste("Year: ",i,"\n",sep=""))
@@ -387,9 +429,9 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
+  system(paste0("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \\
   system(paste0("gdal_proximity.py outputs/for",Year[i],".tif outputs/_dist_edge_",Year[i],".tif \\
                 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' -values 255 -ot UInt32 -distunits GEO"))
-  system(paste0("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \\
                 outputs/_dist_edge_",Year[i],".tif outputs/dist_edge_",Year[i],".tif"))
   file.remove(paste0("outputs/_dist_edge_",Year[i],".tif"))
   system(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i]))
