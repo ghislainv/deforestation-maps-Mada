@@ -43,6 +43,10 @@ loaded <- lapply(pkg,load.pkg)
 rm(pkg,load.pkg,loaded)
 
 ##=====================================
+## Name of objects to save
+SavedObjects <- c()
+
+##=====================================
 ## Create new grass location in UTM 38S
 #dir.create("grassdata")
 #system("grass72 -c epsg:32738 grassdata/deforestmap")  # Ignore errors
@@ -66,7 +70,7 @@ dir.create("outputs")
 
 #= Projection UTM38S (EPSG:32738)
 
-#= Reproject CI map
+#= Reproject Harper 1990-2000-2005 map
 
 # Region
 Extent <- "298440 7155900 1100820 8682420"
@@ -125,6 +129,10 @@ system("r.report --o harper units=h output='outputs/report_harper.txt'")
 ## |TOTAL                                                            |122,484,912|
 ## +-----------------------------------------------------------------------------+
 
+#====================================================================================
+# Report on clouds
+
+#= Whole forest
 # Import the GRASS report into R
 #r <- readLines("outputs/report_harper.txt")
 #r <- r[-c(1:15,28:31)]
@@ -134,13 +142,11 @@ report.harper <- report.harper[,c(2,4)]
 names(report.harper) <- c("code", "area")
 report.harper$area <- as.numeric(gsub(pattern=",", replacement="", report.harper$area))
 
-#====================================================================================
-# Report on clouds
-
 # Hectares of cloud in 2000 Harper map
 ha.cloud.2000 <- sum(report.harper$area[report.harper$code %in% c(152, 155, 555, 755)]) # 208192 ha
+SavedObjects <- c(SavedObjects, "ha.cloud.2000")
 
-# Ecoregions
+#= By ecoregion
 # 1: spiny, 2: mangroves, 3: moist, 4: dry
 # Rasterize ecoregions
 Extent <- "298440 7155900 1100820 8682420"
@@ -162,12 +168,17 @@ system("r.report --o map=ecoregion,harper units=h output='outputs/report_harper_
 #r <- r[c(47:57)] # select outputs for the moist ecoregion
 #writeLines(r, "outputs/report_harper_ecoregion.txt")
 report.harper.moist <- read.table(file="outputs/report_harper_ecoregion.txt", sep="|", header=FALSE)
-report.harper.moist <- report.harper[,c(2,4)]
-names(report.harper) <- c("code", "area")
-report.harper$area <- as.numeric(gsub(pattern=",", replacement="", report.harper$area))
+report.harper.moist <- report.harper.moist[,c(3,5)]
+names(report.harper.moist) <- c("code", "area")
+report.harper.moist$area <- as.numeric(gsub(pattern=",", replacement="", report.harper.moist$area))
 
-#====================================================================================
-# The objective is to remove clouds (above the moist forest in the year 2000).
+# Hectares of cloud in 2000 Harper map fr moist ecoregion
+ha.cloud.2000.moist <- sum(report.harper.moist$area[report.harper.moist$code %in% c(152, 155, 555, 755)]) # 182650 ha
+perc.cloud.moist <- 100*ha.cloud.2000.moist/ha.cloud.2000 # 87.7%
+SavedObjects <- c(SavedObjects, "ha.cloud.2000.moist", "perc.cloud.moist")
+
+#======================================================================================================
+# The objective is to remove clouds in the year 2000 (which are mainly located above the moist forest).
 # To do so, we will use the tree cover map by Hansen et al. using a threshold of 75\%
 
 #= Mosaic with gdalbuildvrt
@@ -244,12 +255,6 @@ for (i in 1:14) {
   }
 }
 
-#= Export forest-cover for years 2000, 2005, 2010, 2014
-system("r.out.gdal --o input=for2014 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2014.tif")
-system("r.out.gdal --o input=for2010 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2010.tif")
-system("r.out.gdal --o input=for2005 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2005.tif")
-system("r.out.gdal --o input=for2000 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for2000.tif")
-
 #====================================================================================
 # Forest in 1990
 
@@ -261,18 +266,18 @@ system("r.stats -c for1990_temp")
 
 #= If forest in 2000, then forest in 1990
 system("r.mapcalc --o 'for1990_temp = if(!isnull(for2000) &&& for1990_temp==5, 1, for1990_temp)'")
-system("r.stats -c for1990_temp")
 
 #= How many ha of remaining clouds in harper for the year 1990
-stats.epsilon <- system("r.stats -c for1990_temp", intern=TRUE)
-df.stats.epsilon <- data.frame(matrix(as.numeric(unlist(strsplit(stats.epsilon," "))), ncol=2, byrow=TRUE))
-names(df.stats.epsilon) <- c("class","ncells")
-df.stats.epsilon$area <- round(df.stats.epsilon$ncells*30*30/10000)
-epsilon_1990 <- df.stats.epsilon$area[df.stats.epsilon$class==5 & !is.na(df.stats.epsilon$class)]
+stats.residual <- system("r.stats -c for1990_temp", intern=TRUE) # "1 119582689"  "5 88716"      "* 1241272059"
+df.stats.residual <- data.frame(matrix(as.numeric(unlist(strsplit(stats.residual," "))), ncol=2, byrow=TRUE))
+names(df.stats.residual) <- c("class","ncells")
+df.stats.residual$area <- round(df.stats.residual$ncells*30*30/10000)
+residual.clouds.1990 <- df.stats.residual$area[df.stats.residual$class==5 & !is.na(df.stats.residual$class)]
+SavedObjects <- c(SavedObjects, "residual.clouds.1990")
 
 #= Removing remaining uncertainties (5) using forest-cover in 2000
 system("r.mapcalc --o 'for1990 = if(for1990_temp==5, for2000, for1990_temp)'")
-# system("r.stats -c for1990") # 1 119582639
+system("r.stats -c for1990") # 1 119582689 * 1241360775, all clouds were reclassified as non-forest
 # system("g.remove -f type=raster name=for1990_temp")
 
 #= Export
@@ -307,7 +312,8 @@ stats.1973 <- system("r.stats -c for1973", intern=TRUE)
 df.stats.1973 <- data.frame(matrix(as.numeric(unlist(strsplit(stats.1973," "))), ncol=2, byrow=TRUE))
 names(df.stats.1973) <- c("class","ncells")
 df.stats.1973$area <- round(df.stats.1973$ncells*30*30/10000)
-cloud_1973 <- df.stats.1973$area[df.stats.1973$class==5 & !is.na(df.stats.1973$class)]
+cloud.1973 <- df.stats.1973$area[df.stats.1973$class==5 & !is.na(df.stats.1973$class)]
+SavedObjects <- c(SavedObjects, "cloud.1973")
 
 #= Export
 system("r.out.gdal --o input=for1973 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1973.tif")
@@ -355,14 +361,14 @@ for (i in 1:length(Year)) {
   # Computation  
   system(paste0("r.neighbors --o input=for",Year[i]," output=for",Year[i],"_sum method=sum size=3"))
   system(paste0("r.mapcalc --o 'for",Year[i]," = if(isnull(for",Year[i],") &&& for",Year[i],"_sum==8, 1, for",Year[i],")'"))
-  # Export
+  # Export raster as .tif
   system(paste0("r.out.gdal --o input=for",Year[i]," createopt='compress=lzw,predictor=2' \\
          type=Byte output=outputs/for",Year[i],".tif"))
 }
 system("r.mask -r")
 
 #====================================================================================
-# Export images
+# Export images as .png and .gif
 
 #= Colors
 system("echo '1 26:152:80' | r.colors for1953 rules=-")
@@ -429,9 +435,9 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  system(paste0("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \\
   system(paste0("gdal_proximity.py outputs/for",Year[i],".tif outputs/_dist_edge_",Year[i],".tif \\
                 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' -values 255 -ot UInt32 -distunits GEO"))
+  system(paste0("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \\
                 outputs/_dist_edge_",Year[i],".tif outputs/dist_edge_",Year[i],".tif"))
   file.remove(paste0("outputs/_dist_edge_",Year[i],".tif"))
   system(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i]))
@@ -449,7 +455,7 @@ for (i in 1:length(Year)) {
 
 #= Deforestation statistics
 Year <- c(1953,1973,1990,2000,2010,2014)
-defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
+defor.df <- data.frame(Year=Year,area=NA,clouds=0,ann.defor=NA,theta=NA)
 # Areas
 for (i in 1:length(Year)) {
   # Message
@@ -466,6 +472,9 @@ for (i in 2:length(Year)) {
   defor.df$ann.defor[i] <- round((defor.df$area[i-1]-defor.df$area[i])/Y)
   defor.df$theta[i] <- round(100*(1-(1-theta.prim)^(1/Y)),2)
 }
+# Clouds in 1973
+defor.df$clouds[defor.df$Year==1973] <- cloud.1973  
+# Export
 write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
 
 #= Deforestation statistics for comparison
@@ -487,6 +496,7 @@ for (i in 2:length(Year)) {
   defor.df$ann.defor[i] <- round((defor.df$area[i-1]-defor.df$area[i])/Y)
   defor.df$theta[i] <- round(100*(1-(1-theta.prim)^(1/Y)),2)
 }
+# Export
 write.table(defor.df,"outputs/defor_for_comp.txt",row.names=FALSE,sep="\t")
 
 #= Fragmentation statistics
@@ -528,7 +538,6 @@ write.table(dist.df,"outputs/dist.txt",row.names=FALSE,sep="\t")
 ##========================
 
 # Ecoregions
-# system("v.in.ogr --o input=gisdata/vectors layer=madagascar_ecoregion_tenaizy_38s output=ecoregions")
 # 1: spiny, 2: mangroves, 3: moist, 4: dry
 ecoregion <- c("spiny","mangroves","moist","dry")
 
@@ -538,7 +547,7 @@ for (j in 1:3) {
   # Message
   cat(paste0("Ecoregion: ",ecoregion[j]))
   # Mask
-  system(paste0("r.mask --o vector=ecoregions where='ecoregion==",j,"'"))
+  system(paste0("r.mask --o raster=ecoregion maskcats=",j,"'"))
   # ===========================
   # A. Deforestation statistics
   Year <- c(1953,1973,1990,2000,2010,2014)
@@ -627,7 +636,7 @@ for (j in 1:3) {
 
 ## Forest-cover
 # Historical data
-df.comp <- read.csv("data/fcc_comp.csv",header=TRUE)
+fcc.comp <- read.csv("data/fcc_comp.csv",header=TRUE)
 # This study
 defor_for_comp <- read.table("outputs/defor_for_comp.txt",header=TRUE)
 defor_moist_for_comp <- read.table("outputs/defor_moist_for_comp.txt",header=TRUE)
@@ -635,11 +644,11 @@ defor_dry_for_comp <- read.table("outputs/defor_dry_for_comp.txt",header=TRUE)
 defor_spiny_for_comp <- read.table("outputs/defor_spiny_for_comp.txt",header=TRUE)
 defor_mangroves_for_comp <- read.table("outputs/defor_mangroves_for_comp.txt",header=TRUE)
 # Complete data
-df.comp[df.comp$ForestType=="Total" & df.comp$Source=="this study", 3:9] <- defor_for_comp$area
-df.comp[df.comp$ForestType=="Moist" & df.comp$Source=="this study", 3:9] <- defor_moist_for_comp$area
-df.comp[df.comp$ForestType=="Dry" & df.comp$Source=="this study", 3:9] <- defor_dry_for_comp$area
-df.comp[df.comp$ForestType=="Spiny" & df.comp$Source=="this study", 3:9] <- defor_spiny_for_comp$area
-df.comp[df.comp$ForestType=="Mangroves" & df.comp$Source=="this study", 3:9] <- defor_mangroves_for_comp$area
+fcc.comp[fcc.comp$ForestType=="Total" & fcc.comp$Source=="this study", 3:9] <- defor_for_comp$area
+fcc.comp[fcc.comp$ForestType=="Moist" & fcc.comp$Source=="this study", 3:9] <- defor_moist_for_comp$area
+fcc.comp[fcc.comp$ForestType=="Dry" & fcc.comp$Source=="this study", 3:9] <- defor_dry_for_comp$area
+fcc.comp[fcc.comp$ForestType=="Spiny" & fcc.comp$Source=="this study", 3:9] <- defor_spiny_for_comp$area
+fcc.comp[fcc.comp$ForestType=="Mangroves" & fcc.comp$Source=="this study", 3:9] <- defor_mangroves_for_comp$area
 # This study for year 2014
 defor <- read.table("outputs/defor.txt",header=TRUE)
 defor_moist <- read.table("outputs/defor_moist.txt",header=TRUE)
@@ -647,37 +656,46 @@ defor_dry <- read.table("outputs/defor_dry.txt",header=TRUE)
 defor_spiny <- read.table("outputs/defor_spiny.txt",header=TRUE)
 defor_mangroves <- read.table("outputs/defor_mangroves.txt",header=TRUE)
 # Complete data for year 2014
-df.comp$y2014[df.comp$ForestType=="Total" & df.comp$Source=="this study"] <- defor$area[defor$Year==2014]
-df.comp$y2014[df.comp$ForestType=="Moist" & df.comp$Source=="this study"] <- defor_moist$area[defor_moist$Year==2014]
-df.comp$y2014[df.comp$ForestType=="Dry" & df.comp$Source=="this study"] <- defor_dry$area[defor_dry$Year==2014]
-df.comp$y2014[df.comp$ForestType=="Spiny" & df.comp$Source=="this study"] <- defor_spiny$area[defor_spiny$Year==2014]
-df.comp$y2014[df.comp$ForestType=="Mangroves" & df.comp$Source=="this study"] <- defor_mangroves$area[defor_mangroves$Year==2014]
+fcc.comp$y2014[fcc.comp$ForestType=="Total" & fcc.comp$Source=="this study"] <- defor$area[defor$Year==2014]
+fcc.comp$y2014[fcc.comp$ForestType=="Moist" & fcc.comp$Source=="this study"] <- defor_moist$area[defor_moist$Year==2014]
+fcc.comp$y2014[fcc.comp$ForestType=="Dry" & fcc.comp$Source=="this study"] <- defor_dry$area[defor_dry$Year==2014]
+fcc.comp$y2014[fcc.comp$ForestType=="Spiny" & fcc.comp$Source=="this study"] <- defor_spiny$area[defor_spiny$Year==2014]
+fcc.comp$y2014[fcc.comp$ForestType=="Mangroves" & fcc.comp$Source=="this study"] <- defor_mangroves$area[defor_mangroves$Year==2014]
 # Save results
-write.table(df.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
+write.table(fcc.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
 
 ## Deforestation
 # Historical data
-df.comp <- read.csv("data/defor_comp.csv",header=TRUE)
+defor.comp <- read.csv("data/defor_comp.csv",header=TRUE,stringsAsFactors=FALSE)
+defor.comp.thistudy <- defor.comp # a copy of defor.comp
 # Deforestation ha/yr
-defor.ha.comp <- df.comp[,c(2,1,3:8)]
-periods <- c("1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
+defor.ha.comp <- fcc.comp[,c(2,1,3:8)]
+periods <- c("p1953-1973","p1973-1990","p1990-2000","p2000-2005","p2005-2010","p2010-2013")
 lp <- c(20,17,10,5,5,3)
 names(defor.ha.comp)[3:8] <- periods
 for (i in 1:length(periods)) {
-  defor.ha.comp[,2+i] <- round((df.comp[,2+i]-df.comp[,2+1+i])/lp[i])
+  defor.ha.comp[,2+i] <- round((fcc.comp[,2+i]-fcc.comp[,2+1+i])/lp[i])
 }
 # Deforestation %/yr
 defor.perc.comp <- defor.ha.comp
 for (i in 1:length(periods)) {
-  defor.perc.comp[,2+i] <- round(100*(1-(1-(df.comp[,2+i]-df.comp[,2+1+i])/df.comp[,2+i])^(1/lp[i])),2)
+  defor.perc.comp[,2+i] <- round(100*(1-(1-(fcc.comp[,2+i]-fcc.comp[,2+1+i])/fcc.comp[,2+i])^(1/lp[i])),2)
 }
 # Combining ha and percentages
 ha <- as.numeric(unlist(defor.ha.comp[,3:8]))
 perc <- sprintf("%.2f", as.numeric(unlist(defor.perc.comp[,3:8])))
-defor.comp[,3:8] <- data.frame(matrix(paste(ha," (",perc,")", sep=""),ncol=6))
-defor.comp[defor.comp=="NA (NA)"] <- NA
+defor.comp.thistudy[,3:8] <- data.frame(matrix(paste(ha," (",perc,")", sep=""),ncol=6),stringsAsFactors=FALSE)
+defor.comp.thistudy[defor.comp.thistudy=="NA (NA)"] <- NA
+# We can check how defor.comp (original deforestation rate estimates) and defor.comp.study (deforestation rates estimated here) differ
+#defor.comp
+#defor.comp.thistudy
+# We keep only the results of our study
+defor.comp[defor.comp$Source=="this study",3:8] <- defor.comp.thistudy[defor.comp.thistudy$Source=="this study",3:8]
 # Save results
 write.table(defor.comp,file="outputs/defor_comp.txt",row.names=FALSE)
+
+# Correction for 1953-1973 due to clouds ? TODO
+
 
 ##========================
 ## Forest-cover change map
