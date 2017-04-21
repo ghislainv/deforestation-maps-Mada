@@ -694,9 +694,6 @@ defor.comp[defor.comp$Source=="this study",3:8] <- defor.comp.thistudy[defor.com
 # Save results
 write.table(defor.comp,file="outputs/defor_comp.txt",row.names=FALSE)
 
-# Correction for 1953-1973 due to clouds ? TODO
-
-
 ##========================
 ## Forest-cover change map
 ##========================

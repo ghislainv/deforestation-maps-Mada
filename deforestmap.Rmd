@@ -109,7 +109,7 @@ kable(tab.2,col.names=col.names,align=c("l","l",rep("r",8)))
 #print(xtable(tab.2,col.names=col.names,align=c("llrrrrrrrrr")),type="html")
 ```
 
-Table 2: **Comparison of Madagascar forest-cover estimates (in ha) with previous studies on the period 1953-2014**. Estimates of the forest-cover are given without considering the cloud cover and are then subject to uncertainty. We found forest-cover estimates comparable to previous studies [@Harper2007;@MEFT2009;@ONE2015]. The increase in mangrove and spiny forest covers from _c._ 1953 to _c._ 1973 in @Harper2007 and our study is most probably due to differences in forest definition and mapping methods between the 1953 aerial-photography derived map and the 1973 Landsat image derived map. Our study extends the forest-cover monitoring on a six decades period (from 1953 to 2014) while harmonizing the data from the previous studies. Our method provides cloud-free forest-cover estimates from 1990 to 2014 and corrections for the forest-cover in 1973.
+Table 2: **Comparison of Madagascar forest-cover estimates (in ha) with previous studies on the period 1953-2014**. We found forest-cover estimates comparable to previous studies [@Harper2007;@MEFT2009;@ONE2015]. The increase in mangrove and spiny forest covers from _c._ 1953 to _c._ 1973 in @Harper2007 and our study is most probably due to differences in forest definition and mapping methods between the 1953 aerial-photography derived map and the 1973 Landsat image derived map. Our study extends the forest-cover monitoring on a six decades period (from 1953 to 2014) while harmonizing the data from the previous studies. Our method provides cloud-free forest-cover estimates from 1990 to 2014 and corrections for the forest-cover in 1973.
 
 ```{r defor_comp, results="asis"}
 tab.3 <- defor.comp
@@ -118,7 +118,7 @@ col.names <- c("Forest type","Source","1953-1973","1973-1990","1990-2000","2000-
 kable(tab.3,col.names=col.names,align=c("l","l",rep("r",6)))
 ```
 
-Table 3: **Comparison of Madagascar annual deforestation rates with previous studies on the period 1953-2014**. Annual deforestation rates are providing in ha/yr and in %/yr (second number in parenthesis). Original estimates of deforestation rates might differ from original publications [@Harper2007;@MEFT2009;@ONE2015]. In our study, we used the following formula [@Puyravaud2003] to compute the annual deforestation rates: $\theta = 100 \times [1-(1-(F_{t2}-F_{t1})/F_{t1})^{(1/(t2-t1))}]$, with $\theta$ the annual deforestation rate (in %/yr), $F_{t2}$ and $F_{t1}$ the forest covers (reported in Tab. 2) at times t2 and t1 (in years). 
+Table 3: **Comparison of Madagascar annual deforestation rates with previous studies on the period 1953-2014**. Annual deforestation rates are providing in ha/yr and in %/yr (second number in parenthesis). For our study, we used the following formula [@Puyravaud2003] to compute the annual deforestation rates: $\theta = 100 \times [1-(1-(F_{t2}-F_{t1})/F_{t1})^{(1/(t2-t1))}]$, with $\theta$ the annual deforestation rate (in %/yr), $F_{t2}$ and $F_{t1}$ the forest covers (reported in Tab. 2) at times t2 and t1 (in years). 
 
 
 ```{r frag, results="asis"}
