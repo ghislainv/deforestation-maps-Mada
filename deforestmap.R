@@ -352,7 +352,7 @@ system("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' \\
 # Remove salt and pepper
 # =======================================
 
-Year <- c(1953,1973,1990,2000,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2013,2014)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
@@ -637,6 +637,8 @@ for (j in 1:3) {
 ## Forest-cover
 # Historical data
 fcc.comp <- read.csv("data/fcc_comp.csv",header=TRUE)
+ha.forest.2000.moist <- fcc.comp$y2000[fcc.comp$Source=="Harper2007" & fcc.comp$ForestType=="Moist"]
+SavedObjects <- c(SavedObjects,"ha.forest.2000.moist")
 # This study
 defor_for_comp <- read.table("outputs/defor_for_comp.txt",header=TRUE)
 defor_moist_for_comp <- read.table("outputs/defor_moist_for_comp.txt",header=TRUE)
@@ -663,6 +665,7 @@ fcc.comp$y2014[fcc.comp$ForestType=="Spiny" & fcc.comp$Source=="this study"] <- 
 fcc.comp$y2014[fcc.comp$ForestType=="Mangroves" & fcc.comp$Source=="this study"] <- defor_mangroves$area[defor_mangroves$Year==2014]
 # Save results
 write.table(fcc.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
+SavedObjects <- c(SavedObjects,"fcc.comp")
 
 ## Deforestation
 # Historical data
@@ -693,6 +696,7 @@ defor.comp.thistudy[defor.comp.thistudy=="NA (NA)"] <- NA
 defor.comp[defor.comp$Source=="this study",3:8] <- defor.comp.thistudy[defor.comp.thistudy$Source=="this study",3:8]
 # Save results
 write.table(defor.comp,file="outputs/defor_comp.txt",row.names=FALSE)
+SavedObjects <- c(SavedObjects,"defor.comp")
 
 ##========================
 ## Forest-cover change map
@@ -787,7 +791,7 @@ dev.off()
 ##========================
 
 # load("deforestmap.rda")
-save(list=ls(all.names=TRUE),file="deforestmap.rda")
+save(list=SavedObjects,file="deforestmap.rda")
 
 ##========================
 ## Knit the document
