@@ -174,7 +174,7 @@ report.harper.moist$area <- as.numeric(gsub(pattern=",", replacement="", report.
 
 # Hectares of cloud in 2000 Harper map fr moist ecoregion
 ha.cloud.2000.moist <- sum(report.harper.moist$area[report.harper.moist$code %in% c(152, 155, 555, 755)]) # 182650 ha
-perc.cloud.moist <- 100*ha.cloud.2000.moist/ha.cloud.2000 # 87.7%
+perc.cloud.moist <- 100*ha.cloud.2000.moist/ha.cloud.2000 # 88%
 SavedObjects <- c(SavedObjects, "ha.cloud.2000.moist", "perc.cloud.moist")
 
 #======================================================================================================
@@ -792,6 +792,7 @@ dev.off()
 
 # load("deforestmap.rda")
 save(list=SavedObjects,file="deforestmap.rda")
+save(list=ls(),file="deforestmap.rda")
 
 ##========================
 ## Knit the document
