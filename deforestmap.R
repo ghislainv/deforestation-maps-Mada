@@ -407,7 +407,7 @@ system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
 ## The GRASS Add-on r.forestfrag must be installed
 ## https://grass.osgeo.org/grass72/manuals/addons/r.forestfrag.html
 
-Year <- c(1953,1973,1990,2000,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
@@ -429,7 +429,7 @@ system("r.mask -r")
 ## Distance to forest edge
 ##==========================
 
-Year <- c(1953,1973,1990,2000,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
 system("g.region rast=harper -ap")
 for (i in 1:length(Year)) {
   # Message
@@ -454,7 +454,7 @@ for (i in 1:length(Year)) {
 ##========================
 
 #= Deforestation statistics
-Year <- c(1953,1973,1990,2000,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
 defor.df <- data.frame(Year=Year,area=NA,clouds=0,ann.defor=NA,theta=NA)
 # Areas
 for (i in 1:length(Year)) {
@@ -478,7 +478,7 @@ defor.df$clouds[defor.df$Year==1973] <- cloud.1973
 write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
 
 #= Deforestation statistics for comparison
-Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2005 and 2013
+Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2013
 defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
 # Areas
 for (i in 1:length(Year)) {
@@ -500,7 +500,7 @@ for (i in 2:length(Year)) {
 write.table(defor.df,"outputs/defor_for_comp.txt",row.names=FALSE,sep="\t")
 
 #= Fragmentation statistics
-Year <- c(1953,1973,1990,2000,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
 frag.df <- data.frame(Year=Year,forest=NA,patch=NA,transitional=NA,
                       edge=NA,perforated=NA,interior=NA,undetermined=NA)
 # Areas
@@ -516,7 +516,7 @@ for (i in 1:length(Year)) {
 write.table(frag.df,"outputs/frag.txt",row.names=FALSE,sep="\t")
 
 #= Distance to forest edge statistics
-Year <- c(1953,1973,1990,2000,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
 dist.df <- data.frame(Year=Year,min=NA,max=NA,mean=NA,sd=NA,q1=NA,q2=NA)
 # Areas
 for (i in 1:length(Year)) {
@@ -666,6 +666,17 @@ fcc.comp$y2014[fcc.comp$ForestType=="Mangroves" & fcc.comp$Source=="this study"]
 # Save results
 write.table(fcc.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
 SavedObjects <- c(SavedObjects,"fcc.comp")
+
+## RMSE between studies forest-cover
+this_study <- c(t(matrix(rep(as.numeric(unlist(fcc.comp[c(4,8,12,16,20),c(-1,-2)])),each=3),nrow=15)))
+previous_studies <- c(t(fcc.comp[c(-4,-8,-12,-16,-20),c(-1,-2)]))
+rmse.studies <- as.data.frame(cbind(this_study,previous_studies))
+cor.fc <- cor(rmse.studies$this_study,rmse.studies$previous_studies, use="complete.obs") # 0.99
+errors.fc <- rmse.studies$this_study-rmse.studies$previous_studies
+Mean.fc <- mean(rmse.studies$this_study[!is.na(rmse.studies$previous_studies)]) # 4.8 Mha
+RMSE.fc <- sqrt(mean(errors^2, na.rm=TRUE)) # 299750 ha
+PRMSE.fc <- 100*RMSE.fc/Mean.fc # 6%
+SavedObjects <- c(SavedObjects,"cor.fc","Mean.fc","RMSE.fc","PRMSE.fc")
 
 ## Deforestation
 # Historical data
