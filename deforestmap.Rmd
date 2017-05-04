@@ -152,7 +152,7 @@ Table 4: **Evolution of the forest fragmentation from 1950s to 2014 in Madagasca
 
 ## 6. Figures
 
-![Figure 1: **Ecoregions and forest types in Madagascar.** Madagascar can be divided into four climatic ecoregions with four forest types: the moist forest in the East (green), the dry forest in the West (orange), the spiny forest in the South (red), and the mangroves on the West coast (blue). Ecoregions were defined following climatic (see @Cornet1974) and vegetation (see @IEFN1996) criteria. The dark grey areas represent the remaining forest-cover for the year 2014.](outputs/ecoregion.png)
+![Figure 1: **Ecoregions and forest types in Madagascar.** Madagascar can be divided into four climatic ecoregions with four forest types: the moist forest in the East (green), the dry forest in the West (orange), the spiny forest in the South (red), and the mangroves on the West coast (blue). Ecoregions were defined following climatic (see @Cornet1974) and vegetation (see @IEFN1996) criteria. The dark grey areas represent the remaining natural forest cover for the year 2014.](outputs/ecoregion.png)
 
 ![Figure 2: **Forest-cover change on six decades from _c._ 1953 to 2014 in Madagascar.** Forest cover changes from _c._ 1973 to 2014 are shown in the main figure, and forest cover in _c._ 1953 is shown in the bottom-right inset. Two zooms in the western dry (left part) and eastern moist (right part) ecoregions present more detailed views of (from top to bottom): forest-cover in 1950s, forest-cover change from _c._ 1973 to 2014, forest fragmentation in 2014 and distance to forest edge in 2014. Data on water bodies (blue) and water seasonality (light blue for seasonal water to dark blue for permanent water) has been extracted from @Pekel2016.](outputs/fig_fcc.png)
 
@@ -160,7 +160,7 @@ Table 4: **Evolution of the forest fragmentation from 1950s to 2014 in Madagasca
 
 ## Acknowledgements
 
-This study is part of the BioSceneMada project (https://bioscenemada.cirad.fr) and the ReCaREDD project (http://forobs.jrc.ec.europa.eu/recaredd). The BioSceneMada project is funded by FRB (Fondation pour la Recherche sur la Biodiversité) and the FFEM (Fond Français pour l'Environnement Mondial) under the project agreement AAP-SCEN-2013 I. The ReCaREDD project is funded by the European Commission.
+This study is part of the Cirad's BioSceneMada project (https://bioscenemada.cirad.fr) and the Joint Research Center's ReCaREDD project (http://forobs.jrc.ec.europa.eu/recaredd). The BioSceneMada project is funded by FRB (Fondation pour la Recherche sur la Biodiversité) and the FFEM (Fond Français pour l'Environnement Mondial) under the project agreement AAP-SCEN-2013 I. The ReCaREDD project is funded by the European Commission.
 
 ## Data availability statement
 

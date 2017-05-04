@@ -167,6 +167,10 @@ library(ggspatial)  # for geom_spatial()
 
 # Import
 ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_tenaizy_38s")
+# Recode ecoregion
+ecoregion.data <- ecoregion@data
+ecoregion.data$code <- c("s","m","h","d") # spiny, mangroves, dry, humid
+ecoregion@data <- ecoregion.data
 
 # Text
 xt <- c(850000,580000,530000,600000)
@@ -185,21 +189,22 @@ red.t <- adjustcolor("red",alpha.f=0.5)
 blue.t <- adjustcolor("blue",alpha.f=0.5)
 green.t <- adjustcolor("dark green",alpha.f=0.5)
 orange.t <- adjustcolor("orange",alpha.f=0.5)
-eco.col <- c("2"=green.t,"3"=orange.t,"0"=red.t,"1"="blue")
+black.t <- adjustcolor("black",alpha.f=0.5)
+eco.col <- c("h"=green.t,"d"=orange.t,"s"=red.t,"m"="blue","1"=black.t)
 
 # Plot
-plot.ecoregion <- gplot(for2014, maxpixels=res) +
-  geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(id))) +
+plot.ecoregion <- gplot(for2014, maxpixels=10e5) +
+  geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(code))) +
   geom_raster(aes(fill=factor(value))) +
   scale_fill_manual(values=eco.col, na.value="transparent") +
-  geom_text(data=t.df, aes(x=x, y=y, label=text), size=4) +
+  geom_text(data=t.df, aes(x=x, y=y, label=text), size=3) +
   geom_segment(data=seg.df, aes(x=x, xend=xend, y=y, yend=yend), size=0.25) +
   theme_bw() + theme_base +
   theme(legend.position="null") +
   scale_y_continuous(limits=c(7165000,8685000),expand=c(0,0)) +
   scale_x_continuous(limits=c(300000,1100000),expand=c(0,0)) +
   coord_equal()
-ggsave("outputs/ecoregion.png", plot.ecoregion, width=5, height=9, units="cm")
+ggsave("outputs/ecoregion.png", plot.ecoregion, width=4, height=7, units="cm")
 
 # ================
 # Maps
