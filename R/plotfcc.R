@@ -11,6 +11,7 @@ library(ggplot2)
 library(rasterVis)
 library(gridExtra)
 library(grid)
+library(rgdal)
 
 # Zooms
 zoom.w <- list(xmin=346000,xmax=439000,ymin=7387000,ymax=7480000)
@@ -165,15 +166,15 @@ plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
 library(ggspatial)  # for geom_spatial()
 
 # Import
-ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_redd_utm38s")
+ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_tenaizy_38s")
 
 # Text
 xt <- c(850000,580000,530000,600000)
 yt <- c(7920000,8060000,7250000,8460000)
 t.df <- data.frame(text=c("Moist","Dry","Spiny","Mangroves"),x=xt,y=yt)
 
-# Forest 2014  # If we want to add forest to ecoregions, to be done...
-# for2014 <- raster("outputs/for2014.tif")
+# Forest 2014
+for2014 <- raster("outputs/for2014.tif")
 
 # Segments
 seg.df <- data.frame(x=c(720000),y=c(8282000),
@@ -187,9 +188,10 @@ orange.t <- adjustcolor("orange",alpha.f=0.5)
 eco.col <- c("2"=green.t,"3"=orange.t,"0"=red.t,"1"="blue")
 
 # Plot
-plot.ecoregion <- ggplot() +
+plot.ecoregion <- gplot(for2014, maxpixels=res) +
   geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(id))) +
-  scale_fill_manual(values=eco.col) +
+  geom_raster(aes(fill=factor(value))) +
+  scale_fill_manual(values=eco.col, na.value="transparent") +
   geom_text(data=t.df, aes(x=x, y=y, label=text), size=4) +
   geom_segment(data=seg.df, aes(x=x, xend=xend, y=y, yend=yend), size=0.25) +
   theme_bw() + theme_base +
