@@ -31,7 +31,7 @@ for (z in 1:length(zooms)) {
 }
 
 # Resolution
-res <- 10e3
+res <- 10e5
 
 # get_legend()
 get_legend <- function(myggplot) {
@@ -76,7 +76,7 @@ frag.palette <- paste0("c(",paste0("\"",frag.name,"\"","=","\"",
 frag.palette <- eval(parse(text=frag.palette))
 # distance to forest edge (continuous)
 dist.v <- c(50,100,500,1000,3000)
-dist.vr <- c(0,dist.v)/3000
+dist.vr <- c(0,dist.v)/3000 # rescale
 cf <- colorRampPalette(c("darkred","orange","darkgreen"))(5)
 dist.palette <- c(nofor73.col,cf)
 
@@ -149,11 +149,11 @@ plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
   pzoom <- gplot(r,maxpixels=res) +
     geom_raster(aes(fill=value)) + ylab("Dist. to forest edge 2014") +
     scale_fill_gradientn(colours=palette,na.value="transparent",
-                        values=vr,
-                        breaks=c(1,500,1000,1500,2000),
-                        labels=c(">0","0.5","1","1.5","2"),
-                        guide=guide_colorbar(title="Distance (km)",title.position="top",
-                                            label.position="bottom",barwidth=10)) +
+                         values=vr,
+                         breaks=c(1,500,1000,1500,2000),
+                         labels=c(">0","0.5","1","1.5","2"),
+                         guide=guide_colorbar(title="Distance (km)",title.position="top",
+                                              label.position="bottom",barwidth=10)) +
     theme_bw() + theme_zoom + coord_equal() +
     theme(legend.position="bottom", 
           legend.margin=margin(-1.5,-1,-1,-1,"lines"))
@@ -269,10 +269,8 @@ zw.frag <- plot_zoom_frag("outputs/frag2014_zoom1.tif")
 ze.frag <- plot_zoom_frag("outputs/frag2014_zoom2.tif") + ylab("") + theme(legend.position="none")
 
 ## Zooms dist
-dedge2014 <- raster("outputs/dist_edge_2014_mask.tif")
-plot(dedge2014)
-zw.dist <- plot_zoom_dist("outputs/dist_edge_2014_zoom1.tif")
-ze.dist <- plot_zoom_dist("outputs/dist_edge_2014_zoom2.tif") + ylab("") + theme(legend.position="none")
+zw.dist <- plot_zoom_dist("outputs/dist_edge_2014_mask_zoom1.tif")
+ze.dist <- plot_zoom_dist("outputs/dist_edge_2014_mask_zoom2.tif") + ylab("") + theme(legend.position="none")
 
 ## Combine and export
 lay <- rbind(c(NA,NA,NA,NA),
@@ -283,6 +281,6 @@ lay <- rbind(c(NA,NA,NA,NA),
              c(NA,NA,NA,NA))
 png("outputs/fig_fcc.png",width=1000,height=1000,units="px",pointsize=12)
 grid.arrange(zw.for1953,zw.fcc,zw.frag,zw.dist,fcc.combi,
-             ze.for1953,ze.fcc,ze.frag,ze.dist,layout_matrix=lay,heights=c(0.05,1,1,1,1,0.05))
+             ze.for1953,ze.fcc,ze.frag,ze.dist,layout_matrix=lay,heights=c(0.05,1,1,1.01,1.04,0.05))
 dev.off()
   
