@@ -26,7 +26,7 @@ load("deforestmap.rda")
 
 ## Summary
 
-1. The island of Madagascar has an unparralleled biodiversity, both in terms of number of species and endemism. This biodiversity is mainly present in the tropical forests of the island and is highly threatened by anthropogenic deforestation, associated principally to slash-and-burn agriculture and pasture. Scattered data from past studies on deforestation at the national level with substancial cloud cover on available forest maps prevent from analyzing the deforestation trend on the long term and estimate accurate recent annual deforestation rates for Madagascar.
+1. The island of Madagascar has an unparralleled biodiversity, both in terms of number of species and endemism. This biodiversity is mainly located in the tropical forests of the island and is highly threatened by anthropogenic deforestation, associated principally to slash-and-burn agriculture and pasture. Scattered data from past studies on deforestation at the national level with substancial cloud cover on available forest maps prevent from analyzing the deforestation trend on the long term and estimate accurate recent annual deforestation rates for Madagascar.
 
 2. In this study, we propose a new approach combining recent (2000-2014) global annual tree cover loss data with historical (1953-2000) national forest-cover maps to look at six decades (1953-2014) of deforestation and forest fragmentation in Madagascar. With this approach, we obtained cloud-free 30m-resolution forest-cover maps for Madagascar, for the year 1990 and annually from 2000 to 2014.
 

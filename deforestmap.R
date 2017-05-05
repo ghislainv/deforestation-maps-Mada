@@ -441,13 +441,13 @@ for (i in 1:length(Year)) {
                 outputs/_dist_edge_",Year[i],".tif outputs/dist_edge_",Year[i],".tif"))
   file.remove(paste0("outputs/_dist_edge_",Year[i],".tif"))
   system(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i]))
-  if (Year[i]==2014) {  # To mask outside Mada for plots
-    system("r.mask --o raster=harper")
-    system(paste0("r.out.gdal --o input=dist_edge_",Year[i]," createopt='compress=lzw,predictor=2' \\
-                  output=outputs/dist_edge_",Year[i],".tif"))
-    system("r.mask -r")
-  }
 }
+# Prepare dist_edge_2014 for figures
+system("r.mask --o raster=harper")
+system("r.mapcalc --o 'dist_edge_2014_mask = if(isnull(dist_edge_2014), 0, dist_edge_2014)'")
+system("r.out.gdal --o input=dist_edge_2014_mask nodata=9999 createopt='compress=lzw,predictor=2' \\
+       output=outputs/dist_edge_2014_mask.tif")
+system("r.mask -r")
 
 ##========================
 ## Statistics whole forest
