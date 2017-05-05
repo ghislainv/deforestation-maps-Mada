@@ -228,7 +228,6 @@ grob.for1953 <- ggplotGrob(for1953.plot)
 ## fcc
 fcc <- raster("outputs/fcc.tif")
 fcc.plot <- gplot(fcc,maxpixels=res) +
-  annotation_custom(grob=grob.ecoregion,xmin=810000,xmax=1110000,ymin=7800000,ymax=7800000) +
   annotation_custom(grob=grob.for1953,xmin=810000,xmax=1110000,ymin=7110000,ymax=7800000) +
   geom_raster(aes(fill=factor(value))) +
   geom_rect(aes(xmin=346000,xmax=439000,ymin=7387000,ymax=7480000),
@@ -269,6 +268,8 @@ zw.frag <- plot_zoom_frag("outputs/frag2014_zoom1.tif")
 ze.frag <- plot_zoom_frag("outputs/frag2014_zoom2.tif") + ylab("") + theme(legend.position="none")
 
 ## Zooms dist
+dedge2014 <- raster("outputs/dist_edge_2014_zoom1.tif")
+plot(dedge2014)
 zw.dist <- plot_zoom_dist("outputs/dist_edge_2014_zoom1.tif")
 ze.dist <- plot_zoom_dist("outputs/dist_edge_2014_zoom2.tif") + ylab("") + theme(legend.position="none")
 
