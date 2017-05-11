@@ -13,7 +13,7 @@ bib/biblio.bib.bak
 
 # Outputs
 outputs/*
-!outputs/fig_fcc.png
+!outputs/fig_fcc_highres.png
 
 # log
 deforestmap.log
