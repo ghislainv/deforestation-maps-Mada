@@ -104,7 +104,7 @@ theme_zoom <- theme(axis.line=element_blank(),
                     axis.title.y=element_text(size=18, margin=margin(0,-5,0,0)),
                     plot.title=element_text(size=20,face="bold",hjust=0.5,
                                             margin=margin(-0.5,0,0,0,"lines")),
-                    plot.margin=margin(0.5,0,0.5,0.25,"lines"),
+                    plot.margin=margin(0.5,0,1.0,0.25,"lines"),
                     panel.spacing=unit(c(0,0,0,0),"null"),
                     legend.position="none",
                     plot.background=element_rect(fill="transparent"),
@@ -281,6 +281,8 @@ lay <- rbind(c(NA,NA,NA,NA),
              c(NA,NA,NA,NA))
 png("outputs/fig_fcc.png",width=1000,height=1000,units="px",pointsize=12)
 grid.arrange(zw.for1953,zw.fcc,zw.frag,zw.dist,fcc.combi,
-             ze.for1953,ze.fcc,ze.frag,ze.dist,layout_matrix=lay,heights=c(0.05,1,1,1.01,1.04,0.05))
+             ze.for1953,ze.fcc,ze.frag,ze.dist,layout_matrix=lay,
+             widths=c(1,1,1,1),
+             heights=c(0.05,1.04,1.04,1.04,1.04,0.05))
 dev.off()
   
