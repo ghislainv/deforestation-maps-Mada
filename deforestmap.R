@@ -797,6 +797,23 @@ axis(2,at=seq(0,5000,by=1000),labels=seq(0,5,by=1))
 points(dist.df$Year, dist.df$mean, type="b", pch=19)
 dev.off()
 
+##==================================================
+## Carbon emissions between 2010 and 2014
+##==================================================
+
+system("r.in.gdal --o input=gisdata/rasters/carbon/ACD_RF_2010.tif output=acd")
+system("g.region rast=for2010 -ap")
+system("r.mask --o raster=for2010")
+system("r.univar map=acd")
+system("g.region rast=for2014 -ap")
+system("r.mask --o raster=for2014")
+system("r.univar map=acd")
+system("r.mask -r")
+acd_2010 <- 9700502114*30*30/10000 # 873045190
+acd_2014 <- 9253573526*30*30/10000 # 832821617
+carbon_emissions <- acd_2010-acd_2014
+
+
 ##========================
 ## Save objects
 ##========================
