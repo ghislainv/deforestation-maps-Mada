@@ -1,7 +1,7 @@
 ---
 title: "**Cover Letter**"
 bibliography: bib/biblio.bib
-csl: bib/conservation-letters.csl
+csl: bib/biological-conservation.csl
 output: pdf_document
 ---
 

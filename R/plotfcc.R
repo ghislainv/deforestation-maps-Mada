@@ -198,14 +198,14 @@ plot.ecoregion <- gplot(for2014, maxpixels=10e5) +
   geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(code))) +
   geom_raster(aes(fill=factor(value))) +
   scale_fill_manual(values=eco.col, na.value="transparent") +
-  geom_text(data=t.df, aes(x=x, y=y, label=text), size=3) +
+  geom_text(data=t.df, aes(x=x, y=y, label=text), size=5) +
   geom_segment(data=seg.df, aes(x=x, xend=xend, y=y, yend=yend), size=0.25) +
   theme_bw() + theme_base +
   theme(legend.position="null") +
   scale_y_continuous(limits=c(7165000,8685000),expand=c(0,0)) +
   scale_x_continuous(limits=c(300000,1100000),expand=c(0,0)) +
   coord_equal()
-ggsave("outputs/ecoregion.png", plot.ecoregion, width=4, height=7, units="cm")
+ggsave("outputs/ecoregion.png", plot.ecoregion, width=10, height=15, units="cm")
 
 # ================
 # Maps

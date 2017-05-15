@@ -839,8 +839,8 @@ dir.create("report")
 ## Main document
 render("deforestmap.Rmd",output_dir="report") # html output
 ## Cover letter
-render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # pdf output
-#render("deforestmap.Rmd",output_format=c("pdf_document","word_document"),output_dir="report")
+#render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # pdf output
+render("deforestmap.Rmd",output_format=c("pdf_document","word_document"),output_dir="report")
 
 ##===========================================================================
 ## End of script
