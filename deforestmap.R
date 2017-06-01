@@ -515,6 +515,22 @@ for (i in 1:length(Year)) {
 }
 write.table(frag.df,"outputs/frag.txt",row.names=FALSE,sep="\t")
 
+#= Distance to forest edge statistics ## Quantiles with r.quantile
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
+dist.quant.df <- data.frame(Year=Year,median=NA,q1=NA,q2=NA)
+# Loop on year
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  statcell <- system(paste0("r.quantile percentiles=5,50,95 input=dist_edge_",Year[i]), intern=TRUE)
+  mat.statcell <- matrix(as.numeric(unlist(strsplit(statcell,split=":"))), byrow=TRUE, nrow=3)
+  dist.quant.df$median[i] <- mat.statcell[2,3]
+  dist.quant.df$q1[i] <- mat.statcell[1,3]
+  dist.quant.df$q2[i] <- mat.statcell[3,3]
+}
+write.table(dist.quant.df,"outputs/dist.quant.txt",row.names=FALSE,sep="\t")
+
 #= Distance to forest edge statistics
 Year <- c(1953,1973,1990,2000,2005,2010,2014)
 dist.df <- data.frame(Year=Year,min=NA,max=NA,mean=NA,sd=NA,q1=NA,q2=NA)
@@ -531,7 +547,74 @@ for (i in 1:length(Year)) {
   dist.df$q1[i] <- unlist(strsplit(statcell[19],split=" "))[3]
   dist.df$q2[i] <- unlist(strsplit(statcell[20],split=" "))[3]
 }
+# Replacing approximated quantiles with exact values
+dist.df$q1 <- dist.quant.df$q1
+dist.df$q2 <- dist.quant.df$q2
 write.table(dist.df,"outputs/dist.txt",row.names=FALSE,sep="\t")
+  
+#= Percentage of forest at less than 500m from the forest edge
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
+perc.500m.dist.df <- data.frame(Year=Year,perc=NA)
+# Intermediate rast
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  system(paste0("r.mapcalc 'dist_edge_500m_",Year[i]," = if(dist_edge_",Year[i],">=500,0,1)'"))
+}
+# Stats
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  stat500m <- system(paste0("r.stats -nacp input=dist_edge_500m_",Year[i]), intern=TRUE)
+  mat.stat500m <- matrix(unlist(strsplit(stat500m,split=" ")), byrow=TRUE, nrow=2)
+  perc.500m.dist.df$perc[i] <- as.numeric(sub("%","",mat.stat500m[2,4]))
+}
+write.table(perc.500m.dist.df,"outputs/perc_500m_dist.txt",row.names=FALSE,sep="\t")
+
+#= Percentage of forest at less than 1km from the forest edge
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
+perc.1km.dist.df <- data.frame(Year=Year,perc=NA)
+# Intermediate rast
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  system(paste0("r.mapcalc --o 'dist_edge_1km_",Year[i]," = if(dist_edge_",Year[i],">=1000,0,1)'"))
+}
+# Stats
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  stat1km <- system(paste0("r.stats -nacp input=dist_edge_1km_",Year[i]), intern=TRUE)
+  mat.stat1km <- matrix(unlist(strsplit(stat1km,split=" ")), byrow=TRUE, nrow=2)
+  perc.1km.dist.df$perc[i] <- as.numeric(sub("%","",mat.stat1km[2,4]))
+}
+write.table(perc.1km.dist.df,"outputs/perc_1km_dist.txt",row.names=FALSE,sep="\t")
+
+#= Percentage of forest at less than 100m from the forest edge
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
+perc.100m.dist.df <- data.frame(Year=Year,perc=NA)
+# Intermediate rast
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  system(paste0("r.mapcalc --o 'dist_edge_100m_",Year[i]," = if(dist_edge_",Year[i],">=100,0,1)'"))
+}
+# Stats
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  stat100m <- system(paste0("r.stats -nacp input=dist_edge_100m_",Year[i]), intern=TRUE)
+  mat.stat100m <- matrix(unlist(strsplit(stat100m,split=" ")), byrow=TRUE, nrow=2)
+  perc.100m.dist.df$perc[i] <- as.numeric(sub("%","",mat.stat100m[2,4]))
+}
+write.table(perc.100m.dist.df,"outputs/perc_100m_dist.txt",row.names=FALSE,sep="\t")
+
 
 ##========================
 ## Statistics by ecoregion
@@ -780,6 +863,7 @@ source(file="R/plotfcc.R")
 
 # Data
 dist.df <- read.table(file="outputs/dist.txt", header=TRUE)
+perc.100m.df <- read.table(file="outputs/perc_100m_dist.txt", header=TRUE)
 
 # Plot
 png(file="outputs/dist.png",width=800,height=600)
@@ -787,12 +871,16 @@ par(mar=c(4,4,0,0),cex=2,lwd=2)
 plot(NA, xlim=c(1953,2014), ylim=c(0,5000),
      xlab="Year",
      ylab="Distance to forest edge (km)",
-     
      axes=FALSE)
+# Perc
+segments(x0=1953,x1=2014,y0=100,y1=100,lty=3,col=grey(0.5))
+label.perc <- paste0(round(perc.100m.df$perc),"%")
+text(x=perc.100m.df$Year, y=-100, labels=label.perc, cex=0.6, adj=0.5)
+# Quantiles
 segments(x0=dist.df$Year,x1=dist.df$Year,y0=dist.df$q1,y1=dist.df$q2,lty=2)
 segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q2,y1=dist.df$q2,lty=1)
 segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q1,y1=dist.df$q1,lty=1)
-axis(1,at=c(1953,1973,1990,2000,2010,2014),labels=c(1953,1973,1990,2000,2010,2014),las=3)
+axis(1,at=c(1953,1973,1990,2000,2005,2010,2014),labels=c(1953,1973,1990,2000,2005,2010,2014),las=3)
 axis(2,at=seq(0,5000,by=1000),labels=seq(0,5,by=1))
 points(dist.df$Year, dist.df$mean, type="b", pch=19)
 dev.off()
@@ -840,7 +928,7 @@ dir.create("report")
 render("deforestmap.Rmd",output_dir="report") # html output
 ## Cover letter
 #render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # pdf output
-render("deforestmap.Rmd",output_format=c("pdf_document","word_document"),output_dir="report")
+#render("deforestmap.Rmd",output_format=c("pdf_document","word_document"),output_dir="report")
 
 ##===========================================================================
 ## End of script
