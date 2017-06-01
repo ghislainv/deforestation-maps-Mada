@@ -60,8 +60,11 @@ As a consequence, we think our study fits well into the scope of the Journal of 
 
 As potential referees, we suggest the following names:
 
-
-
+- Jean-Philippe Puyravaud <jp.puyravaud@gmail.com>. J.P. Puyravaud from Sigur Nature Trust (<www.sigurnaturetrust.org>), has published a higly cited article in 2003 on the calculation of the annual rate of deforestation [@Puyravaud2003].
+- Holger Kreft <hkreft@uni-goettingen.de>. H. Kreft is an Associate Professor and Head of the Department of Biodiversity, Macroecology and Biogeography at the University of Göttingen. He is currently participating to an applied land use research project in Madagascar (https://www.uni-goettingen.de/en/project-summary/531390.html).
+- Jean-François Bastin <bastin.jf@gmail.com>. J.-F. Bastin is a consultant at the Food and Agriculture Oganization. He has recently published a high-impact paper on the extent of forest in dryland biomes [@Bastin2017].
+- Julia P. Jones <julia.jones@bangor.ac.uk>. J. P. Jones is Professor of Conservation Science at Bangor University (<https://www.bangor.ac.uk/senrgy/staff/jjones.php.en>). She is currently leading a conservation and development project in Madagascar (<http://www.p4ges.org/>).
+- Dietmar Zinner <dzinner@gwdg.de>. D. Zinner 
 
 # References
 
