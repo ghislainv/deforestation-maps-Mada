@@ -416,8 +416,7 @@ for (i in 1:length(Year)) {
   # Computation
   if (Year[i]==1973) {  # ! 1975 with 5 (clouds) 
     system(paste0("r.mapcalc --o 'for1973_0 = if(!isnull(for1973) &&& for1973==1, 1, 0)'"))
-  }
-  else {
+  } else {
     system(paste0("r.mapcalc --o 'for",Year[i],"_0 = if(!isnull(for",Year[i],"), 1, 0)'"))
   }
   system(paste0("r.forestfrag input=for",Year[i],"_0 output=frag",Year[i]," size=7 --overwrite"))
