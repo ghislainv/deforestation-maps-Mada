@@ -3,13 +3,10 @@ title: "Combining global tree cover loss data with historical national forest-co
 bibliography: bib/biblio.bib
 csl: bib/journal-of-applied-ecology.csl
 output: 
-  html_document:
-    fig_caption: yes
   pdf_document:
+    citation_package: natbib
     fig_caption: true
     keep_tex: true
-  word_document:
-    fig_caption: yes
 ---
 
 ```{r load_data}
