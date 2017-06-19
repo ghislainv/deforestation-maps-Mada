@@ -29,8 +29,8 @@
 \setlength{\LTright}{-5cm plus 1 fill}
 \usepackage[colorlinks=true,citecolor=blue]{hyperref} %% Gère les hyperliens
 \usepackage{lineno} %% Numérotation des lignes
-\usepackage{caption}
 %\linenumbers
+\usepackage{caption2}
 \newcommand{\logit}{\text{logit}}
 \newcommand{\bs}[1]{\boldsymbol{#1}}
 \newcommand{\p}{\text{p}}
@@ -86,36 +86,39 @@
 
 \vspace{0.3cm}
 
-\begin{center}
-  \textbf{Running headline:} \emph{Six decades of deforestation in Madagascar}
-\end{center}
+{\small
+   \begin{flushleft}
+   \textbf{Highlights:}\\
+    -We produced new 30 m resolution annual forest-cover maps for Madagascar for the period 2000-2014.\\
+   - Madagascar has lost 44\% of its natural forest-cover over the period 1953-2014.\\
+   - Half of the tropical forest in Madagascar is now located at less than 100m from forest edge.\\
+   - Annual deforestation rate has increased in Madagascar since 2005 to reach 1.08\%/yr.\\
+   - Conservation efforts must be intensified to save Madagascar unique forests and biodiversity.\\
+\end{flushleft}}
 
 \newpage
 
-\linenumbers
 \doublespacing
+\linenumbers
 
 \newcommand{\keywords}[1]{\par\noindent
 {\small{\em Keywords\/}: #1}}
 
 \begin{abstract}
 
-  1. The island of Madagascar has an unparalleled biodiversity, mainly
+  The island of Madagascar has an unparalleled biodiversity, mainly
   located in the tropical forests of the island, which is highly
   threatened by anthropogenic deforestation. Scattered forest maps
   from past studies at national level with substantial gaps (due to
-  presence of cloud cover on satellite imagery) prevent the analyzis
-  of long-term deforestation trends in Madagascar.
-
-  2. In this study, we propose a new approach combining historical
+  presence of cloud cover on satellite imagery) prevent the analysis
+  of long-term deforestation trends in Madagascar. In this study, we propose 
+  a new approach combining historical
   (1953-2000) national forest-cover maps with recent (2001-2014)
   global annual tree cover loss data to look at six decades
   (1953-2014) of deforestation and forest fragmentation in
   Madagascar. We produced new forest-cover maps at 30~m resolution over
   the full territory of Madagascar for the year 1990, and annually
-  from 2000 to 2014.
-
-  3. We estimated that Madagascar has lost 44\% of its natural forest
+  from 2000 to 2014. We estimated that Madagascar has lost 44\% of its natural forest
   cover over the period 1953-2014 (including 37\% over the period
   1973-2014). Natural forests cover 8.9 Mha in 2014 (15\% of the
   national territory) which are divided into 4.4 Mha (50\%) of moist
@@ -126,9 +129,7 @@
   1.08\%/yr). This increase is probably due to rapid population growth
   (close to 3\%/yr) and to poor law enforcement in the country. Around
   half of the forest (46\%) is now located at less than 100m from the
-  forest edge.
-
-  4. \emph{Policy implications}: Accurate forest-cover change maps can
+  forest edge. Accurate forest-cover change maps can
   be used to assess the effectiveness of past and current conservation
   programs and implement new strategies for the future. In particular,
   forest maps and estimates can be used in the framework of the REDD+
@@ -137,7 +138,7 @@
 
 \vspace{0.5cm}
 
-\keywords{biodiversity, climate-change, deforestation, Madagascar, tropical forest}
+\keywords{biodiversity, climate-change, deforestation, forest-fragmentation, Madagascar, tropical forest}
 
 \end{abstract}
 
@@ -873,11 +874,6 @@ Kull, C.A. (2000) {Deforestation, erosion, and fire: degradation myths in the
   environmental history of Madagascar}.
 \newblock \emph{Environment and History}, \textbf{6}, 423--450.
 
-\bibitem[{Perrier~de La~B{\^a}thie(1921)}]{Perrier1921}
-Perrier~de La~B{\^a}thie, H. (1921) \emph{{La v{\'e}g{\'e}tation malgache}},
-  vol.~23.
-\newblock Mus{\'e}e Colonial.
-
 \bibitem[{{MEFT, USAID, and CI}(2009)}]{MEFT2009}
 {MEFT, USAID, and CI} (2009) \emph{{Evolution de la couverture de forêts
   naturelles à Madagascar, 1990-2000-2005}}.
@@ -930,6 +926,11 @@ Pearson, R.G. \& Raxworthy, C.J. (2009) {The evolution of local endemism in
 Pekel, J.F., Cottam, A., Gorelick, N. \& Belward, A.S. (2016) {High-resolution
   mapping of global surface water and its long-term changes}.
 \newblock \emph{Nature}, \textbf{540}, 418--422.
+
+\bibitem[{Perrier~de La~B{\^a}thie(1921)}]{Perrier1921}
+Perrier~de La~B{\^a}thie, H. (1921) \emph{{La v{\'e}g{\'e}tation malgache}},
+  vol.~23.
+\newblock Mus{\'e}e Colonial.
 
 \bibitem[{Ploch \& Cook(2012)}]{Ploch2012}
 Ploch, L. \& Cook, N. (2012) {Madagascar's Political Crisis}.
@@ -1287,7 +1288,7 @@ Vorontsova, M.S., Besnard, G., Forest, F., Malakasi, P., Moat, J., Clayton,
 \begin{figure}[h!]
   \centering
     
-    \includegraphics[width=11cm]{outputs/ecoregion.png}
+    \includegraphics[width=11cm]{ecoregion.png}
     
     \caption{\textbf{Ecoregions and forest types in Madagascar.}
       Madagascar can be divided into four climatic ecoregions with four forest
@@ -1309,7 +1310,7 @@ Vorontsova, M.S., Besnard, G., Forest, F., Malakasi, P., Moat, J., Clayton,
 \begin{figure}[h!]
   \centering
   
-  \includegraphics[width=\textwidth]{outputs/fig_fcc_highres.png}
+  \includegraphics[width=\textwidth]{fig_fcc_highres.png}
   
   \caption{\textbf{Forest-cover change on six decades from 1953
       to 2014 in Madagascar.} Forest cover changes from \emph{c.} 1973 to 2014
@@ -1333,7 +1334,7 @@ Vorontsova, M.S., Besnard, G., Forest, F., Malakasi, P., Moat, J., Clayton,
 \begin{figure}[h!]
   \centering
   
-  \includegraphics[width=13cm]{outputs/dist.png}
+  \includegraphics[width=13cm]{dist.png}
   
   \caption{\textbf{Evolution of the distance to forest edge from
       1953 to 2014 in Madagascar.} Black dots represent the mean distance to

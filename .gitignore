@@ -5,10 +5,6 @@ gisdata
 # GRASS data
 grassdata
 
-# Markdown files
-report/*
-!report/deforestmap_V2.docx
-
 # biblio bak
 bib/biblio.bib.bak
 

@@ -19,17 +19,22 @@ FRANCE
 
 to
 
-Editorial board    
-Journal of Applied Ecology    
-British Ecological Society    
-London    
-UK
+Editors    
+_Biological Conservation_ 
 
 ####
 
 Dear Editors,
 
-Please find enclosed the article untitled _**"Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar"**_ by G. Vieilledent, C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard for publication in _Journal of Applied Ecology_.
+Please find enclosed the article untitled _**"Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar"**_ by G. Vieilledent, C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard for publication in _Biological Conservation_.
+
+Authors declare that:
+
+- the work is all original research.
+- they agree with the contents of the manuscript and its submission to the journal.
+- the manuscript is not being considered for publication elsewhere while it is being considered for publication in _Biological Conservation_.
+- all sources of funding are acknowledged in the manuscript.
+- no direct financial benefits could result from publication.
 
 #### Summary of the scientific results
 
@@ -47,15 +52,15 @@ In this article, we propose a new approach combining historical (1953-2000) nati
 
 Accurate forest-cover change maps and forest-cover change estimates can be used to assess the effectiveness of past and current conservation programs and implement new strategies for the future. With our results, we underline the fact that conservation and management efforts must be intensified in Madagascar if we want to save country's unique forest and biodiversity. Our results can be used in the framework of the REDD+ ("Reducing Emissions from Deforestation and Forest Degradation") initiative and for increasing the effectiveness of the current protected area network.
 
-#### Reproductibility and transparency of the research
+#### Reproducibility and transparency of the research
 
 All the data and codes used for this study are made publicly available in the `deforestmap` GitHub repository (<https://github.com/ghislainv/deforestmap.git>). The results of the study are fully reproducible running the R/GRASS script `deforestmap.R` located inside the `deforestmap` repository. Forest-cover maps are also made publicly available on the BioSceneMada project website at <https://bioscenemada.cirad.fr/forestmaps>
 
-We think our study fits well into the scope of the _Journal of Applied Ecology_ which offers the publication of novel, high-impact papers on the interface between ecological science and the management of biological resources, with clear potential for impact on the management of the environment. We sincerely hope you will find our study interesting and suitable for publication in your journal.
+We think our study fits well into the scope of the _Biological Conservation_ journal which offers the publication of high-quality papers that advance the science and practice of conservation. We sincerely hope you will find our study interesting and suitable for publication in your journal.
 
 #### Preprint
 
-The article is publicly available as a preprint on the bioRxiv server:
+The article is publicly available as a preprint on the _bioRxiv_ server:
 
 Vieilledent G., C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard. Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar. _bioRxiv_. 147827. [doi: <https://doi.org/10.1101/147827>].
 
