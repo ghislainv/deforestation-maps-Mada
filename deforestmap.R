@@ -51,7 +51,9 @@ SavedObjects <- c()
 #dir.create("grassdata")
 #system("grass72 -c epsg:32738 grassdata/deforestmap")  # Ignore errors
 ## Connect R to grass location
-initGRASS(gisBase="/usr/local/grass-7.2.0",home=tempdir(), 
+## Make sure that /usr/lib/grass72/lib is in your PATH in RStudio
+Sys.setenv(LD_LIBRARY_PATH=paste("/usr/lib/grass72/lib", Sys.getenv("LD_LIBRARY_PATH"),sep=":"))
+initGRASS(gisBase="/usr/lib/grass72",home=tempdir(), 
           gisDbase="grassdata",
           location="deforestmap",mapset="PERMANENT",
           override=TRUE)
@@ -399,6 +401,44 @@ system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2014'\" outputs/f
 #= Animated gif
 system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
 #= See also OpenShot app for movie and transition effects
+
+##==========================
+## Validation
+##==========================
+
+#= Import validation points
+valpts <- read.csv("gisdata/vectors/validation_points.csv", stringsAsFactors=FALSE)
+valpts$Obs13[valpts$Obs13==9] <- "P" # Correction
+valpts.sp <- SpatialPointsDataFrame(valpts[,1:2], valpts[3:4])
+crs(valpts.sp) <- CRS("+init=epsg:4326")
+
+#= Reproject in UTM38S
+newcrs <- CRS("+init=epsg:32738")
+valpts.38s <- spTransform(valpts.sp, newcrs)
+
+#= Export 
+writeOGR(valpts.38s, dsn="outputs", layer="valpts_38s", driver="ESRI Shapefile")
+
+#= Import into GRASS
+system("v.in.ogr --o input=outputs/valpts_38s.shp output=valpts")
+
+#= Get values from for2010 and for 2013
+system("v.what.rast map=valpts raster=for2010 column=for2010")
+system("v.what.rast map=valpts raster=for2013 column=for2013")
+
+#= Export to output
+system("db.out.ogr --overwrite input=valpts output=outputs/valpts.csv")
+
+#= Import into R
+valpts.df <- read.table("outputs/valpts.csv", header=TRUE, sep=",")
+valpts.df[is.na(valpts.df)] <- "P"
+valpts.df[valpts.df==1] <- "F"
+valpts.df$Obs <- paste(valpts.df$Obs10, valpts.df$Obs13, sep="")
+valpts.df$Pred <- paste(valpts.df$for2010, valpts.df$for2013, sep="")
+
+#= Confusion matrix
+cm <- table(valpts.df$Pred, valpts.df$Obs)
+caret::confusionMatrix(data=valpts.df$Pred, reference=valpts.df$Obs)
 
 ##==========================
 ## Forest fragmentation
@@ -775,11 +815,12 @@ for (i in 1:length(periods)) {
 # Deforestation %/yr
 defor.perc.comp <- defor.ha.comp
 for (i in 1:length(periods)) {
-  defor.perc.comp[,2+i] <- round(100*(1-(1-(fcc.comp[,2+i]-fcc.comp[,2+1+i])/fcc.comp[,2+i])^(1/lp[i])),2)
+  defor.perc.comp[,2+i] <- round(100*(1-(1-(fcc.comp[,2+i]-fcc.comp[,2+1+i])/fcc.comp[,2+i])^(1/lp[i])),1)
 }
 # Combining ha and percentages
 ha <- as.numeric(unlist(defor.ha.comp[,3:8]))
-perc <- sprintf("%.2f", as.numeric(unlist(defor.perc.comp[,3:8])))
+ha <- format(round(ha/1000), big.mark=",")
+perc <- sprintf("%.1f", as.numeric(unlist(defor.perc.comp[,3:8])))
 defor.comp.thistudy[,3:8] <- data.frame(matrix(paste(ha," (",perc,")", sep=""),ncol=6),stringsAsFactors=FALSE)
 defor.comp.thistudy[defor.comp.thistudy=="NA (NA)"] <- NA
 # We can check how defor.comp (original deforestation rate estimates) and defor.comp.study (deforestation rates estimated here) differ
@@ -865,7 +906,7 @@ dist.df <- read.table(file="outputs/dist.txt", header=TRUE)
 perc.100m.df <- read.table(file="outputs/perc_100m_dist.txt", header=TRUE)
 
 # Plot
-png(file="outputs/dist.png",width=800,height=600)
+png(file="outputs/dist.png",width=600,height=450)
 par(mar=c(4,4,0,0),cex=2,lwd=2)
 plot(NA, xlim=c(1953,2014), ylim=c(0,5000),
      xlab="Year",
@@ -873,13 +914,16 @@ plot(NA, xlim=c(1953,2014), ylim=c(0,5000),
      axes=FALSE)
 # Perc
 segments(x0=1953,x1=2014,y0=100,y1=100,lty=3,col=grey(0.5))
-label.perc <- paste0(round(perc.100m.df$perc),"%")
-text(x=perc.100m.df$Year, y=-100, labels=label.perc, cex=0.6, adj=0.5)
+label.perc <- round(perc.100m.df$perc)
+label.perc[1] <- paste0(label.perc[1], "%")
+#text(x=perc.100m.df$Year, y=-200, labels=label.perc, cex=0.9, adj=0.5)
+mtext(text=label.perc, at=perc.100m.df$Year, side=1, line=-0.5, cex=1.4, adj=0.5)
 # Quantiles
 segments(x0=dist.df$Year,x1=dist.df$Year,y0=dist.df$q1,y1=dist.df$q2,lty=2)
 segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q2,y1=dist.df$q2,lty=1)
 segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q1,y1=dist.df$q1,lty=1)
-axis(1,at=c(1953,1973,1990,2000,2005,2010,2014),labels=c(1953,1973,1990,2000,2005,2010,2014),las=3)
+axis(1,at=c(1953,1973,1990,2000,2005,2010,2014),labels=c(1953,1973,1990,2000,2005,2010,2014),
+     las=3, pos=-500)
 axis(2,at=seq(0,5000,by=1000),labels=seq(0,5,by=1))
 points(dist.df$Year, dist.df$mean, type="b", pch=19)
 dev.off()
@@ -899,7 +943,6 @@ system("r.mask -r")
 acd_2010 <- 9700502114*30*30/10000 # 873045190
 acd_2014 <- 9253573526*30*30/10000 # 832821617
 carbon_emissions <- acd_2010-acd_2014
-
 
 ##========================
 ## Save objects

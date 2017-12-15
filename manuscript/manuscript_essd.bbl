@@ -1,0 +1,449 @@
+\begin{thebibliography}{60}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{{\tt #1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{https://doi.org/\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{https://doi.org/\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Achard et~al.(2014)Achard, Beuchle, Mayaux, Stibig, Bodart, Brink,
+  Carboni, Desclée, Donnay, Eva, Lupi, Raši, Seliger, and
+  Simonetti}]{Achard2014}
+Achard, F., Beuchle, R., Mayaux, P., Stibig, H.-J., Bodart, C., Brink, A.,
+  Carboni, S., Desclée, B., Donnay, F., Eva, H.~D., Lupi, A., Raši, R.,
+  Seliger, R., and Simonetti, D.: Determination of tropical deforestation rates
+  and related carbon losses from 1990 to 2010, Global Change Biology, 20,
+  2540--2554, \doi{10.1111/gcb.12605},
+  \urlprefix\url{http://dx.doi.org/10.1111/gcb.12605}, 2014.
+
+\bibitem[{Aleman et~al.(2017)Aleman, Jarzyna, and Staver}]{Aleman2017}
+Aleman, J.~C., Jarzyna, M.~A., and Staver, A.~C.: Forest extent and
+  deforestation in tropical Africa since 1900, Nature Ecology \& Evolution,
+  \urlprefix\url{https://doi.org/10.1038/s41559-017-0406-1}, 2017.
+
+\bibitem[{Ali and Aitchison(2008)}]{Ali2008}
+Ali, J.~R. and Aitchison, J.~C.: {Gondwana to Asia: Plate tectonics,
+  paleogeography and the biological connectivity of the Indian sub-continent
+  from the Middle Jurassic through latest Eocene (166--35 Ma)}, Earth-Science
+  Reviews, 88, 145--166, \doi{10.1016/j.earscirev.2008.01.007}, 2008.
+
+\bibitem[{Allnutt et~al.(2008)Allnutt, Ferrier, Manion, Powell, Ricketts,
+  Fisher, Harper, Irwin, Kremen, Labat, Lees, Pearce, and
+  Rakotondrainibe}]{Allnutt2008}
+Allnutt, T.~F., Ferrier, S., Manion, G., Powell, G. V.~N., Ricketts, T.~H.,
+  Fisher, B.~L., Harper, G.~J., Irwin, M.~E., Kremen, C., Labat, J.-N., Lees,
+  D.~C., Pearce, T.~A., and Rakotondrainibe, F.: {A method for quantifying
+  biodiversity loss and its application to a 50-year record of deforestation
+  across Madagascar}, Conservation Letters, 1, 173--181,
+  \doi{10.1111/j.1755-263X.2008.00027.x},
+  \urlprefix\url{http://dx.doi.org/10.1111/j.1755-263X.2008.00027.x}, 2008.
+
+\bibitem[{Armitage et~al.(2015)Armitage, Highfield, Brody, and
+  Louchouarn}]{Armitage2015}
+Armitage, A.~R., Highfield, W.~E., Brody, S.~D., and Louchouarn, P.: {The
+  contribution of mangrove expansion to salt marsh loss on the Texas Gulf
+  Coast}, PloS One, 10, e0125\,404, \doi{10.1371/journal.pone.0125404}, 2015.
+
+\bibitem[{Bastin et~al.(2017)Bastin, Berrahmouni, Grainger, Maniatis,
+  Mollicone, Moore, Patriarca, Picard, Sparrow, Abraham, Aloui, Atesoglu,
+  Attore, Bass{\"u}ll{\"u}, Bey, Garzuglia, Garc{\'\i}a-Montero, Groot, Guerin,
+  Laestadius, Lowe, Mamane, Marchi, Patterson, Rezende, Ricci, Salcedo, Diaz,
+  Stolle, Surappaeva, and Castro}]{Bastin2017}
+Bastin, J.-F., Berrahmouni, N., Grainger, A., Maniatis, D., Mollicone, D.,
+  Moore, R., Patriarca, C., Picard, N., Sparrow, B., Abraham, E.~M., Aloui, K.,
+  Atesoglu, A., Attore, F., Bass{\"u}ll{\"u}, {\c C}., Bey, A., Garzuglia, M.,
+  Garc{\'\i}a-Montero, L.~G., Groot, N., Guerin, G., Laestadius, L., Lowe,
+  A.~J., Mamane, B., Marchi, G., Patterson, P., Rezende, M., Ricci, S.,
+  Salcedo, I., Diaz, A. S.-P., Stolle, F., Surappaeva, V., and Castro, R.: The
+  extent of forest in dryland biomes, Science, 356, 635--638,
+  \doi{10.1126/science.aam6527},
+  \urlprefix\url{http://science.sciencemag.org/content/356/6338/635}, 2017.
+
+\bibitem[{Brinck et~al.(2017)Brinck, Fischer, Groeneveld, Lehmann, Dantas
+  De~Paula, Pütz, Sexton, Song, and Huth}]{Brinck2017}
+Brinck, K., Fischer, R., Groeneveld, J., Lehmann, S., Dantas De~Paula, M.,
+  Pütz, S., Sexton, J.~O., Song, D., and Huth, A.: High resolution analysis of
+  tropical forest fragmentation and its impact on the global carbon cycle,
+  Nature Communications, 8, 14\,855, \doi{10.1038/ncomms14855},
+  \urlprefix\url{http://dx.doi.org/10.1038/ncomms14855}, 2017.
+
+\bibitem[{Broadbent et~al.(2008)Broadbent, Asner, Keller, Knapp, Oliveira, and
+  Silva}]{Broadbent2008}
+Broadbent, E.~N., Asner, G.~P., Keller, M., Knapp, D.~E., Oliveira, P.~J., and
+  Silva, J.~N.: Forest fragmentation and edge effects from deforestation and
+  selective logging in the Brazilian Amazon, Biological Conservation, 141, 1745
+  -- 1757, \doi{https://doi.org/10.1016/j.biocon.2008.04.024},
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0006320708001377},
+  2008.
+
+\bibitem[{Brooks et~al.(2002)Brooks, Mittermeier, Mittermeier, da~Fonseca,
+  Rylands, Konstant, Flick, Pilgrim, Oldfield, Magin, and
+  Hilton-Taylor}]{Brooks2002}
+Brooks, T.~M., Mittermeier, R.~A., Mittermeier, C.~G., da~Fonseca, G. A.~B.,
+  Rylands, A.~B., Konstant, W.~R., Flick, P., Pilgrim, J., Oldfield, S., Magin,
+  G., and Hilton-Taylor, C.: Habitat loss and extinction in the hotspots of
+  biodiversity, Conservation Biology, 16, 909--923,
+  \doi{10.1046/j.1523-1739.2002.00530.x}, 2002.
+
+\bibitem[{Burns et~al.(2016)Burns, Godfrey, Faina, McGee, Hardt,
+  Ranivoharimanana, and Randrianasy}]{Burns2016}
+Burns, S.~J., Godfrey, L.~R., Faina, P., McGee, D., Hardt, B.,
+  Ranivoharimanana, L., and Randrianasy, J.: {Rapid human-induced landscape
+  transformation in Madagascar at the end of the first millennium of the Common
+  Era}, Quaternary Science Reviews, 134, 92 -- 99,
+  \doi{10.1016/j.quascirev.2016.01.007},
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0277379116300099},
+  2016.
+
+\bibitem[{Cornet(1974)}]{Cornet1974}
+Cornet, A.: {Essai de cartographie bioclimatique à Madagascar}, Tech. rep.,
+  Orstom, 1974.
+
+\bibitem[{Cox et~al.(2012)Cox, Nelson, Tumonggor, Ricaut, and Sudoyo}]{Cox2012}
+Cox, M.~P., Nelson, M.~G., Tumonggor, M.~K., Ricaut, F.-X., and Sudoyo, H.: {A
+  small cohort of Island Southeast Asian women founded Madagascar}, Proceedings
+  of the Royal Society B: Biological Sciences, 279, 2761--2768,
+  \doi{10.1098/rspb.2012.0012}, 2012.
+
+\bibitem[{Crottini et~al.(2012)Crottini, Madsen, Poux, Strau{\ss}, Vieites, and
+  Vences}]{Crottini2012}
+Crottini, A., Madsen, O., Poux, C., Strau{\ss}, A., Vieites, D.~R., and Vences,
+  M.: {Vertebrate time-tree elucidates the biogeographic pattern of a major
+  biotic change around the K--T boundary in Madagascar}, Proceedings of the
+  National Academy of Sciences, 109, 5358--5363, \doi{10.1073/pnas.1112487109},
+  2012.
+
+\bibitem[{Eklund et~al.(2016)Eklund, Blanchet, Nyman, Rocha, Virtanen, and
+  Cabeza}]{Eklund2016}
+Eklund, J., Blanchet, F.~G., Nyman, J., Rocha, R., Virtanen, T., and Cabeza,
+  M.: {Contrasting spatial and temporal trends of protected area effectiveness
+  in mitigating deforestation in Madagascar}, Biological Conservation, 203, 290
+  -- 297, \doi{10.1016/j.biocon.2016.09.033},
+  \urlprefix\url{//www.sciencedirect.com/science/article/pii/S0006320716305092},
+  2016.
+
+\bibitem[{Freudenberger(2010)}]{Freudenberger2010}
+Freudenberger, K.: {Paradise Lost? Lessons from 25 years of USAID environment
+  programs in Madagascar}, International Resources Group, Washington DC, 2010.
+
+\bibitem[{Gibson et~al.(2013)Gibson, Lynam, Bradshaw, He, Bickford, Woodruff,
+  Bumrungsri, and Laurance}]{Gibson2013}
+Gibson, L., Lynam, A.~J., Bradshaw, C.~J., He, F., Bickford, D.~P., Woodruff,
+  D.~S., Bumrungsri, S., and Laurance, W.~F.: Near-complete extinction of
+  native small mammal fauna 25 years after forest fragmentation, Science, 341,
+  1508--1510, \doi{10.1126/science.1240495}, 2013.
+
+\bibitem[{Goodman and Benstead(2005)}]{Goodman2005}
+Goodman, S.~M. and Benstead, J.~P.: {Updated estimates of biotic diversity and
+  endemism for Madagascar}, Oryx, 39, 73--77, \doi{10.1017/S0030605305000128},
+  2005.
+
+\bibitem[{Gorenflo et~al.(2011)Gorenflo, Corson, Chomitz, Harper, Honzák, and
+  {\"O}zler}]{Gorenflo2011}
+Gorenflo, L.~J., Corson, C., Chomitz, K.~M., Harper, G., Honzák, M., and
+  {\"O}zler, B.: {Exploring the Association Between People and Deforestation in
+  Madagascar}, vol. 1650, Springer Berlin Heidelberg,
+  \doi{10.1007/978-3-642-16707-2_11},
+  \urlprefix\url{http://dx.doi.org/10.1007/978-3-642-16707-2_11}, 2011.
+
+\bibitem[{Grinand et~al.(2013)Grinand, Rakotomalala, Gond, Vaudry, Bernoux, and
+  Vieilledent}]{Grinand2013}
+Grinand, C., Rakotomalala, F., Gond, V., Vaudry, R., Bernoux, M., and
+  Vieilledent, G.: {Estimating deforestation in tropical humid and dry forests
+  in Madagascar from 2000 to 2010 using multi-date Landsat satellite images and
+  the Random Forests classifier}, Remote Sensing of Environment, 139, 68--80,
+  \doi{10.1016/j.rse.2013.07.008}, 2013.
+
+\bibitem[{Grinand et~al.(2017)Grinand, Le~Maire, Vieilledent, Razakamanarivo,
+  Razafimbelo, and Bernoux}]{Grinand2017}
+Grinand, C., Le~Maire, G., Vieilledent, G., Razakamanarivo, H., Razafimbelo,
+  T., and Bernoux, M.: {Estimating temporal changes in soil carbon stocks at
+  ecoregional scale in Madagascar using remote-sensing}, International Journal
+  of Applied Earth Observation and Geoinformation, 54, 1--14,
+  \doi{10.1016/j.jag.2016.09.002}, 2017.
+
+\bibitem[{Grouzis et~al.(2001)Grouzis, Razanaka, Le~Floc’h, and
+  Leprun}]{Grouzis2001}
+Grouzis, M., Razanaka, S., Le~Floc’h, E., and Leprun, J.-C.: {{\'E}volution
+  de la v{\'e}g{\'e}tation et de quelques param{\`e}tres {\'e}daphiques au
+  cours de la phase post-culturale dans la r{\'e}gion d’Analabo},
+  Soci{\'e}t{\'e}s paysannes, transitions agraires et dynamiques
+  {\'e}cologiques dans le Sud-Ouest de Madagascar, Antananarivo, IRD/CNRE, pp.
+  327--337, 2001.
+
+\bibitem[{Hansen et~al.(2013)Hansen, Potapov, Moore, Hancher, Turubanova,
+  Tyukavina, Thau, Stehman, Goetz, Loveland, Kommareddy, Egorov, Chini,
+  Justice, and Townshend}]{Hansen2013}
+Hansen, M.~C., Potapov, P.~V., Moore, R., Hancher, M., Turubanova, S.~A.,
+  Tyukavina, A., Thau, D., Stehman, S.~V., Goetz, S.~J., Loveland, T.~R.,
+  Kommareddy, A., Egorov, A., Chini, L., Justice, C.~O., and Townshend, J.
+  R.~G.: {High-Resolution Global Maps of 21st-Century Forest Cover Change},
+  Science, 342, 850--853, \doi{10.1126/science.1244693},
+  \urlprefix\url{http://www.sciencemag.org/content/342/6160/850.abstract},
+  2013.
+
+\bibitem[{Harper et~al.(2007)Harper, Steininger, Tucker, Juhn, and
+  Hawkins}]{Harper2007}
+Harper, G.~J., Steininger, M.~K., Tucker, C.~J., Juhn, D., and Hawkins, F.:
+  {Fifty years of deforestation and forest fragmentation in Madagascar},
+  Environmental Conservation, 34, 325--333, \doi{10.1017/S0376892907004262},
+  2007.
+
+\bibitem[{Humbert(1927)}]{Humbert1927}
+Humbert, H.: {La destruction d'une flore insulaire par le feu. Principaux
+  aspects de la végétation à Madagascar}, Mémoires de l'Académie Malgache,
+  5, 1--80, 1927.
+
+\bibitem[{Keenan et~al.(2015)Keenan, Reams, Achard, de~Freitas, Grainger, and
+  Lindquist}]{Keenan2015}
+Keenan, R.~J., Reams, G.~A., Achard, F., de~Freitas, J.~V., Grainger, A., and
+  Lindquist, E.: {Dynamics of global forest area: Results from the FAO Global
+  Forest Resources Assessment 2015}, Forest Ecology and Management, 352, 9 --
+  20, \doi{10.1016/j.foreco.2015.06.014},
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0378112715003400},
+  changes in Global Forest Resources from 1990 to 2015, 2015.
+
+\bibitem[{Kim et~al.(2014)Kim, Sexton, Noojipady, Huang, Anand, Channan, Feng,
+  and Townshend}]{Kim2014}
+Kim, D.-H., Sexton, J.~O., Noojipady, P., Huang, C., Anand, A., Channan, S.,
+  Feng, M., and Townshend, J.~R.: {Global, Landsat-based forest-cover change
+  from 1990 to 2000}, Remote Sensing of Environment, 155, 178--193,
+  \doi{10.1016/j.rse.2014.08.017}, 2014.
+
+\bibitem[{Klein(2002)}]{Klein2002}
+Klein, J.: {Deforestation in the Madagascar Highlands -- Established `truth'
+  and scientific uncertainty}, GeoJournal, 56, 191--199,
+  \doi{10.1023/A:1025187422687},
+  \urlprefix\url{http://dx.doi.org/10.1023/A:1025187422687}, 2002.
+
+\bibitem[{Kull(2000)}]{Kull2000}
+Kull, C.~A.: {Deforestation, erosion, and fire: degradation myths in the
+  environmental history of Madagascar}, Environment and History, 6, 423--450,
+  \urlprefix\url{http://www.jstor.org/stable/20723156}, 2000.
+
+\bibitem[{{MEFT, USAID, and CI}(2009)}]{MEFT2009}
+{MEFT, USAID, and CI}: {Evolution de la couverture de forêts naturelles à
+  Madagascar, 1990-2000-2005}, 2009.
+
+\bibitem[{{Ministère de l'Environnement}(1996)}]{IEFN1996}
+{Ministère de l'Environnement}: {IEFN: Inventaire Ecologique Forestier
+  National}, Tech. rep., {Ministère de l'Environnement de Madagascar,
+  Direction des Eaux et Forêts, DFS Deutsch Forest Service GmbH, Entreprise
+  d'études de développement rural "Mamokatra", FTM}, 1996.
+
+\bibitem[{Minten et~al.(2013)Minten, Sander, and Stifel}]{Minten2013}
+Minten, B., Sander, K., and Stifel, D.: {Forest management and economic rents:
+  Evidence from the charcoal trade in Madagascar}, Energy for Sustainable
+  Development, 17, 106 -- 115, \doi{10.1016/j.esd.2012.08.004},
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0973082612000543},
+  special Issue on Charcoal, 2013.
+
+\bibitem[{Murcia(1995)}]{Murcia1995}
+Murcia, C.: Edge effects in fragmented forests: implications for conservation,
+  Trends in Ecology \& Evolution, 10, 58 -- 62,
+  \doi{10.1016/S0169-5347(00)88977-6},
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0169534700889776},
+  1995.
+
+\bibitem[{Neteler and Mitasova(2008)}]{Neteler2008}
+Neteler, M. and Mitasova, H.: {Open source GIS: a GRASS GIS approach},
+  Springer, \urlprefix\url{http://books.google.fr/books?id=hzANQ6X_MUIC}, 2008.
+
+\bibitem[{Olander et~al.(2008)Olander, Gibbs, Steininger, Swenson, and
+  Murray}]{Olander2008}
+Olander, L.~P., Gibbs, H.~K., Steininger, M., Swenson, J.~J., and Murray,
+  B.~C.: {Reference scenarios for deforestation and forest degradation in
+  support of REDD: a review of data and methods}, Environmental Research
+  Letters, 3, 025\,011, \doi{10.1088/1748-9326/3/2/025011},
+  \urlprefix\url{http://stacks.iop.org/1748-9326/3/i=2/a=025011}, 2008.
+
+\bibitem[{Olofsson et~al.(2013)Olofsson, Foody, Stehman, and
+  Woodcock}]{Olofsson2013}
+Olofsson, P., Foody, G.~M., Stehman, S.~V., and Woodcock, C.~E.: Making better
+  use of accuracy data in land change studies: Estimating accuracy and area and
+  quantifying uncertainty using stratified estimation, Remote Sensing of
+  Environment, 129, 122 -- 131,
+  \doi{https://doi.org/10.1016/j.rse.2012.10.031},
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0034425712004191},
+  2013.
+
+\bibitem[{Olofsson et~al.(2014)Olofsson, Foody, Herold, Stehman, Woodcock, and
+  Wulder}]{Olofsson2014}
+Olofsson, P., Foody, G.~M., Herold, M., Stehman, S.~V., Woodcock, C.~E., and
+  Wulder, M.~A.: Good practices for estimating area and assessing accuracy of
+  land change, Remote Sensing of Environment, 148, 42 -- 57,
+  \doi{https://doi.org/10.1016/j.rse.2014.02.015},
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0034425714000704},
+  2014.
+
+\bibitem[{{ONE, DGF, FTM, MNP, and CI}(2013)}]{ONE2013}
+{ONE, DGF, FTM, MNP, and CI}: {Evolution de la couverture de forêts naturelles
+  à Madagascar 2005-2010},
+  \urlprefix\url{https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010},
+  2013.
+
+\bibitem[{{ONE, DGF, MNP, WCS, and Etc Terra}(2015)}]{ONE2015}
+{ONE, DGF, MNP, WCS, and Etc Terra}: {Changement de la couverture de forêts
+  naturelles à Madagascar, 2005-2010-2013},
+  \urlprefix\url{https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010-2013},
+  2015.
+
+\bibitem[{Pearson and Raxworthy(2009)}]{Pearson2009}
+Pearson, R.~G. and Raxworthy, C.~J.: {The evolution of local endemism in
+  Madagascar: watershed versus climatic gradient hypotheses evaluated by null
+  biogeographic models}, Evolution, 63, 959--967,
+  \doi{10.1111/j.1558-5646.2008.00596.x}, 2009.
+
+\bibitem[{Pekel et~al.(2016)Pekel, Cottam, Gorelick, and Belward}]{Pekel2016}
+Pekel, J.-F., Cottam, A., Gorelick, N., and Belward, A.~S.: {High-resolution
+  mapping of global surface water and its long-term changes}, Nature, 540,
+  418--422, \doi{10.1038/nature20584},
+  \urlprefix\url{http://dx.doi.org/10.1038/nature20584}, 2016.
+
+\bibitem[{Perrier~de La~B{\^a}thie(1921)}]{Perrier1921}
+Perrier~de La~B{\^a}thie, H.: {La v{\'e}g{\'e}tation malgache}, vol.~23,
+  Mus{\'e}e Colonial, 1921.
+
+\bibitem[{Ploch and Cook(2012)}]{Ploch2012}
+Ploch, L. and Cook, N.: {Madagascar's Political Crisis}, 2012.
+
+\bibitem[{Potapov et~al.(2017)Potapov, Hansen, Laestadius, Turubanova,
+  Yaroshenko, Thies, Smith, Zhuravleva, Komarova, Minnemeyer, and
+  Esipova}]{Potapov2017}
+Potapov, P., Hansen, M.~C., Laestadius, L., Turubanova, S., Yaroshenko, A.,
+  Thies, C., Smith, W., Zhuravleva, I., Komarova, A., Minnemeyer, S., and
+  Esipova, E.: {The last frontiers of wilderness: Tracking loss of intact
+  forest landscapes from 2000 to 2013}, Science Advances, 3,
+  \doi{10.1126/sciadv.1600821},
+  \urlprefix\url{http://advances.sciencemag.org/content/3/1/e1600821}, 2017.
+
+\bibitem[{Puyravaud(2003)}]{Puyravaud2003}
+Puyravaud, J.~P.: Standardizing the calculation of the annual rate of
+  deforestation, Forest Ecology and Management, 177, 593--596,
+  \doi{10.1016/S0378-1127(02)00335-3}, 2003.
+
+\bibitem[{Rakotomala et~al.(2015)Rakotomala, Rabenandrasana, Andriambahiny,
+  Rajaonson, Andriamalala, Burren, Rakotoarijaona, Parany, Vaudry,
+  Rakotoniaina, Ranaivosoa, Rahagalala, Randrianary, and
+  Grinand}]{Rakotomalala2015}
+Rakotomala, F., Rabenandrasana, J., Andriambahiny, J., Rajaonson, R.,
+  Andriamalala, F., Burren, C., Rakotoarijaona, J., Parany, B., Vaudry, R.,
+  Rakotoniaina, S., Ranaivosoa, R., Rahagalala, P., Randrianary, T., and
+  Grinand, C.: {Estimation de la d{\'e}forestation des for{\^e}ts humides {\`a}
+  Madagascar entre 2005, 2010 et 2013: combinaison multi-date d'images LANDSAT,
+  utilisation de l'algorithme Random Forest et proc{\'e}dure de validation},
+  Revue Fran{\c{c}}aise de Photogramm{\'e}trie et de T{\'e}l{\'e}d{\'e}tection,
+  pp. 11--23, 2015.
+
+\bibitem[{Riitters et~al.(2000)Riitters, Wickham, O'Neill, Jones, and
+  Smith}]{Riitters2000}
+Riitters, K., Wickham, J., O'Neill, R., Jones, B., and Smith, E.: Global-scale
+  patterns of forest fragmentation, Conservation Ecology, 4, 3,
+  \urlprefix\url{http://www.consecol.org/vol4/iss2/art3/}, 2000.
+
+\bibitem[{Saatchi et~al.(2011)Saatchi, Harris, Brown, Lefsky, Mitchard, Salas,
+  Zutta, Buermann, Lewis, Hagen, Petrova, White, Silman, and
+  Morel}]{Saatchi2011}
+Saatchi, S.~S., Harris, N.~L., Brown, S., Lefsky, M., Mitchard, E. T.~A.,
+  Salas, W., Zutta, B.~R., Buermann, W., Lewis, S.~L., Hagen, S., Petrova, S.,
+  White, L., Silman, M., and Morel, A.: Benchmark map of forest carbon stocks
+  in tropical regions across three continents, Proceedings of the National
+  Academy of Sciences, 108, 9899--9904, \doi{10.1073/pnas.1019576108},
+  \urlprefix\url{http://www.pnas.org/content/108/24/9899.abstract}, 2011.
+
+\bibitem[{Saunders et~al.(1991)Saunders, Hobbs, and Margules}]{Saunders1991}
+Saunders, D.~A., Hobbs, R.~J., and Margules, C.~R.: {Biological Consequences of
+  Ecosystem Fragmentation: A Review}, Conservation Biology, 5, 18--32,
+  \doi{10.1111/j.1523-1739.1991.tb00384.x},
+  \urlprefix\url{http://dx.doi.org/10.1111/j.1523-1739.1991.tb00384.x}, 1991.
+
+\bibitem[{Scales(2011)}]{Scales2011}
+Scales, I.~R.: {Farming at the Forest Frontier: Land Use and Landscape Change
+  in Western Madagascar, 1896-2005}, Environment and History, 17, 499--524,
+  \doi{10.3197/096734011X13150366551481}, 2011.
+
+\bibitem[{Smith et~al.(2003)Smith, Muir, Walpole, Balmford, and
+  Leader-Williams}]{Smith2003}
+Smith, R.~J., Muir, R. D.~J., Walpole, M.~J., Balmford, A., and
+  Leader-Williams, N.: Governance and the loss of biodiversity, Nature, 426,
+  67--70, \doi{http://dx.doi.org/10.1038/nature02025}, 2003.
+
+\bibitem[{Tidd et~al.(2001)Tidd, Pinder, and Ferguson}]{Tidd2001}
+Tidd, S.~T., Pinder, J., and Ferguson, G.~W.: {Deforestation and habitat loss
+  for the Malagasy flat-tailed tortoise from 1963 through 1993}, Chelonian
+  Conservation and Biology, 4, 59--65, 2001.
+
+\bibitem[{Tropek et~al.(2014)Tropek, Sedl{\'a}{\v c}ek, Beck, Keil,
+  Musilov{\'a}, {\v S}{\'\i}mov{\'a}, and Storch}]{Tropek2014}
+Tropek, R., Sedl{\'a}{\v c}ek, O., Beck, J., Keil, P., Musilov{\'a}, Z., {\v
+  S}{\'\i}mov{\'a}, I., and Storch, D.: {Comment on "High-resolution global
+  maps of 21st-century forest cover change"}, Science, 344, 981--981,
+  \doi{10.1126/science.1248753},
+  \urlprefix\url{http://science.sciencemag.org/content/344/6187/981.4}, 2014.
+
+\bibitem[{Tyukavina et~al.(2015)Tyukavina, Baccini, Hansen, Potapov, Stehman,
+  Houghton, Krylov, Turubanova, and Goetz}]{Tyukavina2015}
+Tyukavina, A., Baccini, A., Hansen, M.~C., Potapov, P.~V., Stehman, S.~V.,
+  Houghton, R.~A., Krylov, A.~M., Turubanova, S., and Goetz, S.~J.: Aboveground
+  carbon loss in natural and managed tropical forests from 2000 to 2012,
+  Environmental Research Letters, 10, 074\,002,
+  \urlprefix\url{http://stacks.iop.org/1748-9326/10/i=7/a=074002}, 2015.
+
+\bibitem[{Tyukavina et~al.(2017)Tyukavina, Hansen, Potapov, Stehman,
+  Smith-Rodriguez, Okpa, and Aguilar}]{Tyukavina2017}
+Tyukavina, A., Hansen, M.~C., Potapov, P.~V., Stehman, S.~V., Smith-Rodriguez,
+  K., Okpa, C., and Aguilar, R.: {Types and rates of forest disturbance in
+  Brazilian Legal Amazon, 2000{\textendash}2013}, Science Advances, 3,
+  \doi{10.1126/sciadv.1601047},
+  \urlprefix\url{http://advances.sciencemag.org/content/3/4/e1601047}, 2017.
+
+\bibitem[{{United Nations}(2015)}]{UN2015}
+{United Nations}: {World Population Prospects: The 2015 Revision, Key Findings
+  and Advance Tables. Working Paper No. ESA/P/WP.241.}, 2015.
+
+\bibitem[{Verhegghen et~al.(2016)Verhegghen, Eva, Desclée, and
+  Achard}]{Verhegghen2016}
+Verhegghen, A., Eva, H., Desclée, B., and Achard, F.: {Review and Combination
+  of Recent Remote Sensing Based Products for Forest Cover Change Assessments
+  in Cameroon}, International Forestry Review, 18, 14--25,
+  \doi{10.1505/146554816819683807},
+  \urlprefix\url{http://www.bioone.org/doi/abs/10.1505/146554816819683807},
+  2016.
+
+\bibitem[{Vieilledent et~al.(2013)Vieilledent, Grinand, and
+  Vaudry}]{Vieilledent2013}
+Vieilledent, G., Grinand, C., and Vaudry, R.: {Forecasting deforestation and
+  carbon emissions in tropical developing countries facing demographic
+  expansion: a case study in Madagascar}, Ecology and Evolution, 3, 1702--1716,
+  \doi{10.1002/ece3.550}, \urlprefix\url{http://dx.doi.org/10.1002/ece3.550},
+  2013.
+
+\bibitem[{Vieilledent et~al.(2016)Vieilledent, Gardi, Grinand, Burren,
+  Andriamanjato, Camara, Gardner, Glass, Rasolohery, Rakoto~Ratsimba, Gond, and
+  Rakotoarijaona}]{Vieilledent2016}
+Vieilledent, G., Gardi, O., Grinand, C., Burren, C., Andriamanjato, M., Camara,
+  C., Gardner, C.~J., Glass, L., Rasolohery, A., Rakoto~Ratsimba, H., Gond, V.,
+  and Rakotoarijaona, J.-R.: {Bioclimatic envelope models predict a decrease in
+  tropical forest carbon stocks with climate change in Madagascar}, Journal of
+  Ecology, 104, 703--715, \doi{10.1111/1365-2745.12548},
+  \urlprefix\url{http://dx.doi.org/10.1111/1365-2745.12548}, 2016.
+
+\bibitem[{Virah-Sawmy(2009)}]{Virah-Sawmy2009}
+Virah-Sawmy, M.: {Ecosystem management in Madagascar during global change},
+  Conservation Letters, 2, 163--170, \doi{10.1111/j.1755-263X.2009.00066.x},
+  \urlprefix\url{http://dx.doi.org/10.1111/j.1755-263X.2009.00066.x}, 2009.
+
+\bibitem[{Vorontsova et~al.(2016)Vorontsova, Besnard, Forest, Malakasi, Moat,
+  Clayton, Ficinski, Savva, Nanjarisoa, Razanatsoa, Randriatsara, Kimeu, Luke,
+  Kayombo, and Linder}]{Vorontsova2017}
+Vorontsova, M.~S., Besnard, G., Forest, F., Malakasi, P., Moat, J., Clayton,
+  W.~D., Ficinski, P., Savva, G.~M., Nanjarisoa, O.~P., Razanatsoa, J.,
+  Randriatsara, F.~O., Kimeu, J.~M., Luke, W. R.~Q., Kayombo, C., and Linder,
+  H.~P.: {Madagascar's grasses and grasslands: anthropogenic or natural?},
+  Proceedings of the Royal Society of London B: Biological Sciences, 283,
+  \doi{10.1098/rspb.2015.2262},
+  \urlprefix\url{http://rspb.royalsocietypublishing.org/content/283/1823/20152262},
+  2016.
+
+\end{thebibliography}
