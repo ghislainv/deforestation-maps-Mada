@@ -12,8 +12,11 @@ bib/biblio.bib.bak
 outputs/*
 !outputs/fig_fcc_highres.png
 
-# log
-deforestmap.log
+# Manuscript files
+manuscript/cover_letter
+manuscript/manuscript.*
+!manuscript/manuscript.tex
+!manuscript/manuscript.Rmd
 
 # History files
 .Rhistory
