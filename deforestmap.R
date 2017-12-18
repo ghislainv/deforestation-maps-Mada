@@ -971,6 +971,13 @@ render("deforestmap.Rmd")
 ## Cover letter
 render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # pdf output
 
+##========================
+## Pandoc for word
+##========================
+
+system("pandoc manuscript/manuscript_essd.tex --bibliography=manuscript/biblio.bib \\
+       --csl=manuscript/bib/methods-in-ecology-and-evolution.csl -o manuscript/manuscript_essd.docx")
+
 ##===========================================================================
 ## End of script
 ##===========================================================================
