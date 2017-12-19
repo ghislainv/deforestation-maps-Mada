@@ -5,6 +5,9 @@ gisdata
 # GRASS data
 grassdata
 
+# Uploaded zipfile
+gisdata.zip
+
 # biblio bak
 manuscript/bib/biblio.bib.bak
 

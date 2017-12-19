@@ -10,7 +10,7 @@ This repository includes the R script and data used to derive the results of the
 
 ## Reproducibility of the results
 
-The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis are downloaded from Zenodo: \[DOI: [10.5281/zenodo.1118955](https://doi.org/10.5281/zenodo.1118955)\]
+The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis are downloaded from Zenodo: \[DOI: [10.5281/zenodo.1118955](https://doi.org/10.5281/zenodo.1118955)\].
 
 ## File and folder description
 

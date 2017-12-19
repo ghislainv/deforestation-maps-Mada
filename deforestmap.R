@@ -65,12 +65,12 @@ initGRASS(gisBase="/usr/lib/grass72",home=tempdir(),
           location="deforestmap",mapset="PERMANENT",
           override=TRUE)
 
-##======================================================================
-## Download data (263.6 Mo): will have to be done from a Zenodo repository
+##==================================================================
+## Download data from Zenodo: https://doi.org/10.5281/zenodo.1118955
 if (down) {
-  d <- "http://bioscenemada.cirad.fr/githubdata/deforestmap/deforestmap_data.zip"
-  download.file(url=d,destfile="deforestmap_data.zip",method="wget",quiet=TRUE)
-  unzip("deforest_data.zip")
+  d <- "https://zenodo.org/record/1118956/files/gisdata.zip"
+  download.file(url=d,destfile="gisdata.zip",method="curl",quiet=FALSE)
+  unzip("gisdata.zip", exdir="test")
 }
 
 ##===========================================================
