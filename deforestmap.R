@@ -50,9 +50,16 @@ SavedObjects <- c()
 ## Create new grass location in UTM 38S
 #dir.create("grassdata")
 #system2("grass72 -c epsg:32738 grassdata/deforestmap")  # Ignore errors
+
 ## Connect R to grass location
 ## Make sure that /usr/lib/grass72/lib is in your PATH in RStudio
+## On Linux, find the path to GRASS GIS with: $ grass72 --config path
+## It should be somethin like: "/usr/lib/grass72"
+## On Windows, find the path to GRASS GIS with: C:\>grass72.bat --config path
+## If you use OSGeo4W, it should be: "C:\OSGeo4W\apps\grass\grass-7.2"
 Sys.setenv(LD_LIBRARY_PATH=paste("/usr/lib/grass72/lib", Sys.getenv("LD_LIBRARY_PATH"),sep=":"))
+
+## Initialize GRASS
 initGRASS(gisBase="/usr/lib/grass72",home=tempdir(), 
           gisDbase="grassdata",
           location="deforestmap",mapset="PERMANENT",
