@@ -6,11 +6,12 @@ gisdata
 grassdata
 
 # biblio bak
-bib/biblio.bib.bak
+manuscript/bib/biblio.bib.bak
 
 # Outputs
 outputs/*
 !outputs/fig_fcc_highres.png
+!outputs/defor_Mada.gif
 
 # Manuscript files
 manuscript/cover_letter
@@ -22,7 +23,7 @@ manuscript/manuscript.*
 .Rhistory
 .Rapp.history
 Rplots.pdf
-deforestmap.rda
+*.rda
 
 # Session Data files
 .RData
