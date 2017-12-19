@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/80503650.svg)](https://zenodo.org/badge/latestdoi/80503650)
+
 # deforestation-maps-Mada
 
 ## Sixty years of deforestation and forest fragmentation in Madagascar
@@ -46,6 +48,10 @@ Previous reports on deforestation in Madagascar might not be accessible on the l
 - MEFT, USAID, and CI. (2009). Evolution de la couverture de forêts naturelles à Madagascar, 1990-2000-2005. Antananarivo.
 - ONE, DGF, FTM, MNP, and CI. (2013). Evolution de la couverture de forêts naturelles à Madagascar 2005-2010. Antananarivo. [url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010).
 - ONE, DGF, MNP, WCS, and Etc Terra. (2015). Changement de la couverture de forêts naturelles à Madagascar, 2005-2010-2013. Antananarivo. [url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010-2013).
+
+## Versioning and archiving on Zenodo
+
+The development version of this repository is available on GitHub at <https://github.com/ghislainv/deforestation-maps-Mada>. The last version of this repository is archived on Zenodo: \[DOI: [10.5281/zenodo.1118484](https://doi.org/10.5281/zenodo.1118484)\].
 
 ## Figure
 
