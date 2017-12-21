@@ -49,7 +49,7 @@ SavedObjects <- c()
 ##=====================================
 ## Create new grass location in UTM 38S
 #dir.create("grassdata")
-#system2("grass72 -c epsg:32738 grassdata/deforestmap")  # Ignore errors
+#system("grass72 -c epsg:32738 grassdata/deforestmap")  # Ignore errors
 
 ## Connect R to grass location
 ## Make sure that /usr/lib/grass72/lib is in your PATH in RStudio
@@ -90,21 +90,21 @@ proj.t <- "EPSG:32738"
 Input <- "gisdata/rasters/harper/905_dsp_nosea.img"
 Output <- "outputs/harper.tif"
 # gdalwarp
-system2(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+system(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
              " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 
 #= Import harper into grass location
-system2("r.in.gdal --o input=outputs/harper.tif output=harper")
+system("r.in.gdal --o input=outputs/harper.tif output=harper")
 # Set region
-system2("g.region rast=harper -ap")
+system("g.region rast=harper -ap")
 
 #= Typology of harper map 1990-2000-2005
-system2("r.info harper")
-system2("r.describe harper")
+system("r.info harper")
+system("r.describe harper")
 # * 111 112 115 122 152 155 222 444 555 755 775 777
 # 1=forest, 2=nonforest, 5=cloud, 4=water, 7=mangrove
 
-system2("r.report --o harper units=h output='outputs/report_harper.txt'")
+system("r.report --o harper units=h output='outputs/report_harper.txt'")
 
 ## +-----------------------------------------------------------------------------+
 ## |                         RASTER MAP CATEGORY REPORT                          |
@@ -164,12 +164,12 @@ nodat <- "255"
 Input <- "gisdata/vectors/madagascar_ecoregion_tenaizy_38s.shp"
 Output <- "outputs/ecoregion.tif"
 # gdalwarp
-system2(paste0("gdal_rasterize -a 'ecoregion' -ot Byte -a_nodata 255 -te ",Extent,
+system(paste0("gdal_rasterize -a 'ecoregion' -ot Byte -a_nodata 255 -te ",Extent,
               " -tr ",Res," ",Res," -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 # Import into grass
-system2("r.in.gdal --o input=outputs/ecoregion.tif output=ecoregion")
+system("r.in.gdal --o input=outputs/ecoregion.tif output=ecoregion")
 # Cross-tabulation table
-system2("r.report --o map=ecoregion,harper units=h output='outputs/report_harper_ecoregion.txt'")
+system("r.report --o map=ecoregion,harper units=h output='outputs/report_harper_ecoregion.txt'")
 
 # Moist ecoregions
 # Import the GRASS report into R
@@ -193,7 +193,7 @@ SavedObjects <- c(SavedObjects, "ha.cloud.2000.moist", "perc.cloud.moist")
 #= Mosaic with gdalbuildvrt
 Input <- "gisdata/rasters/hansen/treecover2000/*.tif"
 Output <- "outputs/treecover2000.vrt"
-system2(paste0("gdalbuildvrt -overwrite ",Output," ",Input))
+system(paste0("gdalbuildvrt -overwrite ",Output," ",Input))
 #= Resample with gdalwrap
 # Region
 Extent <- "298440 7155900 1100820 8682420"
@@ -205,33 +205,33 @@ otype <- "Byte"
 Input <- "outputs/treecover2000.vrt"
 Output <- "outputs/treecover2000.tif"
 # gdalwarp
-system2(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+system(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
              " -tr ",Res," ",Res," -r bilinear -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 #= Import treecover2000.tif into grass location
-system2("r.in.gdal --o input=outputs/treecover2000.tif output=tc2000")
+system("r.in.gdal --o input=outputs/treecover2000.tif output=tc2000")
 
 #= Forest in 2000
 # Integrating classes of forest in 2000 (111, 112, 115, 775 and 777) and uncertainties (152, 155, 555 and 755)
-system2("r.mapcalc 'for2000_temp = if(harper==111 || harper==112 || harper==115 || \\
+system("r.mapcalc 'for2000_temp = if(harper==111 || harper==112 || harper==115 || \\
        harper==775 || harper==777 || harper==152 || harper==155 || \\
        harper==555 || harper==755, 1, null())'")
 
 # Replace uncertainties using Hansen tree cover and a threshold of 75\%
-system2("r.mapcalc --o 'for2000 = if((harper==152 || harper==155 || \\
+system("r.mapcalc --o 'for2000 = if((harper==152 || harper==155 || \\
        harper==555 || harper==755) && tc2000<75 , null(), for2000_temp)'")
-#system2("r.stats -c for2000_temp")
+#system("r.stats -c for2000_temp")
 #1 110878983
 #* 1250064481
-#system2("r.stats -c for2000")
+#system("r.stats -c for2000")
 #1 109763775
 #* 1251179689
-system2("g.remove -f type=raster name=for2000_temp")
+system("g.remove -f type=raster name=for2000_temp")
 
 #= lossyear Hansen
 #= Mosaic with gdalbuildvrt
 Input <- "gisdata/rasters/hansen/lossyear/*.tif"
 Output <-"outputs/lossyear.vrt"
-system2(paste("gdalbuildvrt -overwrite ",Output," ",Input,sep=""))
+system(paste("gdalbuildvrt -overwrite ",Output," ",Input,sep=""))
 #= Resample with gdalwrap
 # Region
 Extent <- "298440 7155900 1100820 8682420"
@@ -243,11 +243,11 @@ otype <- "Byte"
 Input <- "outputs/lossyear.vrt"
 Output <- "outputs/lossyear.tif"
 # gdalwarp
-system2(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+system(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
              " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 #= Import lossyear.tif into grass location
-system2("r.in.gdal --o input=outputs/lossyear.tif output=lossyear")
-#system2("r.describe lossyear")
+system("r.in.gdal --o input=outputs/lossyear.tif output=lossyear")
+#system("r.describe lossyear")
 # * 1-14
 
 #= Forest in year 2001-2014 ("at the end of the year", since 1 in lossyear is deforestation in 2001)
@@ -255,12 +255,12 @@ for (i in 1:14) {
   # Message
   cat(paste("Year: ",i,"\n",sep=""))
   # Computation
-  system2(paste0("r.mapcalc --o 'defor = if(lossyear>0 && lossyear<=",i,",1,null())'"))
+  system(paste0("r.mapcalc --o 'defor = if(lossyear>0 && lossyear<=",i,",1,null())'"))
   if (i <= 9) {
-    system2(paste0("r.mapcalc --o 'for200",i," = if(!isnull(defor),null(),for2000)'"))
+    system(paste0("r.mapcalc --o 'for200",i," = if(!isnull(defor),null(),for2000)'"))
   }
   else {
-    system2(paste0("r.mapcalc --o 'for20",i," = if(!isnull(defor),null(),for2000)'"))
+    system(paste0("r.mapcalc --o 'for20",i," = if(!isnull(defor),null(),for2000)'"))
   }
 }
 
@@ -268,16 +268,16 @@ for (i in 1:14) {
 # Forest in 1990
 
 #= Integrating classes of forest in 1990 (111, 112, 122, 115, 152, 155, 755, 775 and 777) and uncertainties (555)
-system2("r.mapcalc --o 'for1990_temp = if(harper==111 || harper==112 || harper==122 || \\
+system("r.mapcalc --o 'for1990_temp = if(harper==111 || harper==112 || harper==122 || \\
        harper==115 || harper==152 || harper==155 || harper==755 || \\
        harper==775 || harper==777, 1, if(harper==555, 5, null()))'")
-system2("r.stats -c for1990_temp")
+system("r.stats -c for1990_temp")
 
 #= If forest in 2000, then forest in 1990
-system2("r.mapcalc --o 'for1990_temp = if(!isnull(for2000) &&& for1990_temp==5, 1, for1990_temp)'")
+system("r.mapcalc --o 'for1990_temp = if(!isnull(for2000) &&& for1990_temp==5, 1, for1990_temp)'")
 
 #= How many ha of remaining clouds in harper for the year 1990
-stats.residual <- system2("r.stats -c for1990_temp", intern=TRUE) # "1 119582689"  "5 88716"      "* 1241272059"
+stats.residual <- system("r.stats -c for1990_temp", intern=TRUE) # "1 119582689"  "5 88716"      "* 1241272059"
 df.stats.residual <- data.frame(matrix(as.numeric(unlist(strsplit(stats.residual," "))), ncol=2, byrow=TRUE))
 names(df.stats.residual) <- c("class","ncells")
 df.stats.residual$area <- round(df.stats.residual$ncells*30*30/10000)
@@ -285,12 +285,12 @@ residual.clouds.1990 <- df.stats.residual$area[df.stats.residual$class==5 & !is.
 SavedObjects <- c(SavedObjects, "residual.clouds.1990")
 
 #= Removing remaining uncertainties (5) using forest-cover in 2000
-system2("r.mapcalc --o 'for1990 = if(for1990_temp==5, for2000, for1990_temp)'")
-system2("r.stats -c for1990") # 1 119582689 * 1241360775, all clouds were reclassified as non-forest
-# system2("g.remove -f type=raster name=for1990_temp")
+system("r.mapcalc --o 'for1990 = if(for1990_temp==5, for2000, for1990_temp)'")
+system("r.stats -c for1990") # 1 119582689 * 1241360775, all clouds were reclassified as non-forest
+# system("g.remove -f type=raster name=for1990_temp")
 
 #= Export
-system2("r.out.gdal --o input=for1990 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1990.tif")
+system("r.out.gdal --o input=for1990 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1990.tif")
 
 #====================================================================================
 # Forest c.1973
@@ -304,20 +304,20 @@ proj.t <- "EPSG:32738"
 Input <- "gisdata/rasters/harper/for1973.tif"
 Output <- "outputs/harper1973.tif"
 # gdalwarp
-system2(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+system(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
               " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 
 #= Import forest map for the year 1973
-system2("r.in.gdal --o input=outputs/harper1973.tif output=harper1973")
+system("r.in.gdal --o input=outputs/harper1973.tif output=harper1973")
 
 #= Corrections from for1990
-system2("r.mapcalc --o 'for1973 = if(!isnull(for1990), for1990, harper1973)'")
+system("r.mapcalc --o 'for1973 = if(!isnull(for1990), for1990, harper1973)'")
 
 #= Combine mangrove (7) and forest (1)
-system2("r.mapcalc --o 'for1973 = if(for1973==7, 1, for1973)'")
+system("r.mapcalc --o 'for1973 = if(for1973==7, 1, for1973)'")
 
 #= Cloud cover on for1973
-stats.1973 <- system2("r.stats -c for1973", intern=TRUE)
+stats.1973 <- system("r.stats -c for1973", intern=TRUE)
 df.stats.1973 <- data.frame(matrix(as.numeric(unlist(strsplit(stats.1973," "))), ncol=2, byrow=TRUE))
 names(df.stats.1973) <- c("class","ncells")
 df.stats.1973$area <- round(df.stats.1973$ncells*30*30/10000)
@@ -325,7 +325,7 @@ cloud.1973 <- df.stats.1973$area[df.stats.1973$class==5 & !is.na(df.stats.1973$c
 SavedObjects <- c(SavedObjects, "cloud.1973")
 
 #= Export
-system2("r.out.gdal --o input=for1973 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1973.tif")
+system("r.out.gdal --o input=for1973 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1973.tif")
 
 #====================================================================================
 # Reproject c.1953
@@ -339,22 +339,22 @@ proj.t <- "EPSG:32738"
 Input <- "gisdata/rasters/harper/madagascar_1950_4bit.img"
 Output <- "outputs/harper1953.tif"
 # gdalwarp
-system2(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+system(paste0("gdalwarp -overwrite -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
               " -tr ",Res," ",Res," -r near -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 
 #= Import harper1953.tif into grass location
-system2("r.in.gdal --o input=outputs/harper1953.tif output=harper1953")
-system2("r.info harper1953")
-system2("r.stats -c harper1953")
+system("r.in.gdal --o input=outputs/harper1953.tif output=harper1953")
+system("r.info harper1953")
+system("r.stats -c harper1953")
 
 #= Compute for1953
-system2("r.mapcalc --o 'for1953 = if(harper1953!=1,null(),1)'")
-system2("r.stats -c for1953")
+system("r.mapcalc --o 'for1953 = if(harper1953!=1,null(),1)'")
+system("r.stats -c for1953")
 ## 1 225792265
 ## * 1135151199
 
 #= Export
-system2("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' \\
+system("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' \\
        type=Byte output=outputs/for1953.tif")
 
 # =======================================
@@ -362,88 +362,84 @@ system2("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' \\
 # =======================================
 
 Year <- c(1953,1973,1990,2000,2005,2010,2013,2014)
-system2("g.region rast=harper -ap")
-system2("r.mask --o raster=harper")
+system("g.region rast=harper -ap")
+system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
   # Message
   cat(paste0("Year: ",Year[i],"\n"))
   # Computation  
-  system2(paste0("r.neighbors --o input=for",Year[i]," output=for",Year[i],"_sum method=sum size=3"))
-  system2(paste0("r.mapcalc --o 'for",Year[i]," = if(isnull(for",Year[i],") &&& for",Year[i],"_sum==8, 1, for",Year[i],")'"))
+  system(paste0("r.neighbors --o input=for",Year[i]," output=for",Year[i],"_sum method=sum size=3"))
+  system(paste0("r.mapcalc --o 'for",Year[i]," = if(isnull(for",Year[i],") &&& for",Year[i],"_sum==8, 1, for",Year[i],")'"))
   # Export raster as .tif
-  system2(paste0("r.out.gdal --o input=for",Year[i]," createopt='compress=lzw,predictor=2' \\
+  system(paste0("r.out.gdal --o input=for",Year[i]," createopt='compress=lzw,predictor=2' \\
          type=Byte output=outputs/for",Year[i],".tif"))
 }
-system2("r.mask -r")
+system("r.mask -r")
+
+#= We rename for1973 (with cloud class 5) as for1973_5
+#= for1973 will be without clouds
+system("g.rename raster=for1973,for1973_5")
+system("r.mapcalc 'for1973 = if(!isnull(for1973_5) &&& for1973_5==1, 1, null())'")
 
 #====================================================================================
 # Export images as .png and .gif
 
 #= Colors
-system2("echo '1 26:152:80' | r.colors for1953 rules=-")
-system2("echo '1 26:152:80 \n 5 grey' | r.colors for1973 rules=-")
-system2("echo '1 26:152:80' | r.colors for1990 rules=-")
-system2("echo '1 26:152:80' | r.colors for2000 rules=-")
-system2("echo '1 26:152:80' | r.colors for2010 rules=-")
-system2("echo '1 26:152:80' | r.colors for2014 rules=-")
+system("echo '1 26:152:80' | r.colors for1953 rules=-")
+system("echo '1 26:152:80 \n 5 grey' | r.colors for1973_5 rules=-")
+system("echo '1 26:152:80' | r.colors for1990 rules=-")
+system("echo '1 26:152:80' | r.colors for2000 rules=-")
+system("echo '1 26:152:80' | r.colors for2010 rules=-")
+system("echo '1 26:152:80' | r.colors for2014 rules=-")
 
 #= PNG
-system2("g.region res=1000")
-system2("r.out.png --o input=for1953 output=outputs/for1953.png")
-system2("r.out.png --o input=for1973 output=outputs/for1973.png")
-system2("r.out.png --o input=for1990 output=outputs/for1990.png")
-system2("r.out.png --o input=for2000 output=outputs/for2000.png")
-system2("r.out.png --o input=for2010 output=outputs/for2010.png")
-system2("r.out.png --o input=for2014 output=outputs/for2014.png")
+system("g.region res=1000")
+system("r.out.png --o input=for1953 output=outputs/for1953.png")
+system("r.out.png --o input=for1973_5 output=outputs/for1973.png")
+system("r.out.png --o input=for1990 output=outputs/for1990.png")
+system("r.out.png --o input=for2000 output=outputs/for2000.png")
+system("r.out.png --o input=for2010 output=outputs/for2010.png")
+system("r.out.png --o input=for2014 output=outputs/for2014.png")
 
 # #= Animated GIF
 # # Image Magick library should be installed: https://www.imagemagick.org
-# system2("convert -pointsize 72 -gravity North -draw \"text 0,0 '1953'\" outputs/for1953.png outputs/for1953.gif")
-# system2("convert -pointsize 72 -gravity North -draw \"text 0,0 '1973'\" outputs/for1973.png outputs/for1973.gif")
-# system2("convert -pointsize 72 -gravity North -draw \"text 0,0 '1990'\" outputs/for1990.png outputs/for1990.gif")
-# system2("convert -pointsize 72 -gravity North -draw \"text 0,0 '2000'\" outputs/for2000.png outputs/for2000.gif")
-# system2("convert -pointsize 72 -gravity North -draw \"text 0,0 '2010'\" outputs/for2010.png outputs/for2010.gif")
-# system2("convert -pointsize 72 -gravity North -draw \"text 0,0 '2014'\" outputs/for2014.png outputs/for2014.gif")
-# system2("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
-# ## system2("rm *.png")
+# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1953'\" outputs/for1953.png outputs/for1953.gif")
+# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1973'\" outputs/for1973.png outputs/for1973.gif")
+# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1990'\" outputs/for1990.png outputs/for1990.gif")
+# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2000'\" outputs/for2000.png outputs/for2000.gif")
+# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2010'\" outputs/for2010.png outputs/for2010.gif")
+# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2014'\" outputs/for2014.png outputs/for2014.gif")
+# system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
+# ## system("rm *.png")
 
 ##==========================
-## Validation
+## Forest density
 ##==========================
 
-#= Import validation points
-valpts <- read.csv("gisdata/vectors/validation_points.csv", stringsAsFactors=FALSE)
-valpts$Obs13[valpts$Obs13==9] <- "P" # Correction
-valpts.sp <- SpatialPointsDataFrame(valpts[,1:2], valpts[3:4])
-crs(valpts.sp) <- CRS("+init=epsg:4326")
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
+system("g.region rast=harper -ap")
 
-#= Reproject in UTM38S
-newcrs <- CRS("+init=epsg:32738")
-valpts.38s <- spTransform(valpts.sp, newcrs)
+# Density rules
+txt <- c("0 thru 20 = 1", "21 thru 40 = 2", "41 thru 60 = 3", "61 thru 80 = 4", "81 thru 100 = 5")
+writeLines(txt, "outputs/densrules.txt")
 
-#= Export 
-writeOGR(valpts.38s, dsn="outputs", layer="valpts_38s", driver="ESRI Shapefile")
+# Loop on years
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Mask on forest
+  system(paste0("r.mask --o raster=for",Year[i]))
+  # Forest density (takes several hours to run)
+  system(paste0("r.neighbors input=for",Year[i]," output=forcount",Year[i]," method=count size=51"))
+  system(paste0("r.mapcalc --o 'fordens",Year[i]," = round(100*forcount",Year[i],"/2601)'"))
+  # Reclassify
+  system(paste0("r.reclass input=fordens",Year[i]," output=fordens",Year[i],"_class rules=outputs/densrules.txt"))
+  # Export
+  system(paste0("r.out.gdal --o input=fordens",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordens",Year[i],".tif"))
+  system(paste0("r.out.gdal --o input=fordens",Year[i],"_class createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordens",Year[i],"_class.tif"))
+}
+system("r.mask -r")
 
-#= Import into GRASS
-system2("v.in.ogr --o input=outputs/valpts_38s.shp output=valpts")
-
-#= Get values from for2010 and for 2013
-system2("v.what.rast map=valpts raster=for2010 column=for2010")
-system2("v.what.rast map=valpts raster=for2013 column=for2013")
-
-#= Export to output
-system2("db.out.ogr --overwrite input=valpts output=outputs/valpts.csv")
-
-#= Import into R
-valpts.df <- read.table("outputs/valpts.csv", header=TRUE, sep=",")
-valpts.df[is.na(valpts.df)] <- "P"
-valpts.df[valpts.df==1] <- "F"
-valpts.df$Obs <- paste(valpts.df$Obs10, valpts.df$Obs13, sep="")
-valpts.df$Pred <- paste(valpts.df$for2010, valpts.df$for2013, sep="")
-
-#= Confusion matrix
-cm <- table(valpts.df$Pred, valpts.df$Obs)
-caret::confusionMatrix(data=valpts.df$Pred, reference=valpts.df$Obs)
 
 ##==========================
 ## Forest fragmentation
@@ -453,45 +449,41 @@ caret::confusionMatrix(data=valpts.df$Pred, reference=valpts.df$Obs)
 ## https://grass.osgeo.org/grass72/manuals/addons/r.forestfrag.html
 
 Year <- c(1953,1973,1990,2000,2005,2010,2014)
-system2("g.region rast=harper -ap")
-system2("r.mask --o raster=harper")
+system("g.region rast=harper -ap")
+system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  if (Year[i]==1973) {  # ! 1975 with 5 (clouds) 
-    system2(paste0("r.mapcalc --o 'for1973_0 = if(!isnull(for1973) &&& for1973==1, 1, 0)'"))
-  } else {
-    system2(paste0("r.mapcalc --o 'for",Year[i],"_0 = if(!isnull(for",Year[i],"), 1, 0)'"))
-  }
-  system2(paste0("r.forestfrag input=for",Year[i],"_0 output=frag",Year[i]," size=7 --overwrite"))
-  system2(paste0("r.out.gdal --o input=frag",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/frag",Year[i],".tif"))
+  system(paste0("r.mapcalc --o 'for",Year[i],"_0 = if(!isnull(for",Year[i],"), 1, 0)'"))
+  system(paste0("r.forestfrag input=for",Year[i],"_0 output=frag",Year[i]," size=7 --overwrite"))
+  system(paste0("r.out.gdal --o input=frag",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/frag",Year[i],".tif"))
 }
-system2("r.mask -r")
+system("r.mask -r")
 
 ##==========================
 ## Distance to forest edge
 ##==========================
 
 Year <- c(1953,1973,1990,2000,2005,2010,2014)
-system2("g.region rast=harper -ap")
+system("g.region rast=harper -ap")
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  system2(paste0("gdal_proximity.py outputs/for",Year[i],".tif outputs/_dist_edge_",Year[i],".tif \\
+  system(paste0("gdal_proximity.py outputs/for",Year[i],".tif outputs/_dist_edge_",Year[i],".tif \\
                 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' -values 255 -ot UInt32 -distunits GEO"))
-  system2(paste0("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \\
+  system(paste0("gdal_translate -a_nodata 0 -co 'COMPRESS=LZW' -co 'PREDICTOR=2' \\
                 outputs/_dist_edge_",Year[i],".tif outputs/dist_edge_",Year[i],".tif"))
   file.remove(paste0("outputs/_dist_edge_",Year[i],".tif"))
-  system2(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i]))
+  system(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i]))
 }
 # Prepare dist_edge_2014 for figures
-system2("r.mask --o raster=harper")
-system2("r.mapcalc --o 'dist_edge_2014_mask = if(isnull(dist_edge_2014), 0, dist_edge_2014)'")
-system2("r.out.gdal --o input=dist_edge_2014_mask nodata=9999 createopt='compress=lzw,predictor=2' \\
+system("r.mask --o raster=harper")
+system("r.mapcalc --o 'dist_edge_2014_mask = if(isnull(dist_edge_2014), 0, dist_edge_2014)'")
+system("r.out.gdal --o input=dist_edge_2014_mask nodata=9999 createopt='compress=lzw,predictor=2' \\
        output=outputs/dist_edge_2014_mask.tif")
-system2("r.mask -r")
+system("r.mask -r")
 
 ##========================
 ## Statistics whole forest
@@ -505,7 +497,11 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  statcell <- system2(paste0("r.stats -c for",Year[i]), intern=TRUE)
+  if (Year[i]=="1973") {
+    statcell <- system("r.stats -c for1973_5", intern=TRUE)
+  } else {
+    statcell <- system(paste0("r.stats -c for",Year[i]), intern=TRUE)
+  }
   ncells <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
   defor.df$area[i] <- round(ncells*(as.numeric(Res)^2)/10000)
 }
@@ -529,7 +525,7 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  statcell <- system2(paste0("r.stats -c for",Year[i]), intern=TRUE)
+  statcell <- system(paste0("r.stats -c for",Year[i]), intern=TRUE)
   ncells <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
   defor.df$area[i] <- round(ncells*(as.numeric(Res)^2)/10000)
 }
@@ -552,7 +548,7 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  statcell <- system2(paste0("r.stats -c frag",Year[i]), intern=TRUE)
+  statcell <- system(paste0("r.stats -c frag",Year[i]), intern=TRUE)
   ncells <- as.numeric(matrix(unlist(strsplit(statcell,split=" ")),ncol=2,byrow=TRUE)[-c(1,8),2])
   frag.df$forest[i] <- round(sum(ncells)*(as.numeric(Res)^2)/10000)
   frag.df[i,c(3:8)] <- round(100*ncells/sum(ncells),2)
@@ -567,7 +563,7 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  statcell <- system2(paste0("r.quantile percentiles=5,50,95 input=dist_edge_",Year[i]), intern=TRUE)
+  statcell <- system(paste0("r.quantile percentiles=5,50,95 input=dist_edge_",Year[i]), intern=TRUE)
   mat.statcell <- matrix(as.numeric(unlist(strsplit(statcell,split=":"))), byrow=TRUE, nrow=3)
   dist.quant.df$median[i] <- mat.statcell[2,3]
   dist.quant.df$q1[i] <- mat.statcell[1,3]
@@ -583,7 +579,7 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  statcell <- system2(paste0("r.univar -e percentile=5,95 map=dist_edge_",Year[i]), intern=TRUE)
+  statcell <- system(paste0("r.univar -e percentile=5,95 map=dist_edge_",Year[i]), intern=TRUE)
   dist.df$min[i] <- unlist(strsplit(statcell[7],split=" "))[2]
   dist.df$max[i] <- unlist(strsplit(statcell[8],split=" "))[2]
   dist.df$mean[i] <- unlist(strsplit(statcell[10],split=" "))[2]
@@ -604,14 +600,14 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  system2(paste0("r.mapcalc 'dist_edge_500m_",Year[i]," = if(dist_edge_",Year[i],">=500,0,1)'"))
+  system(paste0("r.mapcalc 'dist_edge_500m_",Year[i]," = if(dist_edge_",Year[i],">=500,0,1)'"))
 }
 # Stats
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  stat500m <- system2(paste0("r.stats -nacp input=dist_edge_500m_",Year[i]), intern=TRUE)
+  stat500m <- system(paste0("r.stats -nacp input=dist_edge_500m_",Year[i]), intern=TRUE)
   mat.stat500m <- matrix(unlist(strsplit(stat500m,split=" ")), byrow=TRUE, nrow=2)
   perc.500m.dist.df$perc[i] <- as.numeric(sub("%","",mat.stat500m[2,4]))
 }
@@ -625,14 +621,14 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  system2(paste0("r.mapcalc --o 'dist_edge_1km_",Year[i]," = if(dist_edge_",Year[i],">=1000,0,1)'"))
+  system(paste0("r.mapcalc --o 'dist_edge_1km_",Year[i]," = if(dist_edge_",Year[i],">=1000,0,1)'"))
 }
 # Stats
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  stat1km <- system2(paste0("r.stats -nacp input=dist_edge_1km_",Year[i]), intern=TRUE)
+  stat1km <- system(paste0("r.stats -nacp input=dist_edge_1km_",Year[i]), intern=TRUE)
   mat.stat1km <- matrix(unlist(strsplit(stat1km,split=" ")), byrow=TRUE, nrow=2)
   perc.1km.dist.df$perc[i] <- as.numeric(sub("%","",mat.stat1km[2,4]))
 }
@@ -646,14 +642,14 @@ for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  system2(paste0("r.mapcalc --o 'dist_edge_100m_",Year[i]," = if(dist_edge_",Year[i],">=100,0,1)'"))
+  system(paste0("r.mapcalc --o 'dist_edge_100m_",Year[i]," = if(dist_edge_",Year[i],">=100,0,1)'"))
 }
 # Stats
 for (i in 1:length(Year)) {
   # Message
   cat(paste("Year: ",Year[i],"\n",sep=""))
   # Computation
-  stat100m <- system2(paste0("r.stats -nacp input=dist_edge_100m_",Year[i]), intern=TRUE)
+  stat100m <- system(paste0("r.stats -nacp input=dist_edge_100m_",Year[i]), intern=TRUE)
   mat.stat100m <- matrix(unlist(strsplit(stat100m,split=" ")), byrow=TRUE, nrow=2)
   perc.100m.dist.df$perc[i] <- as.numeric(sub("%","",mat.stat100m[2,4]))
 }
@@ -674,7 +670,7 @@ for (j in 1:3) {
   # Message
   cat(paste0("Ecoregion: ",ecoregion[j]))
   # Mask
-  system2(paste0("r.mask --o raster=ecoregion maskcats=",j,"'"))
+  system(paste0("r.mask --o raster=ecoregion maskcats=",j,"'"))
   # ===========================
   # A. Deforestation statistics
   Year <- c(1953,1973,1990,2000,2010,2014)
@@ -684,7 +680,7 @@ for (j in 1:3) {
     # Message
     cat(paste0("Year: ",Year[i]))
     # Computation
-    statcell <- system2(paste0("r.stats -c for",Year[i]), intern=TRUE)
+    statcell <- system(paste0("r.stats -c for",Year[i]), intern=TRUE)
     ncells <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
     defor.df$area[i] <- round(ncells*(as.numeric(Res)^2)/10000)
   }
@@ -706,7 +702,7 @@ for (j in 1:3) {
     # Message
     cat(paste0("Year: ",Year[i]))
     # Computation
-    statcell <- system2(paste0("r.stats -c for",Year[i]), intern=TRUE)
+    statcell <- system(paste0("r.stats -c for",Year[i]), intern=TRUE)
     ncells <- as.numeric(strsplit(statcell[1],split=" ")[[1]][2])
     defor.df$area[i] <- round(ncells*(as.numeric(Res)^2)/10000)
   }
@@ -729,7 +725,7 @@ for (j in 1:3) {
   #   # Message
   #   cat(paste("Year: ",Year[i],"\n",sep=""))
   #   # Computation
-  #   statcell <- system2(paste0("r.stats -c frag",Year[i]), intern=TRUE)
+  #   statcell <- system(paste0("r.stats -c frag",Year[i]), intern=TRUE)
   #   ncells <- as.numeric(matrix(unlist(strsplit(statcell,split=" ")),ncol=2,byrow=TRUE)[-c(1,8),2])
   #   frag.df$forest[i] <- round(sum(ncells)*(as.numeric(Res)^2)/10000)
   #   frag.df[i,c(3:8)] <- round(100*ncells/sum(ncells),2)
@@ -743,7 +739,7 @@ for (j in 1:3) {
   #   # Message
   #   cat(paste("Year: ",Year[i],"\n",sep=""))
   #   # Computation
-  #   statcell <- system2(paste0("r.univar dist_edge_",Year[i]), intern=TRUE)
+  #   statcell <- system(paste0("r.univar dist_edge_",Year[i]), intern=TRUE)
   #   dist.df$min[i] <- unlist(strsplit(statcell[7],split=" "))[2]
   #   dist.df$max[i] <- unlist(strsplit(statcell[8],split=" "))[2]
   #   dist.df$mean[i] <- unlist(strsplit(statcell[10],split=" "))[2]
@@ -754,7 +750,7 @@ for (j in 1:3) {
   #write.table(dist.df,paste0("outputs/dist_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
   
   # Remove mask
-  system2("r.mask -r")
+  system("r.mask -r")
 }
 
 ##========================================================
@@ -850,24 +846,24 @@ proj.t <- "EPSG:32738"
 Input <- "outputs/water.vrt"
 Output <- "outputs/water.tif"
 # gdalbuildvrt
-system2("gdalbuildvrt -overwrite outputs/water.vrt gisdata/rasters/waterbodies/*.tif")
+system("gdalbuildvrt -overwrite outputs/water.vrt gisdata/rasters/waterbodies/*.tif")
 # gdalwarp
-system2(paste0("gdalwarp -overwrite -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+system(paste0("gdalwarp -overwrite -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
               " -tr ",Res," ",Res," -r near -ot Byte -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
 # Import
-system2("r.in.gdal --o input=outputs/water.tif output=water")
+system("r.in.gdal --o input=outputs/water.tif output=water")
 
 ## FCC map
 
 # Mask on Harper map
-system2("r.null map=harper setnull=0 --verbose")
-system2("r.mask --o raster=harper")
+system("r.null map=harper setnull=0 --verbose")
+system("r.mask --o raster=harper")
 # Compute fcc
-system2(paste0("r.mapcalc --o 'fcc = if(!isnull(for2014),24,if(!isnull(for2000),23,if(!isnull(for1990),22, \\
+system(paste0("r.mapcalc --o 'fcc = if(!isnull(for2014),24,if(!isnull(for2000),23,if(!isnull(for1990),22, \\
        if(!isnull(for1973) &&& for1973==1,21,if(!isnull(water) &&& water>0,water, \\
               if(!isnull(for1953),20,if(!isnull(for1973) &&& for1973==5,215,0)))))))'"))
 # Color palette
-system2("r.colors map=fcc rules=- << EOF
+system("r.colors map=fcc rules=- << EOF
 0 243:243:220
 1 153:217:234
 12 0:0:170
@@ -880,12 +876,12 @@ system2("r.colors map=fcc rules=- << EOF
 nv 255:255:255
 EOF")
 # Export
-system2("r.out.gdal --o input=fcc createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc.tif")
+system("r.out.gdal --o input=fcc createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc.tif")
 
 # Compute fcc_for1953
-system2(paste0("r.mapcalc --o 'fcc_for1953 = if(!isnull(for1953),20,if(!isnull(water) &&& water>0,water,0))'"))
+system(paste0("r.mapcalc --o 'fcc_for1953 = if(!isnull(for1953),20,if(!isnull(water) &&& water>0,water,0))'"))
 # Color palette
-system2("r.colors map=fcc_for1953 rules=- << EOF
+system("r.colors map=fcc_for1953 rules=- << EOF
 0 243:243:220
 1 153:217:234
 12 0:0:170
@@ -893,10 +889,10 @@ system2("r.colors map=fcc_for1953 rules=- << EOF
 nv 255:255:255
 EOF")
 # Export
-system2("r.out.gdal --o input=fcc_for1953 createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc_for1953.tif")
+system("r.out.gdal --o input=fcc_for1953 createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc_for1953.tif")
 
 # Remove mask
-system2("r.mask -r")
+system("r.mask -r")
 
 ## =======================================
 ## Plot raster with gplot() from rasterVis
@@ -937,14 +933,14 @@ dev.off()
 ## Carbon emissions between 2010 and 2014
 ##==================================================
 
-system2("r.in.gdal --o input=gisdata/rasters/carbon/ACD_RF_2010.tif output=acd")
-system2("g.region rast=for2010 -ap")
-system2("r.mask --o raster=for2010")
-system2("r.univar map=acd")
-system2("g.region rast=for2014 -ap")
-system2("r.mask --o raster=for2014")
-system2("r.univar map=acd")
-system2("r.mask -r")
+system("r.in.gdal --o input=gisdata/rasters/carbon/ACD_RF_2010.tif output=acd")
+system("g.region rast=for2010 -ap")
+system("r.mask --o raster=for2010")
+system("r.univar map=acd")
+system("g.region rast=for2014 -ap")
+system("r.mask --o raster=for2014")
+system("r.univar map=acd")
+system("r.mask -r")
 acd_2010 <- 9700502114*30*30/10000 # 873045190
 acd_2014 <- 9253573526*30*30/10000 # 832821617
 carbon_emissions <- acd_2010-acd_2014
@@ -980,7 +976,7 @@ render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # p
 ## Pandoc for word
 ##========================
 
-system2("pandoc manuscript/manuscript_essd.tex --bibliography=manuscript/biblio.bib \\
+system("pandoc manuscript/manuscript_essd.tex --bibliography=manuscript/biblio.bib \\
        --csl=manuscript/bib/methods-in-ecology-and-evolution.csl -o manuscript/manuscript_essd.docx")
 
 ##===========================================================================
