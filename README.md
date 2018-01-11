@@ -12,6 +12,10 @@ This repository includes the R script and data used to derive the results of the
 
 The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis can be downloaded from Zenodo: \[DOI: [10.5281/zenodo.1118955](https://doi.org/10.5281/zenodo.1118955)\].
 
+## Main outputs: forest cover and forest fragmentation maps
+
+Main outputs of the study, including Madagascar forest cover maps and forest fragmentation maps for the years 1953, 1973, 1990, 2000, 2005, 2010 and 2014 are available on Zenodo: \[DOI: [10.5281/zenodo.1145785](https://doi.org/10.5281/zenodo.1145785)\].
+
 ## File and folder description
 
 - `data`: folder including two tables with forest-cover and deforestation data from previous studies.
@@ -25,19 +29,19 @@ The results of the study are fully reproducible running the R/GRASS script `defo
 
 ### Geospatial libraries
 
-The GDAL library (<http://www.gdal.org/>) and GRASS GIS 7.2.x software (<https://grass.osgeo.org/>) are needed to run this script. Call to GDAL and GRASS GIS 7.2 functions are made through the function `system()` in R. 
+Computations detailed in the R script depend on several geospatial libraries external to R. The GDAL library (<http://www.gdal.org/>) and GRASS GIS 7.2.x software (<https://grass.osgeo.org/>) need to be installed to run the R script. Call to GDAL and GRASS GIS 7.2 functions are made through the function `system()` in R. 
 
 ### Fragmentation
 
-For computing fragmentation, the `r.forestfrag` add-on must be installed. GRASS GIS add-ons can be easily installed in the local installation through the graphical user interface (Menu - Settings - Addons Extension - Install) or via the [`g.extension`](https://grass.osgeo.org/grass72/manuals/g.extension.html) command.
+For computing Riitters et al. 2000 fragmentation index, the `r.forestfrag` add-on must be installed. GRASS GIS add-ons can be easily installed in the local installation through the graphical user interface (Menu - Settings - Addons Extension - Install) or via the [`g.extension`](https://grass.osgeo.org/grass72/manuals/g.extension.html) command.
 
 ## Portability
 
-For our study, computations have been done on a Linux workstation. Windows users should preferentially install [OSGeo-Live](https://live.osgeo.org/en/), a geospatial Linux distribution within a [VirtualBox virtual machine](https://live.osgeo.org/en/quickstart/virtualization_quickstart.html).
+For our study, computations have been done on a Linux workstation. To use the R script, Windows users should preferentially install [OSGeo-Live](https://live.osgeo.org/en/), a geospatial Linux distribution, within a [VirtualBox virtual machine](https://live.osgeo.org/en/quickstart/virtualization_quickstart.html).
 
-Another possibility would be to install [OSGeo4W](https://trac.osgeo.org/osgeo4w/), a binary distribution of a broad set of open source geospatial software for Windows environments including GDAL and GRASS. The script have not been tested on Windows but minimal changes to the code should be necessary to make it work.
+Another possibility would be to install [OSGeo4W](https://trac.osgeo.org/osgeo4w/), a binary distribution of a broad set of open source geospatial software for Windows environments including GDAL and GRASS. The script has not been tested on Windows but minimal changes to the code should be necessary to make it work. For example, command `system()` must be replaced by command `shell()` under Windows.
 
-The path to the GRASS GIS package must be provided when connecting R to GRASS with function `initGRASS()`. On Linux, find the path to GRASS GIS with `$ grass72 --config path`. It should return somethin like `/usr/lib/grass72`. On Windows, find the path to GRASS GIS with `C:\>grass72.bat --config path`. If you use OSGeo4W, it should be `C:\OSGeo4W\apps\grass\grass-7.2`.
+The path to the GRASS GIS package must be provided when connecting R to GRASS with function `initGRASS()`. On Linux, find the path to GRASS GIS with `$ grass72 --config path`. It should return something like `/usr/lib/grass72`. On Windows, find the path to GRASS GIS with `C:\>grass72.bat --config path`. If you use OSGeo4W, it should be `C:\OSGeo4W\apps\grass\grass-7.2`.
 
 ## References
 
@@ -49,7 +53,7 @@ Previous reports on deforestation in Madagascar might not be accessible on the l
 
 ## Versioning and archiving on Zenodo
 
-The development version of this repository is available on GitHub at <https://github.com/ghislainv/deforestation-maps-Mada>. The last release of this repository is archived on Zenodo: \[DOI: [10.5281/zenodo.1118484](https://doi.org/10.5281/zenodo.1118484)\].
+The development version of this repository is available on GitHub at <https://github.com/ghislainv/deforestation-maps-Mada>. All versions of this repository, including the last release, are archived on Zenodo: \[DOI: [10.5281/zenodo.1118484](https://doi.org/10.5281/zenodo.1118484)\].
 
 ## Figure
 
