@@ -6,11 +6,11 @@
 
 This repository includes the R script and data used to derive the results of the following article:
 
-**Vieilledent G., C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard.** Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar.
+**Vieilledent G., C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard.** Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar. _bioRxiv_. 147827. \[DOI: [10.1101/147827](https://doi.org/10.1101/147827)\].
 
 ## Reproducibility of the results
 
-The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis are downloaded from Zenodo: \[DOI: [10.5281/zenodo.1118955](https://doi.org/10.5281/zenodo.1118955)\].
+The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis can be downloaded from Zenodo: \[DOI: [10.5281/zenodo.1118955](https://doi.org/10.5281/zenodo.1118955)\].
 
 ## File and folder description
 
@@ -25,7 +25,7 @@ The results of the study are fully reproducible running the R/GRASS script `defo
 
 ### Geospatial libraries
 
-The GDAL library (<http://www.gdal.org/>) and GRASS GIS 7.2.x software (<https://grass.osgeo.org/>) are needed to run this script. Call to GDAL and GRASS GIS 7.2 functions are made through the function `system2()` in R. 
+The GDAL library (<http://www.gdal.org/>) and GRASS GIS 7.2.x software (<https://grass.osgeo.org/>) are needed to run this script. Call to GDAL and GRASS GIS 7.2 functions are made through the function `system()` in R. 
 
 ### Fragmentation
 
@@ -33,21 +33,19 @@ For computing fragmentation, the `r.forestfrag` add-on must be installed. GRASS 
 
 ## Portability
 
-For our study, computations have been done on a Linux workstation.
+For our study, computations have been done on a Linux workstation. Windows users should preferentially install [OSGeo-Live](https://live.osgeo.org/en/), a geospatial Linux distribution within a [VirtualBox virtual machine](https://live.osgeo.org/en/quickstart/virtualization_quickstart.html).
 
-Windows users should either:
-- install [OSGeo-Live](https://live.osgeo.org/en/), a geospatial Linux distribution within a [VirtualBox virtual machine](https://live.osgeo.org/en/quickstart/virtualization_quickstart.html).
-- install [OSGeo4W](https://trac.osgeo.org/osgeo4w/), a binary distribution of a broad set of open source geospatial software for Windows environments including GDAL and GRASS.
+Another possibility would be to install [OSGeo4W](https://trac.osgeo.org/osgeo4w/), a binary distribution of a broad set of open source geospatial software for Windows environments including GDAL and GRASS. The script have not been tested on Windows but minimal changes to the code should be necessary to make it work.
 
-The script have not been tested on Windows but minimal changes to the code should be necessary to make it work. In particular, the path to the GRASS GIS package must be provided when connecting R to GRASS with function `initGRASS()`. On Linux, find the path to GRASS GIS with `$ grass72 --config path`. It should return somethin like `/usr/lib/grass72`. On Windows, find the path to GRASS GIS with `C:\>grass72.bat --config path`. If you use OSGeo4W, it should be `C:\OSGeo4W\apps\grass\grass-7.2`.
+The path to the GRASS GIS package must be provided when connecting R to GRASS with function `initGRASS()`. On Linux, find the path to GRASS GIS with `$ grass72 --config path`. It should return somethin like `/usr/lib/grass72`. On Windows, find the path to GRASS GIS with `C:\>grass72.bat --config path`. If you use OSGeo4W, it should be `C:\OSGeo4W\apps\grass\grass-7.2`.
 
 ## References
 
 Previous reports on deforestation in Madagascar might not be accessible on the long term at their original web address. These reports have been archived on a private Google Drive repository [here](https://drive.google.com/drive/folders/1nq8CuMacT0uZuNO6q05al94d6KYp1FaK?usp=sharing). In particular, the following reports have been made available:
 
 - MEFT, USAID, and CI. (2009). Evolution de la couverture de forêts naturelles à Madagascar, 1990-2000-2005. Antananarivo.
-- ONE, DGF, FTM, MNP, and CI. (2013). Evolution de la couverture de forêts naturelles à Madagascar 2005-2010. Antananarivo. [url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010).
-- ONE, DGF, MNP, WCS, and Etc Terra. (2015). Changement de la couverture de forêts naturelles à Madagascar, 2005-2010-2013. Antananarivo. [url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010-2013).
+- ONE, DGF, FTM, MNP, and CI. (2013). Evolution de la couverture de forêts naturelles à Madagascar 2005-2010. Antananarivo. [original url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010).
+- ONE, DGF, MNP, WCS, and Etc Terra. (2015). Changement de la couverture de forêts naturelles à Madagascar, 2005-2010-2013. Antananarivo. [original url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010-2013).
 
 ## Versioning and archiving on Zenodo
 
