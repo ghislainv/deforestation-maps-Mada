@@ -21,7 +21,7 @@ zooms <- list(zoom.w,zoom.e)
 # Compute zooms
 for (z in 1:length(zooms)) {
   ExtentZ <- paste(zooms[[z]]$xmin,zooms[[z]]$ymin,zooms[[z]]$xmax,zooms[[z]]$ymax)
-  Input <- c("fcc.tif","fcc_for1953.tif","frag2014.tif","dist_edge_2014_mask.tif")
+  Input <- c("fcc.tif","fcc_for1953.tif","fordens2014_class_mask.tif","dist_edge_2014_mask.tif")
   nodata <- c(rep(255,3),9999)
   Output <- paste0(sub(".tif","",Input),"_zoom",z,".tif")
   for (i in 1:length(Input)) {
@@ -265,8 +265,8 @@ zw.fcc <- plot_zoom_fcc("outputs/fcc_zoom1.tif",fcc.palette) + ylab("Cover 1973-
 ze.fcc <- plot_zoom_fcc("outputs/fcc_zoom2.tif",fcc.palette) + ylab("")
 
 ## Zooms frag
-zw.frag <- plot_zoom_frag("outputs/frag2014_zoom1.tif")
-ze.frag <- plot_zoom_frag("outputs/frag2014_zoom2.tif") + ylab("") + theme(legend.position="none")
+zw.frag <- plot_zoom_frag("outputs/fordens2014_class_mask_zoom1.tif")
+ze.frag <- plot_zoom_frag("outputs/fordens2014_class_mask_zoom2.tif") + ylab("") + theme(legend.position="none")
 
 ## Zooms dist
 zw.dist <- plot_zoom_dist("outputs/dist_edge_2014_mask_zoom1.tif")

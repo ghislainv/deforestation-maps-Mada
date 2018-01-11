@@ -379,7 +379,7 @@ system("r.mask -r")
 #= We rename for1973 (with cloud class 5) as for1973_5
 #= for1973 will be without clouds
 system("g.rename raster=for1973,for1973_5")
-system("r.mapcalc 'for1973 = if(!isnull(for1973_5) &&& for1973_5==1, 1, null())'")
+system("r.mapcalc --o 'for1973 = if(!isnull(for1973_5) &&& for1973_5==1, 1, null())'")
 
 #====================================================================================
 # Export images as .png and .gif
@@ -430,16 +430,20 @@ for (i in 1:length(Year)) {
   # Mask on forest
   system(paste0("r.mask --o raster=for",Year[i]))
   # Forest density (takes several hours to run)
-  system(paste0("r.neighbors input=for",Year[i]," output=forcount",Year[i]," method=count size=51"))
+  system(paste0("r.neighbors --o input=for",Year[i]," output=forcount",Year[i]," method=count size=51"))
   system(paste0("r.mapcalc --o 'fordens",Year[i]," = round(100*forcount",Year[i],"/2601)'"))
   # Reclassify
-  system(paste0("r.reclass input=fordens",Year[i]," output=fordens",Year[i],"_class rules=outputs/densrules.txt"))
+  system(paste0("r.reclass --o input=fordens",Year[i]," output=fordens",Year[i],"_class rules=outputs/densrules.txt"))
   # Export
   system(paste0("r.out.gdal --o input=fordens",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordens",Year[i],".tif"))
   system(paste0("r.out.gdal --o input=fordens",Year[i],"_class createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordens",Year[i],"_class.tif"))
 }
+# Prepare fordens2014_class for figures
+system("r.mask --o raster=harper")
+system("r.mapcalc --o 'fordens2014_class_mask = if(isnull(fordens2014_class), 0, fordens2014_class)'")
+system("r.out.gdal --o input=fordens2014_class_mask nodata=255 type=Byte createopt='compress=lzw,predictor=2' \\
+       output=outputs/fordens2014_class_mask.tif")
 system("r.mask -r")
-
 
 ##==========================
 ## Forest fragmentation
@@ -538,6 +542,22 @@ for (i in 2:length(Year)) {
 }
 # Export
 write.table(defor.df,"outputs/defor_for_comp.txt",row.names=FALSE,sep="\t")
+
+#= Forest density statistics
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
+fordens.df <- data.frame(Year=Year,forest=NA,cat1=NA,cat2=NA,
+                      cat3=NA,cat4=NA,cat5=NA)
+# Areas
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Computation
+  statcell <- system(paste0("r.stats -c fordens",Year[i],"_class"), intern=TRUE)
+  ncells <- as.numeric(matrix(unlist(strsplit(statcell,split=" ")),ncol=2,byrow=TRUE)[-c(6),2])
+  fordens.df$forest[i] <- round(sum(ncells)*(as.numeric(Res)^2)/10000)
+  fordens.df[i,c(3:7)] <- round(100*ncells/sum(ncells),2)
+}
+write.table(fordens.df,"outputs/fordens.txt",row.names=FALSE,sep="\t")
 
 #= Fragmentation statistics
 Year <- c(1953,1973,1990,2000,2005,2010,2014)
