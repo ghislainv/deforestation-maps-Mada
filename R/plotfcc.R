@@ -12,6 +12,7 @@ library(rasterVis)
 library(gridExtra)
 library(grid)
 library(rgdal)
+library(ggspatial)  # for geom_spatial()
 
 # Zooms
 zoom.w <- list(xmin=346000,xmax=439000,ymin=7387000,ymax=7480000)
@@ -163,9 +164,6 @@ plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
 # ================
 # Ecoregions
 
-# devtools::install_github("paleolimbot/ggspatial")
-library(ggspatial)  # for geom_spatial()
-
 # Import
 ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_tenaizy_38s")
 # Recode ecoregion
@@ -195,7 +193,7 @@ eco.col <- c("h"=green.t,"d"=orange.t,"s"=red.t,"m"="blue","1"=black.t)
 
 # Plot
 plot.ecoregion <- gplot(for2014, maxpixels=10e5) +
-  geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(code))) +
+  geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(code)), crsto=32738) +
   geom_raster(aes(fill=factor(value))) +
   scale_fill_manual(values=eco.col, na.value="transparent") +
   geom_text(data=t.df, aes(x=x, y=y, label=text), size=5) +
