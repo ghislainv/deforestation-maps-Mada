@@ -996,8 +996,8 @@ render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # p
 ## Pandoc for word
 ##========================
 
-system("pandoc manuscript/manuscript_essd.tex --bibliography=manuscript/biblio.bib \\
-       --csl=manuscript/bib/methods-in-ecology-and-evolution.csl -o manuscript/manuscript_essd.docx")
+system("pandoc manuscript/manuscript.tex --bibliography=manuscript/bib/biblio.bib \\
+       --csl=manuscript/bib/journal-of-applied-ecology.csl -o manuscript/manuscript_essd.md")
 
 ##===========================================================================
 ## End of script

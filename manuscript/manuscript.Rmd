@@ -36,17 +36,36 @@ load("deforestmap.rda")
 
 ## Summary
 
-1. The island of Madagascar has an unparalleled biodiversity, mainly located in the tropical forests of the island, which is highly threatened by anthropogenic deforestation. Scattered forest maps from past studies at national level with substantial gaps (due to presence of cloud cover on satellite imagery) prevent the analyzis of long-term deforestation trends in Madagascar.
-
-2. In this study, we propose a new approach combining historical (1953-2000) national forest-cover maps with recent (2000-2014) global annual tree cover loss data to look at six decades (1953-2014) of deforestation and forest fragmentation in Madagascar. We produced new forest-cover maps at 30m-resolution over the full territory of Madagascar for the year 1990, and annually from 2000 to 2014.
-
-3. We estimated that Madagascar has lost 44% of its natural forest cover over the period 1953-2014 (including 37% over the period 1973-2014). Natural forests cover 8.9 Mha in 2014 (15% of the national territory) which are divided into 4.4 Mha (50%) of moist forests, 2.6 Mha (29%) of dry forests, 1.7 Mha of spiny forests (19%) and 177,000 ha (2%) of mangroves. Since 2005, the annual deforestation rate has progressively increased in Madagascar to reach 99,000 ha/yr during 2010-2014 (corresponding to a rate of 1.08%/yr). Around half of the forest (46%) is now located at less than 100m from the forest edge.
-
-4. _Policy implications_: Increase in the deforestation rate since 2005 can be related to rapid population growth (close to 3%/yr) and to poor law enforcement due to political instability in the country. More effort, including conservation and development programs, is needed in Madagascar to protect the remaining natural tropical forests, both to enhance local people's livelihoods and to support global environmental efforts.
+The island of Madagascar has an unparalleled biodiversity, mainly located in the tropical forests of the island, which is highly
+  threatened by anthropogenic deforestation. Scattered forest maps
+  from past studies at national level with substantial gaps (due to
+  presence of cloud cover on satellite imagery) prevent the analysis
+  of long-term deforestation trends in Madagascar. In this study, we
+  propose a new approach combining historical (1953-2000) national
+  forest-cover maps with recent (2001-2014) global annual tree cover
+  loss data to look at six decades (1953-2014) of deforestation and
+  forest fragmentation in Madagascar. We produced new forest-cover
+  maps at 30~m resolution over the full territory of Madagascar for
+  the year 1990, and annually from 2000 to 2014. We estimated that
+  Madagascar has lost 44\% of its natural forest cover over the period
+  1953-2014 (including 37\% over the period 1973-2014). Natural
+  forests cover 8.9 Mha in 2014 (15\% of the national territory) which
+  are divided into 4.4 Mha (50\%) of moist forests, 2.6 Mha (29\%) of
+  dry forests, 1.7 Mha of spiny forests (19\%) and 177,000 ha (2\%) of
+  mangroves. Since 2005, the annual deforestation rate has
+  progressively increased in Madagascar to reach 99,000 ha/yr during
+  2010-2014 (corresponding to a rate of 1.1\%/yr). This increase is
+  probably due to rapid population growth (close to 3\%/yr) and to
+  poor law enforcement in the country. Around half of the forest
+  (46\%) is now located at less than 100~m from the forest
+  edge. Accurate forest-cover change maps can be used to assess the
+  effectiveness of past and current conservation programs and
+  implement new strategies for the future. In particular, forest maps
+  and estimates can be used in the REDD+ framework which aims at
+  ``Reducing Emissions from Deforestation and Forest Degradation'' and
+  for optimizing the current protected area network.
 
 **Keywords**: biodiversity, climate-change, deforestation, Landsat, Madagascar, tropical forest.
-
-**Potential journals** (2015 IF): Conservation Letters (7.126), Journal of Applied Ecology (5.196), Conservation Biology (4.257), Environmental Research Letters (4.134), Biological Conservation (3.985), Landscape Ecology (3.657), Ambio (2.555), Environmental Conservation (2.235), Biotropica (1.944), Tropical Conservation Science (1.55).
 
 ## 1. Introduction
 
@@ -167,7 +186,7 @@ kable(tab.3,col.names=col.names,align=c("l","l",rep("r",6)))
 Table 3: **Comparing our estimates of annual deforestation rates for Madagascar with previous studies on the period 1953-2014**. Annual deforestation areas (in ha/yr) and annual deforestation rates (second number in parenthesis, in %/yr) are provided. For deforestation rates in %/yr, exact same numbers as in scientific articles and reports from previous studies have been reported. The way annual deforestation rates in %/yr have been computed in these previous studies can slightly differ from one study to another but estimates always correct for the potential presences of clouds on forest maps. Annual deforested areas in ha/yr have been recomputed from forest-cover estimates in Tab. 2 (except for @Harper2007 for the periods 1973-1990 and 1990-2000 for which annual deforested ares in ha/yr were derived from numbers reported in the original publication, see methods) and do not correct for the potential presence of clouds.
 
 ```{r frag, results="asis"}
-frag.df <- read.table(file="outputs/frag.txt", sep="\t", header=TRUE)
+frag.df <- read.table(file="outputs/fordens.txt", sep="\t", header=TRUE)
 tab.4 <- frag.df
 p.1 <- round(frag.df$interior[frag.df$Year==1973])
 p.2 <- round(frag.df$interior[frag.df$Year==2014])
@@ -175,7 +194,7 @@ p.3 <- round(frag.df$patch[frag.df$Year==2014]+frag.df$transitional[frag.df$Year
 tab.4 <- tab.4[,-c(8)]
 tab.4$Year <- as.character(tab.4$Year)
 tab.4$forest <- round(tab.4$forest/1000)
-names(tab.4) <- c("Year","Forest (ha)", "patch (%)", "transitional (%)", "edge (%)", "perforated (%)", "interior (%)")
+names(tab.4) <- c("Year","Forest (ha)", "0-20", "21-40", "41-60", "61-80", "81-100")
 kable(tab.4, digits=0, format.args=list(big.mark=","))
 ```
 
@@ -183,10 +202,10 @@ Table 4: **Evolution of the forest fragmentation from 1953 to 2014 in Madagascar
 
 ## Figures
 
-![Figure 1: **Ecoregions and forest types in Madagascar.** Madagascar can be divided into four climatic ecoregions with four forest types: the moist forest in the East (green), the dry forest in the West (orange), the spiny forest in the South (red), and the mangroves on the West coast (blue). Ecoregions were defined following climatic [@Cornet1974] and vegetation [@IEFN1996] criteria. The dark grey areas represent the remaining natural forest cover for the year 2014.](outputs/ecoregion.png)
+![Figure 1: **Ecoregions and forest types in Madagascar.** Madagascar can be divided into four climatic ecoregions with four forest types: the moist forest in the East (green), the dry forest in the West (orange), the spiny forest in the South (red), and the mangroves on the West coast (blue). Ecoregions were defined following climatic [@Cornet1974] and vegetation [@IEFN1996] criteria. The dark grey areas represent the remaining natural forest cover for the year 2014.](figs/ecoregion.png)
 
-![Figure 2: **Forest-cover change on six decades from 1953 to 2014 in Madagascar.** Forest cover changes from _c._ 1973 to 2014 are shown in the main figure, and forest cover in _c._ 1953 is shown in the bottom-right inset. Two zooms in the western dry (left part) and eastern moist (right part) ecoregions present more detailed views of (from top to bottom): forest-cover in 1950s, forest-cover change from _c._ 1973 to 2014, forest fragmentation in 2014 and distance to forest edge in 2014. Data on water bodies (blue) and water seasonality (light blue for seasonal water to dark blue for permanent water) has been extracted from @Pekel2016.](outputs/fig_fcc_highres.png)
+![Figure 2: **Forest-cover change on six decades from 1953 to 2014 in Madagascar.** Forest cover changes from _c._ 1973 to 2014 are shown in the main figure, and forest cover in _c._ 1953 is shown in the bottom-right inset. Two zooms in the western dry (left part) and eastern moist (right part) ecoregions present more detailed views of (from top to bottom): forest-cover in 1950s, forest-cover change from _c._ 1973 to 2014, forest fragmentation in 2014 and distance to forest edge in 2014. Data on water bodies (blue) and water seasonality (light blue for seasonal water to dark blue for permanent water) has been extracted from @Pekel2016.](figs/fig_fcc.png)
 
-![Figure 3: **Evolution of the distance to forest edge from 1953 to 2014 in Madagascar.** Black dots represent the mean distance to forest edge for each year. Vertical dashed segments represent the 90% quantiles (5% and 95%) of the distance to forest edge. Horizontal dashed grey line indicates a distance to forest edge of 100m. Percentages indicate the percentage of forest at a distance to forest edge lower than 100m for each year.](outputs/dist.png)
+![Figure 3: **Evolution of the distance to forest edge from 1953 to 2014 in Madagascar.** Black dots represent the mean distance to forest edge for each year. Vertical dashed segments represent the 90% quantiles (5% and 95%) of the distance to forest edge. Horizontal dashed grey line indicates a distance to forest edge of 100m. Percentages indicate the percentage of forest at a distance to forest edge lower than 100m for each year.](figs/dist.png)
 
 ## References

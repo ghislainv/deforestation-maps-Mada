@@ -2,8 +2,6 @@
 
 # deforestation-maps-Mada
 
-## Sixty years of deforestation and forest fragmentation in Madagascar
-
 This repository includes the R script and data used to derive the results of the following article:
 
 **Vieilledent G., C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard.** Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar. _bioRxiv_. 147827. \[DOI: [10.1101/147827](https://doi.org/10.1101/147827)\].
