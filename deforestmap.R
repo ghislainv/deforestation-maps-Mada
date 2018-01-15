@@ -964,6 +964,7 @@ system("r.mask -r")
 acd_2010 <- 9700502114*30*30/10000 # 873045190
 acd_2014 <- 9253573526*30*30/10000 # 832821617
 carbon_emissions <- acd_2010-acd_2014
+SavedObjects <- c(SavedObjects,"carbon_emissions")
 
 ##========================
 ## Save objects
@@ -971,7 +972,6 @@ carbon_emissions <- acd_2010-acd_2014
 
 # load("deforestmap.rda")
 save(list=SavedObjects,file="deforestmap.rda")
-save(list=ls(),file="deforestmap.rda")
 
 ##========================
 ## Knit the document
@@ -997,7 +997,7 @@ render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # p
 ##========================
 
 system("pandoc manuscript/manuscript.tex --bibliography=manuscript/bib/biblio.bib \\
-       --csl=manuscript/bib/journal-of-applied-ecology.csl -o manuscript/manuscript_essd.md")
+       --csl=manuscript/bib/journal-of-applied-ecology.csl -o manuscript/manuscript.md")
 
 ##===========================================================================
 ## End of script
