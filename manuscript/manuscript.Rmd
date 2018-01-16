@@ -1,31 +1,33 @@
 ---
-title: "Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: Combining global tree cover loss data with historical national forest-cover
+  maps to look at six decades of deforestation and forest fragmentation in Madagascar
+  
 output:
-  bookdown::tufte_html2:
-    number_sections: no
-    toc: yes
-  bookdown::word_document2: null
   bookdown::pdf_document2:
-    #includes:
-    #  before_body: doc_prefix.tex
-    #  in_header: preamble.tex
     keep_tex: yes
+    latex_engine: pdflatex
     number_sections: yes
     toc: no
-bibliography: bib/biblio.bib
-fontsize: 12pt
+
 link-citations: yes
+bibliography: bib/biblio.bib
 csl: bib/journal-of-applied-ecology.csl
 ---
 
-```{r load_data}
-load("deforestmap.rda")
+```{r options, echo=FALSE, results="hide"}
+library(bookdown)
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo=FALSE, cache=FALSE,
+               #results="hide", 
+               warning=FALSE,
+               message=FALSE, highlight=TRUE,
+               fig.show="hide", size="small",
+               tidy=FALSE)
+options(knitr.kable.NA="-")
 ```
 
-#### Ghislain Vieilledent<sup>*,1,2</sup>, Clovis Grinand<sup>3</sup>, Fety A. Rakotomalala<sup>3</sup>, Rija Ranaivosoa<sup>4</sup>, Jean-Roger Rakotoarijaona<sup>4</sup>, Thomas F. Allnutt<sup>5,6</sup>, and Frédéric Achard<sup>1</sup>
-
-(*) /Email: ghislain.vieilledent@cirad.fr, /Phone: +39.329.457.2273
+**Ghislain Vieilledent$^{1,2,\star}$, Clovis Grinand$^{3}$, Fety A. Rakotomalala$^{3}$, Rija Ranaivosoa$^{4}$, Jean-Roger Rakotoarijaona$^{4}$, Thomas F. Allnutt$^{5,6}$, and Frédéric Achard$^{1}$**
 
 1. Joint Research Center of the European Commission, Bio-economy Unit (JRC.D.1), I-21027 Ispra (VA), ITALY
 2. Cirad, UPR Forêts et Sociétés, F-34398 Montpellier, FRANCE
@@ -34,9 +36,11 @@ load("deforestmap.rda")
 5. Wildlife Conservation Society, 101 Antananarivo, MADAGASCAR
 6. GreenInfo Network, Oakland, California, USA
 
+(*) /Email: ghislain.vieilledent@cirad.fr, /Phone: +39.329.457.2273
+
 *Running headline:* Six decades of deforestation in Madagascar
 
-## Highlights
+# Highlights
 
 - We produced new 30m-resolution annual forest-cover maps for Madagascar for the period 2000-2014.
 - Madagascar has lost 44% of its natural forest-cover over the period 1953-2014.
@@ -44,13 +48,13 @@ load("deforestmap.rda")
 - Annual deforestation rate has increased in Madagascar since 2005 to reach 1.08%/yr.
 - Conservation and development efforts must be intensified to save Madagascar forest and biodiversity.
 
-## Summary
+# Summary
 
 The island of Madagascar has a unique biodiversity, mainly located in the tropical forests of the island. This biodiversity is highly threatened by anthropogenic deforestation. Existing historical forest maps at national level are scattered and have substantial gaps which prevent an exhaustive assessment of long-term deforestation trends in Madagascar. In this study, we combine historical national forest cover maps (covering the period 1953-2000) with a recent global annual tree cover loss dataset (2001-2014) to look at six decades of deforestation and forest fragmentation in Madagascar (from 1953 to 2014). We produced new forest cover maps at 30 m resolution for the year 1990 and annually from 2000 to 2014 over the full territory of Madagascar. We estimated that Madagascar has lost 44% of its natural forest cover over the period 1953-2014 (including 37% over the period 1973-2014). Natural forests cover 8.9 Mha in 2014 (15% of the national territory) and include 4.4 Mha (50%) of moist forests, 2.6 Mha (29%) of dry forests, 1.7 Mha of spiny forests (19%) and 177,000 ha (2%) of mangroves. Since 2005, the annual deforestation rate has progressively increased in Madagascar to reach 99,000 ha/yr during 2010-2014 (corresponding to a rate of 1.1%/yr). This increase is probably due to rapid population growth (close to 3%/yr) and to poor law enforcement in the country. Around half of the forest (46%) is now located at less than 100 m from the forest edge. Accurate forest cover change maps can be used to assess the effectiveness of past and current conservation programs and implement new strategies for the future. In particular, forest maps and estimates can be used in the REDD+ framework which aims at "Reducing Emissions from Deforestation and Forest Degradation" and for optimizing the current protected area network. 
 
 **Keywords**: biodiversity, climate-change, deforestation, forest-fragmentation, Madagascar, tropical forest.
 
-## Introduction
+# Introduction
 
 Separated from the African continent and the Indian plate about 165 and
 88 million years ago respectively [@Ali2008], the flora and fauna of
@@ -161,9 +165,9 @@ future. We also discuss how our results could help assess the
 effectiveness of current conservation strategies, and implementation new
 conservation strategies for the future in Madagascar.
 
-## Materials and Methods
+# Materials and Methods
 
-### Creation of new forest cover maps of Madagascar from 1953 to 2014
+## Creation of new forest cover maps of Madagascar from 1953 to 2014
 
 We produced annual forest/non-forest maps at 30 m resolution for the
 full territory of Madagascar for the period 2000-2014 by combining the
@@ -211,7 +215,7 @@ such as selective logging) as forest fragmentation. All the resulting
 maps have been made permanently and freely available on the Zenodo
 research data repository at <https://doi.org/10.5281/zenodo.1145785>.
 
-### Computing forest cover areas and deforestation rates
+## Computing forest cover areas and deforestation rates
 
 From these new forest cover maps, we calculated the total forest cover
 area for seven available years (1953-1973-1990-2000-2005-2010-2014), and
@@ -220,11 +224,11 @@ corresponding six time periods between 1953 and 2014. The annual
 deforestation rates were calculated using Eq. \@ref(eq:theta) [@Puyravaud2003; @Vieilledent2013]:
 
 \begin{equation}
-  \theta = 100 \times [1-(1-(F_{t_2}-F_{t_1})/F_{t_1})^{(1/(t_2-t_1))}]
   (\#eq:theta)
+  \theta = 100 \times [1-(1-(F_{t_2}-F_{t_1})/F_{t_1})^{(1/(t_2-t_1))}]
 \end{equation}
 
-In Eq. \ref{eq:theta}, $\theta$ is the annual deforestation rate (in
+In Eq. \@ref(eq:theta), $\theta$ is the annual deforestation rate (in
 %/yr), $F_{t_2}$ and $F_{t_1}$ are the forest cover free of clouds at
 both dates $t_2$ and $t_1$, and $t_2-t_1$ is the time-interval (in
 years) between the two dates.
@@ -249,11 +253,11 @@ on six decades might not be fully appropriate. As a consequence, our
 estimates of the forest cover and deforestation rates for mangroves in
 Madagascar must be considered with this limitation.
 
-### Comparing our forest cover and deforestation rate estimates with previous studies
+## Comparing our forest cover and deforestation rate estimates with previous studies
 
 We compared our estimates of forest cover and deforestation rates with
 estimates from the three existing studies at the national scale for
-Madagascar: (i) [@Harper2007], (ii) [@MEFT2009] and (iii) [@ONE2015].
+Madagascar: (i) @Harper2007, (ii) @MEFT2009 and (iii) @ONE2015.
 @Harper2007 provides forest cover and deforestation estimates for the
 periods c. 1953-c. 1973-1990-2000. @MEFT2009 provides estimates for the
 periods 1990-2000-2005 and @ONE2015 provides estimates for the periods
@@ -271,13 +275,13 @@ annual deforested area estimates. When annual deforested areas were not
 reported (for 1953-1973 in @Harper2007 and in @MEFT2009 and @ONE2015),
 we computed them from the forest cover estimates in each study. These
 estimates cannot be corrected from the potential bias due to the
-presence of residual clouds. forest cover and deforestation rates were
+presence of residual clouds. Forest cover and deforestation rates were
 then compared between all studies for the whole of Madagascar and the
 four ecoregions. The same ecoregion boundaries as in our study were used
 in @ONE2015 but this was not the case for @Harper2007 and @MEFT2009,
 which can explain a part of the differences between the estimates.
 
-### Fragmentation
+## Fragmentation
 
 We also conducted an analysis of changes in forest fragmentation for the
 years 1953, 1973, 1990, 2000, 2005, 2010 and 2014 at 30 m resolution. We
@@ -307,9 +311,9 @@ we also estimated the percentage of forest within the first 100 m of the
 forest edge for each year and looked at the evolution of this percentage
 over the six decades.
 
-## Results
+# Results
 
-### Forest cover change and deforestation rates
+## Forest cover change and deforestation rates
 
 Natural forests in Madagascar covered 16.0 Mha in 1953, about 27% of
 the national territory of 587,041 km2. In 2014, the forest cover
@@ -337,7 +341,7 @@ is valid for all four forest types except the spiny forest
 rate during the period 2010-2013 was lower than on the period
 2005-2010 (Tab. \@ref(tab:comp_defor)).
 
-### Comparison with previous forest cover change studies in Madagascar
+## Comparison with previous forest cover change studies in Madagascar
 
 Forest cover maps provided by previous studies over Madagascar were
 not exhaustive (unclassified areas) due to the presence of clouds on
@@ -363,7 +367,7 @@ observed across studies with a decrease of deforestation rates over
 the period 1990-2005, followed by a progressive increase of the
 deforestation after 2005.
 
-### Evolution of forest fragmentation with time
+## Evolution of forest fragmentation with time
 
 In parallel to the dynamics of deforestation, forest fragmentation has
 progressively increased since 1953 in Madagascar. We observed a
@@ -382,9 +386,9 @@ fragmented forest classes (less than 40% of forest cover in the
 neighborhood) while 15% of the forest belonged to these two
 classes in 1973 (Tab. \@ref(tab:frag)).
 
-## Discussion
+# Discussion
 
-### Advantages of combining recent global annual tree cover loss data with historical national forest cover maps
+## Advantages of combining recent global annual tree cover loss data with historical national forest cover maps
 
 In this study, we combined recent (2001-2014) global annual tree cover
 loss data [@Hansen2013] with historical (1953-2000) national forest
@@ -459,7 +463,7 @@ pasture. Third, young secondary forests provide more limited ecosystem
 services compared to old-growth natural forests in terms of biodiversity
 and carbon storage.
 
-### Natural forest cover change in Madagascar from 1953 to 2014
+## Natural forest cover change in Madagascar from 1953 to 2014
 
 We estimated that natural forest in Madagascar covers 8.9 Mha in 2014
 (corresponding to 15% of the country) and that Madagascar has lost 44%
@@ -499,7 +503,7 @@ allow to maintain viable populations and "edge effects" at
 forest/non-forest interfaces have impacts on both carbon emissions
 [@Brinck2017] and biodiversity loss [@Gibson2013; @Murcia1995].
 
-### Deforestation trend and impacts on conservation and development policies
+## Deforestation trend and impacts on conservation and development policies
 
 In our study, we have shown that the progressive decrease of the
 deforestation rate on the period 1990-2005 was followed by a continuous
@@ -541,14 +545,14 @@ and forest cover estimates, should help implement new conservation
 strategies to save Madagascar natural tropical forests and their unique
 biodiversity.
 
-## Author's contribution
+# Author's contribution
 
 All authors conceived the ideas and designed methodology; GV analysed
 the data and wrote the `R/GRASS` script; GV drafted the
 manuscript. All authors contributed critically to the drafts and gave
 final approval for publication.
 
-## Acknowledgements
+# Acknowledgements
 
 The authors thank Jean-François Bastin for useful comments on a previous
 version of the manuscript and Peter Vogt for useful advices on which
@@ -562,7 +566,7 @@ agreement AAP-SCEN-2013 I. The ReCaREDD project is funded by the
 European Commission. The authors declare that there are no conflicts of
 interest related to this article.
 
-## Data accessibility
+# Data accessibility
 
 All the data and the script used for this study have been made
 permanently and publicly available on the Zenodo research data
@@ -572,9 +576,9 @@ repository so that the results are entirely reproducible:
 -   Script: <https://doi.org/10.5281/zenodo.1118484>
 -   Output data: <https://doi.org/10.5281/zenodo.1145785>
 
-## Tables
+# Tables
 
-```{r forest_cover, results="asis"}
+```{r forest_cover}
 defor.df <- read.table(file="tabs/defor.txt", sep="\t", header=TRUE)
 perc.1 <- round(100*(defor.df$area[defor.df$Year==1973]-defor.df$area[defor.df$Year==2014])/defor.df$area[defor.df$Year==1973])
 perc.2 <- round(100*(defor.df$area[defor.df$Year==1953]-defor.df$area[defor.df$Year==2014])/defor.df$area[defor.df$Year==1953])
@@ -584,48 +588,49 @@ tab.1 <- defor.df
 tab.1[,c(2:4)] <- round(tab.1[,c(2:4)]/1000)
 tab.1$Year <- as.character(tab.1$Year)
 names(tab.1) <- c("Year", "Forest (Kha)", "Unmap (Kha)", "Annual defor. (Kha/yr)", "Rate (%/yr)")
-kable(tab.1, format.args = list(big.mark=","), digits=1)
+# Caption
+#cap <- "**Evolution of natural forest cover and deforestation rates from 1953 to 2014 in Madagascar.** Areas are provided in thousands of hectares (Kha). Forest map for the year 1973 has 3.3 Mha of unclassified areas due to the presence of clouds on satellite images. As a consequence, partial deforestation rates for the periods 1953-1973 and 1973-1990 are computed based on the available forest extent. The last two columns indicate the annual deforested areas and annual deforestation rates on the previous time-period (e.g. 1953-1973 for year 1973, 1973-1990 for year 1990, etc.)."
+# Kable
+knitr::kable(tab.1, format.args=list(big.mark=","), digits=1, booktabs=TRUE, caption="Test")
 ```
 
-Table 1: **Evolution of natural forest cover and deforestation rates from 1953 to 2014 in Madagascar.** Areas are provided in thousands of hectares (Kha). Forest map for the year 1973 has 3.3 Mha of unclassified areas due to the presence of clouds on satellite images. As a consequence, partial deforestation rates for the periods 1953-1973 and 1973-1990 are computed based on the available forest extent. The last two columns indicate the annual deforested areas and annual deforestation rates on the previous time-period (e.g. 1953-1973 for year 1973, 1973-1990 for year 1990, etc.).
-
-```{r comp_forest, results="asis"}
+```{r comp_forest}
 fcc.comp <- read.table(file="tabs/fcc_comp.txt", sep=" ", header=TRUE)
 tab.2 <- fcc.comp
 tab.2 <- tab.2[,c(2,1,3:10)]
 tab.2[,c(3:10)] <- round(tab.2[,c(3:10)]/1000)
 tab.2$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
 col.names <- c("Forest type","Source","1953","1973","1990","2000","2005","2010","2013","2014")
-kable(tab.2,col.names=col.names,align=c("l","l",rep("r",8)), format.args = list(big.mark=","))
+# Caption
+#cap <- "**Comparing Madagascar forest cover estimates with previous studies on the period 1953-2014.** We compared our estimates of forest cover with the estimates from three previous studies [@Harper2007; @MEFT2009; @ONE2015]. Areas are provided in thousands of hectares (Kha). We obtained a Pearson's correlation coefficient of 0.99 between our forest cover estimates and forest cover estimates from previous studies. The increase in mangrove and spiny forest covers from _c._ 1953 to _c._ 1973 in @Harper2007 and our study is most probably due to differences in forest definition and mapping methods between the 1953 aerial-photography derived map and the 1973 Landsat image derived map."
+# Kable
+knitr::kable(tab.2, col.names=col.names,align=c("l","l",rep("r",8)), format.args=list(big.mark=","), booktabs=TRUE, caption="Test")
 ```
 
-Table 2: **Comparing Madagascar forest cover estimates with previous studies on the period 1953-2014.** We compared our estimates of forest cover with the estimates from three previous studies [@Harper2007; @MEFT2009; @ONE2015]. Areas are provided in thousands of hectares (Kha). We obtained a Pearson's correlation coefficient of 0.99 between our forest cover estimates and forest cover estimates from previous studies. The increase in mangrove and spiny forest covers from _c._ 1953 to _c._ 1973 in @Harper2007 and our study is most probably due to differences in forest definition and mapping methods between the 1953 aerial-photography derived map and the 1973 Landsat image derived map.
-
-```{r comp_defor, results="asis"}
+```{r comp_defor}
 tab.3 <- read.table(file="tabs/defor_comp.txt", sep=" ", header=TRUE)
 tab.3$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
 col.names <- c("Forest type","Source","1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
-kable(tab.3,col.names=col.names,align=c("l","l",rep("r",6)))
+# Caption
+# cap <- "**Comparing Madagascar annual deforestation rates with previous studies on the period 1953-2014.** Annual deforested areas (in thousands of hectares per year, Kha/yr) and annual deforestation rates (second number in parenthesis, in %/yr) are provided. For deforestation rates in %/yr, exact same numbers as in scientific articles and reports from previous studies [@Harper2007; @MEFT2009; @ONE2015] have been reported. The way annual deforestation rates in %/yr have been computed in these previous studies can slightly differ from one study to another, but estimates always correct for the potential presences of clouds on satellite images and unclassified areas on forest maps. Annual deforested areas in Kha/yr have been recomputed from forest cover estimates in Tab. \\@ref(tab:comp_forest) (except for @Harper2007 for the periods 1973-1990 and 1990-2000 for which annual deforested areas in Kha/yr were derived from numbers reported in the original publication, see methods) and do not correct for the potential presence of clouds."
+# Kable
+knitr::kable(tab.3, col.names=col.names, align=c("l","l",rep("r",6)), booktabs=TRUE, caption="Test")
 ```
 
-Table 3: **Comparing Madagascar annual deforestation rates with previous studies on the period 1953-2014.** Annual deforested areas (in thousands of hectares per year, Kha/yr) and annual deforestation rates (second number in parenthesis, in %/yr) are provided. For deforestation rates in %/yr, exact same numbers as in scientific articles and reports from previous studies [@Harper2007; @MEFT2009; @ONE2015] have been reported. The way annual deforestation rates in %/yr have been computed in these previous studies can slightly differ from one study to another, but estimates always correct for the potential presences of clouds on satellite images and unclassified areas on forest maps. Annual deforested areas in Kha/yr have been recomputed from forest cover estimates in Tab. \ref{tab:comp_forest} (except for @Harper2007 for the periods 1973-1990 and 1990-2000 for which annual deforested areas in Kha/yr were derived from numbers reported in the original publication, see methods) and do not correct for the potential presence of clouds.
-
-```{r frag, results="asis"}
-frag.df <- read.table(file="outputs/fordens.txt", sep="\t", header=TRUE)
+```{r frag}
+# Import and format
+frag.df <- read.table(file="tabs/fordens.txt", sep="\t", header=TRUE)
 tab.4 <- frag.df
-p.1 <- round(frag.df$interior[frag.df$Year==1973])
-p.2 <- round(frag.df$interior[frag.df$Year==2014])
-p.3 <- round(frag.df$patch[frag.df$Year==2014]+frag.df$transitional[frag.df$Year==2014])
-tab.4 <- tab.4[,-c(8)]
 tab.4$Year <- as.character(tab.4$Year)
 tab.4$forest <- round(tab.4$forest/1000)
-names(tab.4) <- c("Year","Forest (ha)", "0-20", "21-40", "41-60", "61-80", "81-100")
-kable(tab.4, digits=0, format.args=list(big.mark=","))
+names(tab.4) <- c("Year","Forest (Kha)", "0-20", "21-40", "41-60", "61-80", "81-100")
+# Caption
+#cap <- "**Evolution of the forest fragmentation from 1953 to 2014 in Madagascar.** Five forest fragmentation classes, based on the percentage of forest in the neighborhood, are defined: 0-20% (highly fragmented), 21-40%, 41-60%, 61-80% and 81-100% (lowly fragmented). The percentage of forest falling in each forest fragmentation class is reported for each year. Forest areas are provided in thousands of hectares (Kha)."
+# Kable
+knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE, caption="Test")
 ```
 
-Table 4: **Evolution of the forest fragmentation from 1953 to 2014 in Madagascar.** Five forest fragmentation classes, based on the percentage of forest in the neighborhood, are defined: 0-20% (highly fragmented), 21-40%, 41-60%, 61-80% and 81-100% (lowly fragmented). The percentage of forest falling in each forest fragmentation class is reported for each year. Forest areas are provided in thousands of hectares (Kha).
-
-##  Figures
+#  Figures
 
 ![**Ecoregions and forest types in Madagascar.** Madagascar can be divided into four climatic ecoregions with four forest types: the moist forest in the East (green), the dry forest in the West (orange), the spiny forest in the South (red), and the mangroves on the West coast (blue). Ecoregions were defined following climatic [@Cornet1974] and vegetation [@IEFN1996] criteria. The dark grey areas represent the
 remaining natural forest cover for the year 2014.](figs/ecoregion.png)
@@ -633,6 +638,6 @@ remaining natural forest cover for the year 2014.](figs/ecoregion.png)
 ![**Forest cover change on six decades from 1953 to 2014 in Madagascar.** Forest cover changes from _c._ 1973 to 2014 are shown in the main figure, and forest cover in _c._ 1953 is shown in the bottom-right inset. Two zooms in the western dry (left part) and eastern moist (right part) ecoregions present more detailed views of (from top to bottom): forest cover in 1950s, forest cover change from _c._ 1973 to 2014, forest fragmentation in 2014 and distance to forest edge in 2014.
 Data on water bodies (blue) and water seasonality (light blue for seasonal water to dark blue for permanent water) has been extracted from @Pekel2016.](figs/fig_fcc.png)
 
-![**Evolution of the distance to forest edge from 1953 to 2014 in Madagascar.** Black dots represent the mean distance to forest edge for each year. Vertical dashed segments represent the 90% quantiles (5% and 95%) of the distance to forest edge. Horizontal dashed grey line indicates a distance to forest edge of 100 m. Numbers at the bottom of each vertical segments are the percentage of forest at a distance to forest edge lower than 100 m for each year.](figs/dist.png)
+![**Evolution of the distance to forest edge from 1953 to 2014 in Madagascar.** Black dots represent the mean distance to forest edge for each year. Vertical dashed segments represent the 90% quantiles (5% and 95%) of the distance to forest edge. Horizontal dashed grey line indicates a distance to forest edge of 100 m. Numbers at the bottom of each vertical segments are the percentage of forest at a distance to forest edge lower than 100 m for each year.](figs/dist.png)
 
-## References
+# References
