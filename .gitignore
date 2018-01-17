@@ -21,6 +21,7 @@ manuscript/cover_letter
 manuscript/manuscript.*
 !manuscript/manuscript.tex
 !manuscript/manuscript.Rmd
+!manuscript/manuscript.Rnw
 
 # History files
 .Rhistory
