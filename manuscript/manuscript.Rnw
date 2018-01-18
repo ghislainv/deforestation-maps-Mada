@@ -355,10 +355,10 @@ Because of the large unclassified area (3.3 million ha) in 1973, the
 annual deforestation areas and rates for the two periods 1953-1973 and
 1973-1990 are only partial estimates computed on the basis of the
 available forest extent. Area and rate estimates are produced at the
-national scale and for the four forest ecosystems present in
+national scale and for the four forest types present in
 Madagascar: moist forest in the East, dry forest in the West, spiny
 forest in the South, and mangroves on the Western coast
-(Fig.~\ref{fig:ecoregion}). To define the forest domains, we used a
+(Fig.~\ref{fig:ecoregion}). To define the forest types, we used a
 map from the MEFT (\emph{``Ministère de l'Environnement et des Forêts
   à Madagascar''}) with the boundaries of the four ecoregions in
 Madagascar. Ecoregions were defined on the basis of climatic and
@@ -703,8 +703,8 @@ publication.
 \section{Acknowledgements}
 \label{acknowledgements}
 
-The authors thank Jean-François Bastin for useful comments on a previous
-version of the manuscript and Peter Vogt for useful advices on which
+The authors thank two anonymous reviewers for useful comments on a previous
+version of the manuscript. They also thank Peter Vogt for useful advices on which
 metric to use to estimate forest fragmentation. This study is part of
 the Cirad's BioSceneMada project (\url{https://bioscenemada.cirad.fr})
 and the Joint Research Center's ReCaREDD project
@@ -869,7 +869,9 @@ knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE,
       (red), and the mangroves on the West coast (blue). Ecoregions
       were defined following climatic \citep{Cornet1974} and
       vegetation \citep{IEFN1996} criteria. The dark grey areas
-      represent the remaining natural forest cover for the year 2014.}
+      represent the remaining natural forest cover for the year 2014.
+      Forest types are defined on the basis of their appartenance to
+      one of the four ecoregions.}
    
     \label{fig:ecoregion}
     

@@ -17,7 +17,7 @@ Main outputs of the study, including Madagascar forest cover maps and forest fra
 ## File and folder description
 
 - `data`: folder including two tables with forest-cover and deforestation data from previous studies.
-- `manuscript`: folder including all the files (in particular the `.Rmd` file) used to produce the manuscript.
+- `manuscript`: folder including all the files (in particular the `.Rnw` file) used to produce the manuscript.
     - `manuscript/bib`: folder including bibliographic files (references and style).
     - `manuscript/figs`: folder including figures used in the manuscript.
 - `output`: folder including outputs from the R script.
