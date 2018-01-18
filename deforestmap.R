@@ -983,23 +983,16 @@ opts_chunk$set(echo=FALSE, cache=FALSE,
                message=FALSE, highlight=TRUE,
                fig.show="hide", size="small",
                tidy=FALSE)
-options(knitr.kable.NA = "-")
+options(knitr.kable.NA="-")
+opts_knit$set(root.dir="manuscript")
 
-## Knit and translate to html and pdf
-dir.create("report")
-## Main document
-render("deforestmap.Rmd")
+## Knit
+knitr::knit2pdf("manuscript/manuscript.Rnw", output="manuscript/manuscript.tex")
+
 ## Cover letter
-render("coverletter.md",output_format=c("pdf_document"),output_dir="report") # pdf output
-
-##========================
-## Pandoc for word
-##========================
-
-system("pandoc manuscript/manuscript.tex --bibliography=manuscript/bib/biblio.bib \\
-       --csl=manuscript/bib/journal-of-applied-ecology.csl -o manuscript/manuscript.md")
+rmarkdown::render("manuscript/coverletter.md", output_format=c("pdf_document"),
+                  output_dir="manuscript") # pdf output
 
 ##===========================================================================
 ## End of script
 ##===========================================================================
-
