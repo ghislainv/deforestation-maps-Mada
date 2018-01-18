@@ -1,12 +1,9 @@
-# Raw data which is downloaded
-deforestmap_data.zip
+# GIS data
+gisdata.zip
 gisdata
 
-# GRASS data
+# GRASS repository
 grassdata
-
-# Uploaded zipfile
-gisdata.zip
 
 # biblio bak
 manuscript/bib/biblio.bib.bak

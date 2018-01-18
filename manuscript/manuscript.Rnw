@@ -58,6 +58,7 @@ options(knitr.kable.NA="-")
 \title{Combining global tree cover loss data with historical national
   forest cover maps to look at six decades of deforestation and forest
   fragmentation in Madagascar}
+\author{}
 \date{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
