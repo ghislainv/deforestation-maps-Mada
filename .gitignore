@@ -13,14 +13,12 @@ manuscript/bib/biblio.bib.bak
 
 # Outputs
 outputs/*
-!outputs/fig_fcc_highres.png
+!outputs/fig_fcc.png
 !outputs/defor_Mada.gif
 
 # Manuscript files
 manuscript/cover_letter
 manuscript/manuscript.*
-!manuscript/manuscript.tex
-!manuscript/manuscript.Rmd
 !manuscript/manuscript.Rnw
 
 # History files
