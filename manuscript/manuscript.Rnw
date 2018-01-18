@@ -69,12 +69,10 @@ options(knitr.kable.NA="-")
 
 \vspace{-1cm}
 \begin{center}
-{\large
   Ghislain Vieilledent$^{1,2,\star}$, Clovis Grinand$^{3}$,
   Fety A. Rakotomalala$^{3}$,\\
   Rija Ranaivosoa$^{4}$, Jean-Roger Rakotoarijaona$^{4}$,\\
   Thomas F. Allnutt$^{5,6}$, and Frédéric Achard$^{1}$\\
-}
 \end{center}
 
 \vspace{0.3cm}
@@ -1176,7 +1174,7 @@ tabcap2 <- "\\textbf{Comparing Madagascar forest cover estimates with
 # Kable
 knitr::kable(tab.2, col.names=col.names, align=c("l","l",rep("r",8)), format.args=list(big.mark=","), 
              booktabs=TRUE, format="latex", caption=tabcap2, linesep="") %>% 
-  kable_styling(latex_options=c("striped","hold_position"))
+  kable_styling(latex_options=c("striped","hold_position","scale_down"))
 @
 \vspace*{\stretch{1}}
 
@@ -1210,43 +1208,33 @@ tabcap3 <- "\\textbf{Comparing Madagascar annual deforestation rates
 # Kable
 knitr::kable(tab.3, col.names=col.names, align=c("l","l",rep("r",6)), booktabs=TRUE, 
              caption=tabcap3, linesep="") %>% 
-  kable_styling(latex_options=c("striped","hold_position"))
+  kable_styling(latex_options=c("striped","hold_position","scale_down"))
 @
 \vspace*{\stretch{1}}
 
 \newpage
 
 \vspace*{\stretch{1}}
-\begin{table}[!h]
-
-  %{\small
-  \begin{longtable}[]{@{}rrrrrrrr@{}}
-    \toprule
-    Year & Forest (Kha) & 0-20\% & 21-40\% & 41-60\% &
-    61-80\% & 81-100\% \\
-    \midrule
-    \endhead
-    1953  & 15,968  & 0  & 1  & 8  & 12  & 78 \\
-    1973  & 14,243  & 6  & 9  & 12  & 16  & 57 \\
-    1990  & 10,762  & 7  & 10  & 13  & 17  & 53 \\
-    2000  & 9,879  & 7  & 11  & 14  & 17  & 51 \\
-    2005  & 9,673  & 8  & 11  & 14  & 18  & 49 \\
-    2010  & 9,320  & 8  & 12  & 15  & 18  & 47 \\
-    2014  & 8,925  & 9  & 13  & 16  & 19  & 44 \\
-    \bottomrule
-  \end{longtable}%}
-  \addtocounter{table}{-1}
-
-  \caption{\textbf{Evolution of the forest fragmentation from 1953 to
+<<frag, results="asis">>=
+# Import and format
+frag.df <- read.table(file="tabs/fordens.txt", sep="\t", header=TRUE)
+tab.4 <- frag.df
+tab.4$Year <- as.character(tab.4$Year)
+tab.4$forest <- round(tab.4$forest/1000)
+names(tab.4) <- c("Year","Forest (Kha)", "0-20", "21-40", "41-60", "61-80", "81-100")
+# Caption
+tabcap4 <- "\\textbf{Evolution of the forest fragmentation from 1953 to
       2014 in Madagascar}. Five forest fragmentation classes, based on
-    the percentage of forest in the neighborhood, are defined: 0-20\%
-    (highly fragmented), 21-40\%, 41-60\%, 61-80\% and 81-100\% (lowly
+    the percentage of forest in the neighborhood, are defined: 0-20\\%
+    (highly fragmented), 21-40\\%, 41-60\\%, 61-80\\% and 81-100\\% (lowly
     fragmented). The percentage of forest falling in each forest
     fragmentation class is reported for each year. Forest areas are
-    provided in thousands of hectares (Kha).}
-
-  \label{tab:frag}
-\end{table}
+    provided in thousands of hectares (Kha)."
+# Kable
+knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE,
+             caption=tabcap4, linesep="") %>%
+  kable_styling(latex_options=c("striped","hold_position"))
+@
 \vspace*{\stretch{1}}
 
 \newpage
@@ -1282,7 +1270,7 @@ knitr::kable(tab.3, col.names=col.names, align=c("l","l",rep("r",6)), booktabs=T
 \begin{figure}[h!]
   \centering
   
-  \includegraphics[width=\textwidth]{figs/fig_fcc.png}
+  \includegraphics[width=16cm]{figs/fig_fcc.png}
 
   \caption{\textbf{Forest cover change on six decades from 1953 to
       2014 in Madagascar.} forest cover changes from \emph{c.} 1973 to

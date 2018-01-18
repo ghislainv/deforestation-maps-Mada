@@ -108,12 +108,10 @@
 
 \vspace{-1cm}
 \begin{center}
-{\large
   Ghislain Vieilledent$^{1,2,\star}$, Clovis Grinand$^{3}$,
   Fety A. Rakotomalala$^{3}$,\\
   Rija Ranaivosoa$^{4}$, Jean-Roger Rakotoarijaona$^{4}$,\\
   Thomas F. Allnutt$^{5,6}$, and Frédéric Achard$^{1}$\\
-}
 \end{center}
 
 \vspace{0.3cm}
@@ -1213,7 +1211,7 @@ Year & Forest (Kha) & Unmap (Kha) & Annual defor. (Kha/yr) & Rate (\%/yr)\\
     1953 aerial-photography derived map and the 1973 Landsat image
     derived map.}
 \centering
-\begin{tabular}[t]{llrrrrrrrr}
+\resizebox{\linewidth}{!}{\begin{tabular}[t]{llrrrrrrrr}
 \hiderowcolors
 \toprule
 Forest type & Source & 1953 & 1973 & 1990 & 2000 & 2005 & 2010 & 2013 & 2014\\
@@ -1240,7 +1238,7 @@ Mangroves & Harper2007 & - & - & 240 & 226 & - & - & - & -\\
  & ONE2015 & - & - & - & - & 174 & 171 & 170 & -\\
  & this study & 143 & 200 & 181 & 178 & 177 & 177 & 177 & 177\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 \rowcolors{2}{white}{white}
 
@@ -1272,7 +1270,7 @@ Mangroves & Harper2007 & - & - & 240 & 226 & - & - & - & -\\
     publication, see methods) and do not correct for the potential
     presence of clouds.}
 \centering
-\begin{tabular}[t]{llrrrrrr}
+\resizebox{\linewidth}{!}{\begin{tabular}[t]{llrrrrrr}
 \hiderowcolors
 \toprule
 Forest type & Source & 1953-1973 & 1973-1990 & 1990-2000 & 2000-2005 & 2005-2010 & 2010-2013\\
@@ -1299,7 +1297,7 @@ Mangroves & Harper2007 & - & - & 1 (0.2) & - & - & -\\
  & ONE2015 & - & - & - & - & 0 (0.3) & 0 (0.2)\\
  & this study & -3 (-1.7) & 1 (0.6) & 0 (0.2) & 0 (0.0) & 0 (0.0) & 0 (0.0)\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 \rowcolors{2}{white}{white}
 
@@ -1309,36 +1307,36 @@ Mangroves & Harper2007 & - & - & 1 (0.2) & - & - & -\\
 \newpage
 
 \vspace*{\stretch{1}}
+\rowcolors{2}{gray!6}{white}
 \begin{table}[!h]
 
-  %{\small
-  \begin{longtable}[]{@{}rrrrrrrr@{}}
-    \toprule
-    Year & Forest (Kha) & 0-20\% & 21-40\% & 41-60\% &
-    61-80\% & 81-100\% \\
-    \midrule
-    \endhead
-    1953  & 15,968  & 0  & 1  & 8  & 12  & 78 \\
-    1973  & 14,243  & 6  & 9  & 12  & 16  & 57 \\
-    1990  & 10,762  & 7  & 10  & 13  & 17  & 53 \\
-    2000  & 9,879  & 7  & 11  & 14  & 17  & 51 \\
-    2005  & 9,673  & 8  & 11  & 14  & 18  & 49 \\
-    2010  & 9,320  & 8  & 12  & 15  & 18  & 47 \\
-    2014  & 8,925  & 9  & 13  & 16  & 19  & 44 \\
-    \bottomrule
-  \end{longtable}%}
-  \addtocounter{table}{-1}
-
-  \caption{\textbf{Evolution of the forest fragmentation from 1953 to
+\caption{\label{tab:frag}\textbf{Evolution of the forest fragmentation from 1953 to
       2014 in Madagascar}. Five forest fragmentation classes, based on
     the percentage of forest in the neighborhood, are defined: 0-20\%
     (highly fragmented), 21-40\%, 41-60\%, 61-80\% and 81-100\% (lowly
     fragmented). The percentage of forest falling in each forest
     fragmentation class is reported for each year. Forest areas are
     provided in thousands of hectares (Kha).}
-
-  \label{tab:frag}
+\centering
+\begin{tabular}[t]{lrrrrrr}
+\hiderowcolors
+\toprule
+Year & Forest (Kha) & 0-20 & 21-40 & 41-60 & 61-80 & 81-100\\
+\midrule
+\showrowcolors
+1953 & 15,968 & 0 & 1 & 8 & 12 & 78\\
+1973 & 14,243 & 6 & 9 & 12 & 16 & 57\\
+1990 & 10,762 & 7 & 10 & 13 & 17 & 53\\
+2000 & 9,879 & 7 & 11 & 14 & 17 & 51\\
+2005 & 9,673 & 8 & 11 & 14 & 18 & 49\\
+2010 & 9,320 & 8 & 12 & 15 & 18 & 47\\
+2014 & 8,925 & 9 & 13 & 16 & 19 & 44\\
+\bottomrule
+\end{tabular}
 \end{table}
+\rowcolors{2}{white}{white}
+
+
 \vspace*{\stretch{1}}
 
 \newpage
@@ -1374,7 +1372,7 @@ Mangroves & Harper2007 & - & - & 1 (0.2) & - & - & -\\
 \begin{figure}[h!]
   \centering
   
-  \includegraphics[width=\textwidth]{figs/fig_fcc.png}
+  \includegraphics[width=16cm]{figs/fig_fcc.png}
 
   \caption{\textbf{Forest cover change on six decades from 1953 to
       2014 in Madagascar.} forest cover changes from \emph{c.} 1973 to
