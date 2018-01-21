@@ -1,8 +1,9 @@
 ---
 title: "**Cover letter**"
-output: pdf_document
+output:
+  pdf_document:
 bibliography: biblio.bib
-csl: journal-of-applied-ecology.csl 
+csl: global-change-biology.csl 
 ---
 
 
@@ -23,15 +24,29 @@ to
 Editors    
 _Biological Conservation_ 
 
-Object: Resubmission of article Ref: BIOC_2017_861
+####
+
+Object: Resubmission of article with Ref: BIOC_2017_861
+
+####
 
 Dear Editor,
 
 Some months ago, we submitted our article untitled "Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar" to _Biological Conservation_. Despite relatively positive comments, especially from Reviewer 3, our article was rejected due to methodological issues, raised in particular by Reviewer 1.
 
-We thank the two reviewers for the careful review of the first version of the manuscript and their constructive remarks. After careful consideration of the remarks from the two reviewers, we decided to resolve the methodological issues and resubmit our paper to your journal. Detailed answers to remarks and modifications done to the manuscript can be found at the end of this cover letter.
+We thank the two reviewers for the attention they gave to the first version of the manuscript and their constructive remarks. After careful consideration of the remarks from the two reviewers, we decided to resolve the methodological issues and resubmit our paper to your journal. Detailed answers to remarks and modifications done to the manuscript can be found at the end of this cover letter.
 
-We made our best to improve the quality of the manuscript and we sincerely hope that you will be inclined at reconsidering our article for publication in your journal.
+The new version of the manuscript includes the following main changes:
+
+- We better explain how historical deforestation maps and tree cover datasets have been combined, in particular specifying the interpolation method used for resampling.
+- After discussion with Peter Vogt, we modified the way forest fragmentation was computed. We now consider the forest percentage in the neighborhood as an estimate of forest fragmentation.
+- We argue better why we decided to look specifically at the amount of forest located at less than 100 m from forest edge.
+- We discuss better the validity of our results including validation data for Harper and Hansen products from previous studies.
+- Tables have been reformatted to increase readability. Areas are now given in thousands of hectares and deforestation rates are given in %/yr with one decimal.
+- All the data and the script used for this study have been made permanently and publicly available on the Zenodo research data repository.
+- We updated the GitHub repository, providing more information about which external libraries to install and how to run the code on Windows machines.
+
+We made our best to improve the quality of the manuscript following Reviewer comments and we really hope that you will accept to reconsider our article for publication in your journal.
 
 Best regards,
 
@@ -53,19 +68,19 @@ Given the large amount of information already present on Figure 2, we prefered n
 
 **Related point is why have four "forest types" that are defined as four "ecoregions" - why not forest types or ecoregions but not both, if they are the same?**
 
-We agree with the reviewer that the two terms can be confusing. The aim of Figure 1 is precisely to explain the differences between ecoregions and forest types. As underline in the methodology, ecoregions were defined on the basis of climatic and vegetation criteria using the climate classification by [@Cornet1974] and the vegetation classification from the 1996 IEFN national forest inventory [@IEFN1996]. Forest types are defined on the basis of their appartenance to one of the four ecoregions. We modified Figure 1 legend to be clearer.
+We agree with the Reviewer 1 that the two terms can be confusing. The aim of Figure 1 is precisely to explain the differences between ecoregions and forest types. As underlined in the methodology, ecoregions were defined on the basis of climatic and vegetation criteria using the climate classification by [@Cornet1974] and the vegetation classification from the 1996 IEFN national forest inventory [@IEFN1996]. Forest types are defined on the basis of their appartenance to one of the four ecoregions. We modified the legend of Figure 1 to be clearer.
 
 **3. The creation of forest maps for 1953-2014 is probably one of several approaches, but one must do something in order to create the maps and I will leave it to the remote sensing experts to comment on the validity of this particular approach.**
 
-The aim of our article is to present an original methodology combining historical forest cover maps and tree cover loss maps in order to obtain more recent forest cover change maps. This approaches overcomes the problem associated to forest definition in the tree cover products [@Tropek2014]. The originality and robustness of the approach has been recognized by Reviewer 3 in its first comment: "The paper proposes an integrated approach to use existing datasets (national maps + global tree cover change) and produce robust forest change maps".    
+The aim of our article is to present an original methodology combining historical forest cover maps and global tree cover loss data in order to obtain more recent forest cover change maps. This approaches overcomes the problem associated to forest definition in the tree cover products [@Tropek2014]. The originality and robustness of the approach has been recognized by Reviewer 3 in its first comment: "The paper proposes an integrated approach to use existing datasets (national maps + global tree cover change) and produce robust forest change maps".    
 
 **4. Having said that, one of the assumptions of any change analysis (forest area or fragmentation) is that the maps are strictly comparable over time. Apart from the comparability of the definition of forest, there is the comparability of the resolution at which forest is mapped. If I understand this section, the procedure yielded 30-m resolution maps of forest prior to Hansen's 2000 data. That must be true because the forest fragmentation analysis is apparently done at 30-m resolution since 1953. My comments are (1) the authors should clarify and justify their method to produce 30m resolution maps prior to 2000**
 
-Text
+We modified the text in the Method section to describe better how we obained 30 m resolution maps for years 1953 and 1973.  
 
 **(2) explain why they did not use the accepted-usual-commonsense approach of degrading the resolution of Hansen's data to match the earlier maps. The normal procedure when dealing with maps (or any other data type) of different resolution is to use the least precise rather than the most precise resolution as the "target" resolution. Why is it OK to compare Hansen's maps to constructed earlier maps which contain invented data? It seems to me that the signal of forest loss in Madagascar is so large that an analysis using coarser resolution data is going to tell the same story of forest loss and fragmentation, and will also be defensible.**
 
-We understand the concern of Reviewer 1 regarding the resolution at which deforestation and forest fragmentation have been computed. As specified in the paper (intall forest maps from 1990 (1990, 2000, 2005, 2010, 2013 and 2014) have an original resolution of 30~m. They have been derived from the analysis of Landsat XX satellite images. On the contrary, the 1973 map has an original 60~m resolution.  
+We understand the concern of Reviewer 1 regarding the resolution at which deforestation and forest fragmentation have been computed. As specified in the paper (in introduction and method), all forest maps from 1990 (1990, 2000, 2005, 2010, 2013 and 2014) have an original resolution of 30 m. They have been derived from the analysis of Landsat 5 TM (Thematic Mapper) and Landsat 5 ETM+ (Enhances Thematic Mapper Plus) satellite images at 28.5 m resolution. On the contrary, the 1973 forest cover map has an original 60 m resolution, as it was derived from Landsat 1 MSS (Multispectral Scanner) satellite images at 57 m resolution [@Harper2007]. The 1953 forest cover map is a vector map obtained from digitalizing aerial photographies. We could have resampled all maps at the coarser resolution, i.e. 60 m, the resolution of the original 1973 map. Computations, especially for the fragmentation, would have been faster and, as underline by Reviewer 1, the _"story about forest loss and fragmentation would have been the same"_. But given the fact that the majority of the maps were at 30 m, and in oder not to loose information, we decided to keep the resolution of 30 m for our deforestation and fragmentation analysis. Deforestation in Madagascar is often associated to small scale slash-and-burn agriculture and a high resolution is required to accurately estimate deforestation [@Grinand2013; @Tyukavina2015].
 
 **5. The fragmentation analysis used the Riitters' 2000 model with a 7x7 window, and a separate distance-to-edge (proximity) metric.  A few comments on that:**
 
@@ -77,9 +92,10 @@ We understand the concern of Reviewer 1 regarding the resolution at which defore
 
 **54. The relationship between edge proximity and Riitters' "interior" raises the question "why do both" particularly since the "interior" analysis corresponds to around 90 meters and the proximity analysis reports 100 meters as the summary number in the discussion. Without doing the proximity analysis, an inference from the "interior" analysis would provide the single summary statistic (% beyond 100m) that is mentioned in the discussion.**
 
-_Grouped answer on points 5, 5.1, 5.2, 5.3, 5.4 and 5.5:_ We entirely changed the methodology used to estimate forest fragmentation. Following the advice by Reviewer 3, we looked at the approaches developped by Vogt et al. to estimate forest fragmentation. We agree that the method we used, described by Riitters et al. 2000 in xxxx, has some limitations. This has been demonstrated in Vogt et al. XXXX in xxxx. We have contacted directly Peter Vogt to discuss with him about what would be the best approach to estimate forest fragmentation in our case. We finally decided to compute the percentage of forest in each forest pixel neighborhood. To do so, we chose a moving window of 51 by 51 cell size. We explained this choice explicitly in the method section of the article. The computation of the forest percentage locally has two main advantages. First, it produces raster maps of forest fragmentation with a continuous forest fragmentation index in the interval ]0, 100]. In a second step, to synthetize information, the forest fragmentation index can be categorized using classes of forest fragmentation (0-20, 21-40, 41-60, 61-80, 81-100). Second, this approach is not redundant with the proximity analysis we have also performed in the study: the fragmentation index gives the percentage of forest cover locally while the proximity analysis gives the distance of the forest pixel to the forest edge. 
+_Grouped answer on points 5, 5.1, 5.2, 5.3, 5.4 and 5.5:_ We entirely changed the methodology used to estimate forest fragmentation. Following the advice by Reviewer 1, we looked at the approaches developped by Vogt et al. to estimate forest fragmentation. We agree that the method we used, described by Riitters et al. 2000 in _Conservation Ecology_ [@Riitters2000], might have some limitations. This has been demonstrated in Vogt et al. XXXX in xxxx. We have contacted directly Peter Vogt to discuss with him about what would be the best approach to estimate forest fragmentation in our case. We finally decided to compute the percentage of forest in the neighborhood of each forest pixel. To do so, we chose a moving window of 51 by 51 cell size. We explained this choice explicitly in the Methods section of the article. The computation of the forest percentage locally has two main advantages. First, it produces raster maps of forest fragmentation with a continuous forest fragmentation index in the interval ]0, 100]. Then, to synthetize information, the forest fragmentation index can be categorized using classes of forest fragmentation (0-20, 21-40, 41-60, 61-80, 81-100). Second, this approach is not redundant with the proximity analysis we have also performed in the study. The fragmentation index gives the percentage of forest cover locally while the proximity analysis gives the distance of the forest pixel to the forest edge. 
 
-Computational tools are available in the Guidos Toolbox software developped by Vogt et al. to estimate the forest fragmentation following this approach. In our case, to keep using the same geospatial softwares that in the rest of the study, we made the computations using function `r.neighbors` from the GRASS GIS software.     
+Computational tools have been made available in the Guidos Toolbox software developped by Vogt et al. to estimate the forest fragmentation following this approach. In our case, to keep using the same geospatial softwares that in the rest of the study, we made the computations using function `r.neighbors` from the GRASS GIS software.
+
 **55. The proximity analysis is relatively simple, and I wonder if there is a way to convey more information than decrease in mean distance to edge over time, which is an obvious result of losing half the forest area. Would this work: Look instead at "how much forest is how far from edge" such that the y-axis is forest amount, the x-axis is distance from nearest edge, and a series of curves display the results for years 1953, 1970, etc.  In addition, if the focus is on pattern rather than amount of forest, the y-axis could be standardized as "% of extant forest" so that differences between the curves are easier to interpret as change in pattern (instead of change in amount). In any case, it's not clear that the quantiles shown in Figure 3 are meaningful; of course the range of distance to edge decreases as the mean distance to edge decreases.**
 
 There are several ways to provides information on "how much forest is how far from edge". As suggested by Reviewer 1, it is possible to plot the full distribution of forest pixels as a function of the distance to forest edge. In our case, we decided to plot more synthetic information with the mean and 90% quantiles of this distribution. Through this figure, we want to show that     
@@ -94,21 +110,30 @@ We thank Reviewer 3 for his positive feedbacks.
 
 **However, more attention should be paid on the github repository regarding configuration and required libraries.**
 
-Text
+We have enterily rewritten the README page of the GitHub repository. We now specify the external libraries necessary to run the script (GDAL and GRASS GIS 7.2). We also explain how to run the script on Windows machines through the installation of OSGeo-Live or OSGeo4W. 
 
 **The method is applied to Madagascar to produce long term estimation of forest cover change, and thus produces original data.**
 
-**Even though the tools are made public, more descriptions of the methodology regarding maps combination are needed in the body of the paper for ease of understanding of the public. The method could be improved by allowing more tailored selection of TC thresholds.**
+**Even though the tools are made public, more descriptions of the methodology regarding maps combination are needed in the body of the paper for ease of understanding of the public.**
 
-Text
+We now decribed better the methodology used to combined the Harper's map and the Hansen's tree cover products. In particular, we specified which interpolation method was used to resample Hansen's maps (section 2.1):
+
+"To provide a label (forest or non-forest) to these unclassified pixels, we used the 2000 tree cover percentage map of [@Hansen2013] by selecting a threshold of 75% tree cover to define forest cover as recommended by other studies for the moist domain [@Achard2014; @Aleman2017]. To do so, the Hansen's 2000
+tree cover map was resampled on the same grid as the original Harper's map at 30 m resolution using a bilinear interpolation. We thus obtained a forest cover map for the year 2000 covering the full territory of Madagascar. We then combined this forest cover map of the year 2000 with the annual tree cover loss maps from 2001 to 2014 provided by [@Hansen2013] to create annual forest cover maps from 2001 to 2014 at 30 m resolution. To do so, Hansen's tree cover loss maps were resampled on the same grid as the original Harper's map at 30 m resolution using a nearest-neighbor interpolation."
+
+**The method could be improved by allowing more tailored selection of TC thresholds.**
+
+We agree with Reviewer 3 that the method could be improved with a tailored selection of the tree cover threshold. Nonetheless, in our case, the tree cover threshold of 75% is used only to remove clouds over the moist forest in the 2000 Harper's map. In our study, we selected a threshold of 75% tree cover to define the moist forest on the basis of two references [@Achard2014; @Aleman2017]. Choosing another threshold, which would be close to this value of 75% and would affect a limited area, would marginally impact our results.  
 
 **More importantly, no accuracy assessment was done on the resulting maps although suitable data is probably available in the country to do so. The lack of AA is not even discussed in the conclusion.**
 
-Text
+A whole paragraph (section 4.1, lines 293-319) now discuss the accuracy of our results. In particular, we recognize that a proper accuracy assessment of our forest cover change maps should be performed to better estimate the uncertainty surrounding our forest cover change estimates in Madagascar from year 2000 [@Olofsson2013; @Olofsson2014]. Collecting enough suitable data, using for example the results of the photo-interpretation of very high resolution satellite images as ground "truth", would require a large amout of additional work and is out of scope of our study. In place, we decided to report the results of previous studies regarding the accuracy of Hansen's tree cover loss data in Sub-Saharian Africa [@Verhegghen2016; @Tyukavina2015]. In particular, we report the large amount of false-negatives (non-detected deforestation) in the tree cover loss product and discuss this limitation:
+
+"In another study assessing the accuracy of the tree cover loss product accross the tropics [@Tyukavina2015], authors reported 4% of false positives and 48% of false negatives in Sub-Saharian Africa. They showed that 85% of missing loss occured on the edges of other loss patches. This means that tree cover loss might be underestimated in Sub-Saharian Africa, probably due to the prevalence of small-scale disturbance which is hard to map at 30 m, but that areas of large-scale deforestation are well identified and spatial variability of the deforestation is well represented."
 
 **Despite those two main drawbacks that need to be corrected, this paper is of good quality and is recommended for publications with revisions.**
 
-We thank Reviewer 3 for the his constructive remarks.
+We thank Reviewer 3 for his supportive comments.
 
 **Specific comments are given below**
 
@@ -116,11 +141,11 @@ We thank Reviewer 3 for the his constructive remarks.
 
 **L94: replace "forest loss" by "tree cover loss". it is well explained elsewhere in the paper, stay consistent (with e.g. L105)**
 
-Thanks for pointing this error. Modification has been done.
+Thanks for pointing this mistake. We now only use the term tree cover loss for Hansen's data.
 
 **L106: TC loss is not defined in Hansen 2013 by a 10% threshold. I suggest to delete 104-106, information already presented earlier in the paper.**
 
-True. We deleted th sentence.
+True. We deleted the sentence.
 
 **L117-118: The approach can be easily repeated with any similar tree cover loss product, I suggest to open the potential of the method rather than limiting it to further updates of GFC, that have proven to be delayed for the past 2 years.**
 
