@@ -11,7 +11,6 @@
 %\usepackage[hmargin=2cm, vmargin = 2cm, noheadfoot]{geometry} %% Pour gérer le format des pages
 %\usepackage{layout} %% Pour avoir la longueur des marges
 \usepackage[round,sort]{natbib} %% Natbib is a popular style for formatting references.
-\usepackage[nottoc,numbib]{tocbibind} %% Referecnes as section
 %\usepackage{multibib}
 %\newcites{secnm}{Bibliographie} 
 %\usepackage{verbatim} % for multiline comments
@@ -377,8 +376,8 @@ estimates with previous studies}
 
 We compared our estimates of forest cover and deforestation rates with
 estimates from the three existing studies at the national scale for
-Madagascar: (i) \citep{Harper2007}, (ii) \citep{MEFT2009} and (iii)
-\citep{ONE2015}. \citet{Harper2007} provides forest cover and
+Madagascar: (i) \citet{Harper2007}, (ii) \citet{MEFT2009} and (iii)
+\citet{ONE2015}. \citet{Harper2007} provides forest cover and
 deforestation estimates for the periods
 c. 1953-c. 1973-1990-2000. \citet{MEFT2009} provides estimates for the
 periods 1990-2000-2005 and \citet{ONE2015} provides estimates for the
@@ -728,6 +727,8 @@ on the Zenodo research data repository so that the results are entirely reproduc
 \newpage
 \singlespacing
 
+\renewcommand{\bibname}{References}
+\renewcommand{\bibsection}{\section{\bibname}}
 \bibliographystyle{bib/besjournals}
 \bibliography{bib/biblio}
 
@@ -860,7 +861,7 @@ knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE,
 \begin{figure}[h!]
   \centering
     
-    \includegraphics[width=11cm]{figs/ecoregion.png}
+    \includegraphics[width=10cm]{figs/ecoregion.png}
 
     \caption{\textbf{Ecoregions and forest types in Madagascar.}
       Madagascar can be divided into four climatic ecoregions with

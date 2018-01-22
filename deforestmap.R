@@ -978,6 +978,7 @@ save(list=SavedObjects,file="deforestmap.rda")
 ##========================
 
 ## Set knitr chunk default options
+library(knitr)
 opts_chunk$set(echo=FALSE, cache=FALSE,
                results="hide", warning=FALSE,
                message=FALSE, highlight=TRUE,
