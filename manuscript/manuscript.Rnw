@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preambule %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[a4paper, 12pt, leqno]{article} %leqno: numéro d'équation à gauche
+\documentclass[a4paper, 12pt, leqno, dvipsnames]{article} %leqno: numéro d'équation à gauche
 \pagenumbering{arabic} % choose how to number the pages
 \usepackage{a4wide}
 \usepackage[utf8]{inputenc} % accents interprétés
@@ -28,7 +28,7 @@
 \usepackage[table]{xcolor}
 \setlength{\LTleft}{-5cm plus 1 fill}
 \setlength{\LTright}{-5cm plus 1 fill}
-\usepackage[colorlinks=true,citecolor=blue]{hyperref} %% Gère les hyperliens
+\usepackage[colorlinks=true,citecolor=Blue,urlcolor=Maroon]{hyperref} %% Gère les hyperliens
 \usepackage{lineno} %% Numérotation des lignes
 %\linenumbers
 \newcommand{\logit}{\text{logit}}
@@ -120,7 +120,7 @@ options(knitr.kable.NA="-")
   highly threatened by anthropogenic deforestation. Existing
   historical forest maps at national level are scattered and have
   substantial gaps which prevent an exhaustive assessment of long-term
-  deforestation trends in Madagascar. In this study, we combine
+  deforestation trends in Madagascar. In this study, we combined
   historical national forest cover maps (covering the period
   1953-2000) with a recent global annual tree cover loss dataset
   (2001-2014) to look at six decades of deforestation and forest
@@ -142,7 +142,7 @@ options(knitr.kable.NA="-")
   effectiveness of past and current conservation programs and
   implement new strategies for the future. In particular, forest maps
   and estimates can be used in the REDD+ framework which aims at
-  ``Reducing Emissions from Deforestation and Forest Degradation'' and
+  ``Reducing Emissions from Deforestation and forest Degradation'' and
   for optimizing the current protected area network.
 
 \vspace{0.5cm}
@@ -307,7 +307,8 @@ maps were resampled on the same grid as the original Harper's map at
 completed the Harper's forest map of year 1990 by filling unclassified
 areas (due to the presence of clouds on satellite images) using our
 forest cover map of year 2000. To do so, we assumed that if forest was
-present in 2000, the pixel was also forested in 1990. The remaining
+present in 2000, the pixel was also forested in 1990. Indeed, there is little evidence of natural forest
+regeneration in Madagascar \citep{Grouzis2001, Harper2007}, especially over such a short period of time. The remaining
 unclassified pixels were limited to a relatively small total area of
 \emph{c.} 8,000 ha. We labeled these residual pixels as non-forest, as
 for the year 2000. Similarly we completed the Harper's forest map of
@@ -315,7 +316,7 @@ year 1973 by filling unclassified areas using our forest cover map of
 the year 1990 assuming that if forest was present in 1990, it was also
 present in 1973. Contrary to the year 1990, the remaining unclassified
 pixels for year 1973 corresponded to a significant total area of 3.3
-million ha. We also reprojected the forest cover map of year 1953 to a
+million ha which was left as is. We also reprojected the forest cover map of year 1953 to a
 common projection in order to compare the forest cover area in 1953
 with forest cover areas at the following dates. This map was produced
 by scanning a paper map derived from aerial photos, and thus could not
@@ -542,8 +543,8 @@ extended to other regions or countries for which an accurate
 forest cover map is available at any date within the period 2000-2014,
 but preferably at the beginning of the period to profit from the full
 record and derive long-term estimates of deforestation. Moreover, this
-approach can be repeated in the future if and when the global tree
-cover product is updated. We have made the \R{}/GRASS code used for this
+approach could be repeated in the future with the release of updated tree cover loss data. 
+We have made the \R{}/GRASS code used for this
 study freely available in a GitHub repository (see Data availability
 statement) to facilitate application to other study areas or repeat
 the analysis in the future for Madagascar.

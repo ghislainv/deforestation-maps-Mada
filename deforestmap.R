@@ -489,6 +489,53 @@ system("r.out.gdal --o input=dist_edge_2014_mask nodata=9999 createopt='compress
        output=outputs/dist_edge_2014_mask.tif")
 system("r.mask -r")
 
+##==========================
+## Histograms forest edge
+##==========================
+
+Year <- c(1953,1973,1990,2000,2005,2010,2014) 
+year <- length(Year)
+# Bins of distance
+bins <- seq(0,5000,by=100)
+nbins <- length(bins)-1
+# Data-frame to store results
+r <- data.frame()
+
+# Loop on years
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste("Year: ",Year[i],"\n",sep=""))
+  # Histogram
+  his <- system(paste0("r.stats -nc input=dist_edge_",Year[i]), intern=TRUE)
+  d <- data.frame(matrix(as.numeric(unlist(strsplit(his," "))), ncol=2, byrow=TRUE))
+  names(d) <- c("bin","ncell")
+  # Number of cells per bin of distance
+  hist.df <- data.frame(bins=1:nbins,ncell=NA)
+  for (i in 1:nbins) {
+    w <- which(d$bin>=bins[i] & d$bin<bins[i+1])
+    hist.df$ncell[i] <- sum(d$ncell[w])
+  }
+  # Proportion
+  tot.cell <- sum(hist.df$ncell)
+  hist.df$prop <- 100*hist.df$ncell/tot.cell
+  # Store results
+  r <- rbind(r,hist.df)
+}
+# Year as factor
+r$Year <- as.factor(rep(Year,each=nbins))
+# Reformat bins
+r$bins <- r$bins*100-50
+# Save results
+write.table(r,file="outputs/histdist.txt",row.names=FALSE,sep="\t")
+
+# Plot with ggplot
+pp <- ggplot(data=r, aes(x=bins, y=prop, colour=Year)) + 
+  xlab("Distance to forest edge (m)") +
+  ylab("Proportion of forest (%)") +
+  xlim(c(0,5000)) +
+  geom_line()
+ggsave("outputs/histdist.png",pp)
+
 ##========================
 ## Statistics whole forest
 ##========================
