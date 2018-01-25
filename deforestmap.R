@@ -17,14 +17,6 @@
 ## GRASS GIS 7.2.x is also needed to run this script
 ## https://grass.osgeo.org/
 
-## Read argument for download
-## Set "down" to TRUE if you want to download the sources. Otherwise, the data already provided in the gisdata repository will be used.
-arg <- commandArgs(trailingOnly=TRUE)
-down <- FALSE
-if (length(arg)>0) {
-  down <- arg[1]
-}
-
 ##= Libraries
 pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra","RColorBrewer",
          "rasterVis","knitr","rmarkdown","rgeos","rgdal","rgrass7","xtable")
@@ -67,6 +59,7 @@ initGRASS(gisBase="/usr/lib/grass72",home=tempdir(),
 
 ##==================================================================
 ## Download data from Zenodo: https://doi.org/10.5281/zenodo.1118955
+down <- FALSE
 if (down) {
   d <- "https://zenodo.org/record/1118956/files/gisdata.zip"
   download.file(url=d,destfile="gisdata.zip",method="curl",quiet=FALSE)
@@ -327,6 +320,11 @@ SavedObjects <- c(SavedObjects, "cloud.1973")
 #= Export
 system("r.out.gdal --o input=for1973 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1973.tif")
 
+#= We rename for1973 (with cloud class 5) as for1973_5
+#= for1973 will be without clouds
+system("g.rename raster=for1973,for1973_5")
+system("r.mapcalc --o 'for1973 = if(!isnull(for1973_5) &&& for1973_5==1, 1, null())'")
+
 #====================================================================================
 # Reproject c.1953
 
@@ -361,7 +359,7 @@ system("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' \\
 # Remove salt and pepper
 # =======================================
 
-Year <- c(1953,1973,1990,2000,2005,2010,2013,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
@@ -371,15 +369,31 @@ for (i in 1:length(Year)) {
   system(paste0("r.neighbors --o input=for",Year[i]," output=for",Year[i],"_sum method=sum size=3"))
   system(paste0("r.mapcalc --o 'for",Year[i]," = if(isnull(for",Year[i],") &&& for",Year[i],"_sum==8, 1, for",Year[i],")'"))
   # Export raster as .tif
-  system(paste0("r.out.gdal --o input=for",Year[i]," createopt='compress=lzw,predictor=2' \\
-         type=Byte output=outputs/for",Year[i],".tif"))
+  if (Year[i]!=1973) {
+    system(paste0("r.out.gdal --o input=for",Year[i]," createopt='compress=lzw,predictor=2' \\
+           type=Byte output=outputs/for",Year[i],".tif"))
+  } else {
+    system("r.out.gdal --o input=for1973_5 createopt='compress=lzw,predictor=2' \\
+           type=Byte output=outputs/for1973.tif")
+  }
 }
 system("r.mask -r")
 
-#= We rename for1973 (with cloud class 5) as for1973_5
-#= for1973 will be without clouds
-system("g.rename raster=for1973,for1973_5")
-system("r.mapcalc --o 'for1973 = if(!isnull(for1973_5) &&& for1973_5==1, 1, null())'")
+#= Counting how many pixels were set as forest
+Year <- c(1953,1973,1990,2000,2005,2010,2014)
+system("g.region rast=harper -ap")
+system("r.mask --o raster=harper")
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste0("Year: ",Year[i],"\n"))
+  # Computation
+  system(paste0("r.report map=for",Year[i],"_sum unit=h output=outputs/for",Year[i],"_sum.txt"))
+}
+system("r.mask -r")
+# Summary data.frame
+df.saltpepper <- data.frame(Year=Year,ha.salt=NA)
+df.saltpepper$ha.salt <- c(95209,375241,482122,456907,540093,605812,590946)
+write.table(df.saltpepper, file="outputs/saltpepper.txt", sep="\t", row.names=FALSE)
 
 #====================================================================================
 # Export images as .png and .gif

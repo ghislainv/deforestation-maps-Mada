@@ -136,7 +136,7 @@ plot_zoom_frag <- function(rast_file,palette=frag.palette) {
     geom_raster(aes(fill=factor(value))) + ylab("Fragmentation 2014") +
     scale_fill_manual(values=palette,breaks=c(1:5),
                       na.value="transparent",
-                      guide=guide_legend(title="Frag. index",title.position="top",
+                      guide=guide_legend(title="Frag. class",title.position="top",
                                          label.position="right")) +
     theme_bw() + theme_zoom + coord_equal() +
     theme(legend.position="bottom", 
@@ -212,7 +212,7 @@ ggsave("outputs/ecoregion.png", plot.ecoregion, width=10, height=15, units="cm")
 for1953 <- raster("outputs/fcc_for1953.tif")
 for1953.plot <- gplot(for1953,maxpixels=res) +
   geom_raster(aes(fill=factor(value))) +
-  xlab("Cover 1950s") +
+  xlab("Cover 1953") +
   scale_fill_manual(values=fcc_for1953.palette,na.value="transparent") +
   theme_bw() + theme_base + 
   theme(panel.background=element_rect(fill="transparent"),
@@ -255,7 +255,7 @@ fcc.combi <- fcc.plot + theme(legend.position="null") +
   annotation_custom(grob=legend,xmin=400000,xmax=760000,ymin=8200000,ymax=8800000)
 
 ## Zooms for1953
-zw.for1953 <- plot_zoom_fcc("outputs/fcc_for1953_zoom1.tif",fcc_for1953.palette) + ggtitle("Western zoom") + ylab("Cover 1950s")
+zw.for1953 <- plot_zoom_fcc("outputs/fcc_for1953_zoom1.tif",fcc_for1953.palette) + ggtitle("Western zoom") + ylab("Cover 1953")
 ze.for1953 <- plot_zoom_fcc("outputs/fcc_for1953_zoom2.tif",fcc_for1953.palette) + ggtitle("Eastern zoom") + ylab("")
 
 ## Zooms fcc
