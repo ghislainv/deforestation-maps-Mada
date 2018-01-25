@@ -20,7 +20,8 @@ Main outputs of the study, including Madagascar forest cover maps and forest fra
 - `manuscript`: folder including all the files (in particular the `.Rnw` file) used to produce the manuscript.
     - `manuscript/bib`: folder including bibliographic files (references and style).
     - `manuscript/figs`: folder including figures used in the manuscript.
-- `output`: folder including outputs from the R script.
+    - `manuscript/tabs`: folder including tables used in the manuscript.
+- `outputs`: folder including outputs from the R script.
 - `R`: folder including an R script to plot the forest cover change figure.
 
 ## Dependencies
