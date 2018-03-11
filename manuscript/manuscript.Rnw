@@ -134,11 +134,9 @@ options(knitr.kable.NA="-")
   Mha (29\%) of dry forests, 1.7 Mha of spiny forests (19\%) and
   177,000 ha (2\%) of mangroves. Since 2005, the annual deforestation
   rate has progressively increased in Madagascar to reach 99,000 ha/yr
-  during 2010-2014 (corresponding to a rate of 1.1\%/yr). This
-  increase is probably due to rapid population growth (close to
-  3\%/yr) and to poor law enforcement in the country. Around half of
+  during 2010-2014 (corresponding to a rate of 1.1\%/yr). Around half of
   the forest (46\%) is now located at less than 100~m from the forest
-  edge. Accurate forest cover change maps can be used to assess the
+  edge. Our approach could be replicated to other tropical countries. Accurate forest cover change maps can be used to assess the
   effectiveness of past and current conservation programs and
   implement new strategies for the future. In particular, forest maps
   and estimates can be used in the REDD+ framework which aims at
@@ -940,6 +938,21 @@ knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE,
     100~m for each year.}
   
   \label{fig:dist_edge}
+
+\end{figure}
+\vspace*{\stretch{1}}
+
+\newpage
+
+\vspace*{\stretch{1}}
+\begin{figure}[h!]
+  \centering
+  
+  \includegraphics[width=12cm]{figs/tc_threshold_moist.pdf}
+
+  \caption{\textbf{Selection of the tree cover threshold.} }
+  
+  \label{fig:tc_threshold}
 
 \end{figure}
 \vspace*{\stretch{1}}
