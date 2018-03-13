@@ -179,6 +179,47 @@ ha.cloud.2000.moist <- sum(report.harper.moist$area[report.harper.moist$code %in
 perc.cloud.moist <- 100*ha.cloud.2000.moist/ha.cloud.2000 # 88%
 SavedObjects <- c(SavedObjects, "ha.cloud.2000.moist", "perc.cloud.moist")
 
+##========================
+## Histogram of tree cover
+##========================
+
+# Moist forest 2000 in Harper
+system("r.mapcalc --o 'for2000_Harper_moist = if((harper==111 || harper==112 || harper==115 || \\
+       harper==775 || harper==777) && ecoregion==3, 1, null())'")
+system("r.mask --o raster=for2000_Harper_moist")
+system("r.mapcalc --o 'tc2000_moist = tc2000'")
+system("r.mask -r")
+hist_tc2000_moist <- system("r.stats -c input=tc2000_moist nsteps=100", intern=TRUE)
+df_tc2000_moist <- data.frame(matrix(unlist(strsplit(hist_tc2000_moist, " ")), ncol=2, byrow=TRUE))
+df_tc2000_moist <- df_tc2000_moist[-c(101),]
+names(df_tc2000_moist) <- c("tc","npix")
+df_tc2000_moist$npix <- as.numeric(as.character(df_tc2000_moist$npix))
+df_tc2000_moist$tc <- as.numeric(as.character(df_tc2000_moist$tc))
+df_tc2000_moist$nha <- df_tc2000_moist$npix*30*30/10000
+df_tc2000_moist$freq <- 100*df_tc2000_moist$npix/sum(df_tc2000_moist$npix)
+# Cumulative proportion
+for (i in 100:1) {
+  df_tc2000_moist$cum_prop[i] <- 100*sum(df_tc2000_moist$npix[100:i])/sum(df_tc2000_moist$npix)
+}
+write.table(df_tc2000_moist, file="outputs/df_tc2000_moist.txt", sep="\t", row.names=FALSE)
+# How much moist forest has a TC over 75%
+prop_tc75 <- round(df_tc2000_moist$cum_prop[df_tc2000_moist$tc==75]) # 90%
+prop_tc70 <- round(df_tc2000_moist$cum_prop[df_tc2000_moist$tc==70]) # 92%
+
+# Plot pdf
+pdf("outputs/tc_threshold_moist.pdf", width=8, height=8)
+par(mar=c(5,4,2,1),cex=1.4)
+plot(df_tc2000_moist$tc,df_tc2000_moist$cum_prop, type="l",
+     lwd=2,
+     xlab="Tree cover (%)",
+     ylab="Percentage of moist forest",
+     ylim=c(0,100), axes=FALSE)
+axis(1, at=seq(0,100,25), labels=seq(0,100,25))
+axis(2, at=seq(0,100,10), labels=seq(0,100,10))
+abline(v=75, lty=2)
+abline(h=90, lty=2)
+dev.off()
+
 #======================================================================================================
 # The objective is to remove clouds in the year 2000 (which are mainly located above the moist forest).
 # To do so, we will use the tree cover map by Hansen et al. using a threshold of 75\%
@@ -1026,44 +1067,6 @@ acd_2010 <- 9700502114*30*30/10000 # 873045190
 acd_2014 <- 9253573526*30*30/10000 # 832821617
 carbon_emissions <- acd_2010-acd_2014
 SavedObjects <- c(SavedObjects,"carbon_emissions")
-
-##========================
-## Histogram of tree cover
-##========================
-
-system("r.mapcalc 'for2000_moist = if(for2000==1 && ecoregion==3,1,null())'")
-system("r.mask --o raster=for2000_moist")
-system("r.mapcalc --o 'tc2000_moist = tc2000'")
-system("r.mask -r")
-hist_tc2000_moist <- system("r.stats -c input=tc2000_moist nsteps=100", intern=TRUE)
-df_tc2000_moist <- data.frame(matrix(unlist(strsplit(hist_tc2000_moist, " ")), ncol=2, byrow=TRUE))
-df_tc2000_moist <- df_tc2000_moist[-c(101),]
-names(df_tc2000_moist) <- c("tc","npix")
-df_tc2000_moist$npix <- as.numeric(as.character(df_tc2000_moist$npix))
-df_tc2000_moist$tc <- as.numeric(as.character(df_tc2000_moist$tc))
-df_tc2000_moist$nha <- df_tc2000_moist$npix*30*30/10000
-df_tc2000_moist$freq <- 100*df_tc2000_moist$npix/sum(df_tc2000_moist$npix)
-# Cumulative proportion
-for (i in 100:1) {
-  df_tc2000_moist$cum_prop[i] <- 100*sum(df_tc2000_moist$npix[100:i])/sum(df_tc2000_moist$npix)
-}
-# How much moist forest has a TC over 75%
-prop_tc75 <- round(df_tc2000_moist$cum_prop[df_tc2000_moist$tc==75]) # 90%
-prop_tc70 <- round(df_tc2000_moist$cum_prop[df_tc2000_moist$tc==70]) # 92%
-
-# Plot pdf
-pdf("outputs/tc_threshold_moist.pdf", width=8, height=8)
-par(mar=c(5,4,2,1),cex=1.4)
-plot(df_tc2000_moist$tc,df_tc2000_moist$cum_prop, type="l",
-     lwd=2,
-     xlab="Tree cover (%)",
-     ylab="Percentage of moist forest",
-     ylim=c(0,100), axes=FALSE)
-axis(1, at=seq(0,100,25), labels=seq(0,100,25))
-axis(2, at=seq(0,100,10), labels=seq(0,100,10))
-abline(v=75, lty=2)
-abline(h=90, lty=2)
-dev.off()
 
 ##========================
 ## Save objects

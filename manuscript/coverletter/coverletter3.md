@@ -35,7 +35,7 @@ Object: Manuscript BIOC_2018_104, answers to reviewers' comments.
 
 Dear Editor,
 
-We made our best to improve the quality of the manuscript following Reviewers' comments and we really hope that you will accept our article for publication in your journal.
+Please find enclosed a new version of our article untitled "Combining global tree cover loss data with historical national forest cover maps to look at six decades of deforestation and forest fragmentation in Madagascar". We thank the four Reviewers for their careful reading of our manuscript and their many insightful remarks. We made our best to answer to Reviewers' comments and we modified our manuscript accordingly. We really hope that you will find this new version of our article suitable for publication in _Biological Conservation_.
 
 Best regards,
 
@@ -51,7 +51,7 @@ The authors
 
 ## General impression
 
-**I have enjoyed reading the manuscript as it is well written and the study presents interesting findings. The ongoing deforestation of Madagascar’s natural forest is certainly a subject worthy of investigation and relevant to policy makers in Madagascar, to NGO’s and scientists studying nature conservation, tropical ecology, land use change, rural development etc. However, I have some concerns about the advances made in this manuscript compared to previous studies and the lack of validation of the forest/non-forest classification. In the manuscript, two existing forest cover products are combined to study forest cover change in an extended period of time. The techniques used to combine the products and to fill cloud cover gaps are well established and there is no validation of the newly developed forest cover maps, not by field measurements (ground truth) and neither by other means (e.g. high resolution aerial photography, above ground biomass maps, lidar data). That the deforestation trend found here corresponds closely to the trend reported in previous studies should therefore be no surprise, as roughly the same data and analysis were used. While the socio-economic drivers of the observed deforestation and the implications for the biodiversity of Madagascar are shortly discussed, additional information about these drivers and implications that would enhance the impact of the manuscript are not presented. Extending the period of forest cover change and analyzing trends in deforestation on Madagascar is a relevant scientific exercise, but without additional validation or secondary data, this manuscript is presently not suited for an international journal in the discipline of conservation biology.**
+**I have enjoyed reading the manuscript as it is well written and the study presents interesting findings. The ongoing deforestation of Madagascar's natural forest is certainly a subject worthy of investigation and relevant to policy makers in Madagascar, to NGO's and scientists studying nature conservation, tropical ecology, land use change, rural development etc. However, I have some concerns about the advances made in this manuscript compared to previous studies and the lack of validation of the forest/non-forest classification. In the manuscript, two existing forest cover products are combined to study forest cover change in an extended period of time. The techniques used to combine the products and to fill cloud cover gaps are well established and there is no validation of the newly developed forest cover maps, not by field measurements (ground truth) and neither by other means (e.g. high resolution aerial photography, above ground biomass maps, lidar data). That the deforestation trend found here corresponds closely to the trend reported in previous studies should therefore be no surprise, as roughly the same data and analysis were used. While the socio-economic drivers of the observed deforestation and the implications for the biodiversity of Madagascar are shortly discussed, additional information about these drivers and implications that would enhance the impact of the manuscript are not presented. Extending the period of forest cover change and analyzing trends in deforestation on Madagascar is a relevant scientific exercise, but without additional validation or secondary data, this manuscript is presently not suited for an international journal in the discipline of conservation biology.**
 
 ## Specific comments
 
@@ -59,9 +59,11 @@ The authors
 
 Thanks for that positive comment.
 
-**Line 38-40: Tropical forests in Madagascar also store a large amount of carbon (Vieilledent et al., 2016) and high rates of deforestation in Madagascar are responsible for large CO2 emissions in the atmosphere (Achard et al.,41 2014). Quantify large, high, etc., also in line 48: “Much lower”**
+**Line 38-40: Tropical forests in Madagascar also store a large amount of carbon (Vieilledent et al., 2016) and high rates of deforestation in Madagascar are responsible for large CO2 emissions in the atmosphere (Achard et al.,41 2014). Quantify large, high, etc., also in line 48: "Much lower"**
 
 **Methodology: In the introduction the limitations of the products from Hansen et al. (2013) and Harper et al. (2007) are pointed out (e.g. cloud gaps, the delineation of ecoregions, plantations are classified as forest regrowth) so why would you combine these two products? Why not start over from the beginning using "raw" Landsat data freely available online and use a single supervised classification method and training dataset. This would reduce the uncertainties related to differences between data products in tree cover/forest definitions, training data, map projection, etc.**
+
+
 
 **Line 134-137: We also completed the Harper's forest map of year 1990 by filling unclassified areas (due to the presence of clouds on satellite images) using our forest cover map of year 2000. To do so, we assumed that if forest was present in 2000, the pixel was also forested in 1990. This procedure does not account for forest regeneration as you point out. However, it can also cause underestimations in deforestation between 1990-2000, as there might be more forest in the cloud gap in 1990 than there is in 2000 that is classified as non-forest.**
 
@@ -89,7 +91,7 @@ We thank Reviewer 2 for his previous comments on the first version of the manusc
 
 **This paper is of good quality and is recommended for publication, with one minor revision (Specific comment on tree cover threshold): please indicate in the paper what TC threshold would exactly match the forest area from the 2000 Harper map and compare with the 75% chosen from literature**
 
-If a given tree cover threshold could allow to match the forest area in number of hectares, this threshold won't help to match the forest cover spatially. Some areas classified as forest in the 2000 Harper map would be considered as forest using the TC threshold, some not. As an alternative, we provide an additional figure representing the distribution of the tree cover values for all pixels considered as moist forest in the 2000 Harper map. On this figure, we show that choosing a threshold of 75% allows to identify most of the moist tropical forest without having to choose a lower threshold.
+If a given tree cover threshold could allow to match the forest area in number of hectares, this threshold won't help to match the forest cover spatially. Some areas classified as forest in the 2000 Harper map would be considered as forest using this TC threshold, some not. As an alternative, we provide an additional figure in Supplementary Material (Fig. A1) representing the percentage of moist forest having a tree cover superior to a given value. On this figure, we show that 90% of the moist forest in 2000 has a tree cover greater or equal to 75%.
 
 # Answers to remarks by Reviewer 3
 
@@ -97,7 +99,7 @@ If a given tree cover threshold could allow to match the forest area in number o
 
 **The authors propose here a substantially improved and revised version of their former study. Such as in the original version, the paper studies long-term deforestation at national scale in Madagascar. On top of calculating updated values of forest cover and depicting fragmentation, the study proposes a methodology to compare and adapt past results/maps with today up-to-date data image processing. This is particularly interesting as it can serve as an example of workflow for developing countries that have often to deal with multiple reference data when it comes to monitor forest resources. Therefore, in addition of its direct value for Madagascar, the model-role that this study can play is very important for forest conservation in general (outside Madagascar). This might be a bit more highlighted in the Title and/or in the abstract.**
 
-We have added a sentence in the abstract to underline the approach we have developped in Madagascar can be used in other tropical developing countries.
+We have added a sentence in the abstract to underline that the approach we have developped in Madagascar can be used in other developing countries with tropical forest.
 
 **Concerning my former remarks about fragmentation and the Riiters approach. The authors have now better defined what fragmentation is, they developed a better methodology to quantify it, and they developed a better discussion about the methods and the results. Abandoning the classical Riiters approach for a less disputable one (with a larger window and with clear bins of tree cover) is a clear improvement of the document. In that sense, I consider that my former main comments have been addressed.**
 
@@ -107,7 +109,7 @@ We thank Reviewer 3 for his comment on the first version of the manuscript which
 
 **de Haulleville et al. (2018). Fourteen years of anthropization dynamics in the Uapaca bojeri Baill. forest of Madagascar. Landscape and Ecological Engineering**
 
-We thank Reviewer 3 for this reference.
+We thank Reviewer 3 for this reference. We have read it but we found it difficult to add it to the reference list.
 
 **I thereby recommend the paper to be accepted for publication.**
 
@@ -115,11 +117,25 @@ We thank Reviewer 3 for this reference.
 
 **This manuscript describes a process by which the authors have combined data on forest cover from multiple assessments based on remote sensing to quantify forest loss on Madagascar over 60 years.** 
 
-**The benefits of and need for this study do need to be better articulated. The authors have presented figures but do not make any conservation / management recommendations from them. Thus, the study feels like a wasted opportunity at present. Identification, geographically, of the areas which have undergone the greatest loss would be useful (ie mention in text specific areas from the loss map). Also, some assessment as to loss protected areas could be undertaken. This need not be a detailed matching exercise to compare effectiveness, but simply quantification of their effectiveness, especially over time - are they increasingly important? This would make the study more applied.** 
+**The benefits of and need for this study do need to be better articulated. The authors have presented figures but do not make any conservation / management recommendations from them. Thus, the study feels like a wasted opportunity at present. Identification, geographically, of the areas which have undergone the greatest loss would be useful (ie mention in text specific areas from the loss map). Also, some assessment as to loss protected areas could be undertaken. This need not be a detailed matching exercise to compare effectiveness, but simply quantification of their effectiveness, especially over time - are they increasingly important? This would make the study more applied.**
 
-**In terms of methods, combining land cover maps produced from remote sensing data by different methods is problematic. The errors are multiplicative. The authors have attempted to control for the different methods by a simple method but have not undertaken any accuracy assessment. I appreciate that each of the studies they use have undertaken their won accuracy assessments but I would like to have seen a dedicated assessment in this study. For example, cover at 500 control points stratified by forest / non forest in the latter time period could be examined from images back in time to assess visually forest  / non forest. These could then be linked to the forest cover maps. This would be very valuable in informing readers as to the accuracy of the combination process.**
+We now mention in the results the areas which have undergone the greatest loss in the Result part:
+
+"The forest cover change map produced on the period 1953-2014 (Fig. 2) allows to identify hot-spots of deforestation. Among the many recent hot-spots of deforestation visible on the map for the period 2000-2014 , one is located at the south of the CAZ (_"Corridor Ankeniheny Zahamena"_) protected area, in the moist forest at the east of Madagascar (see eastern zoom in Fig. 2). Another major hot-spot of deforestation is located around the Ranobe-PK32 new protected area, in the dry forest at the south-west of Madagascar (see western zoom in Fig. 2)."
+
+Assessing the effectiveness of the protected area network in curbing deforestation is out of the scope of this study. This assessment will be done in a future study. 
+
+**In terms of methods, combining land cover maps produced from remote sensing data by different methods is problematic. The errors are multiplicative. The authors have attempted to control for the different methods by a simple method but have not undertaken any accuracy assessment. I appreciate that each of the studies they use have undertaken their own accuracy assessments but I would like to have seen a dedicated assessment in this study. For example, cover at 500 control points stratified by forest / non forest in the latter time period could be examined from images back in time to assess visually forest  / non forest. These could then be linked to the forest cover maps. This would be very valuable in informing readers as to the accuracy of the combination process.**
+
+The same remark was made by Review 2 in the first round of review. We copy here our answer which has been accepted by Reviewer 2:
+
+A whole paragraph (section 4.1) now discuss the accuracy of our results. In particular, we recognize that a proper accuracy assessment of our forest cover change maps should be performed to better estimate the uncertainty surrounding our forest cover change estimates in Madagascar from year 2000 [@Olofsson2013; @Olofsson2014]. Collecting enough suitable data, using for example the results of the photo-interpretation of very high resolution satellite images as ground "truth", would require a large amout of additional work and is out of the scope of our study. In place, we decided to report the results of previous studies regarding the accuracy of Hansen's tree cover loss data in Sub-Saharian Africa [@Verhegghen2016; @Tyukavina2015]. In particular, we report the large amount of false-negatives (non-detected deforestation) in the tree cover loss product and discuss this limitation:
+
+"In another study assessing the accuracy of the tree cover loss product accross the tropics [@Tyukavina2015], authors reported 4% of false positives and 48% of false negatives in Sub-Saharian Africa. They showed that 85% of missing loss occured on the edges of other loss patches. This means that tree cover loss might be underestimated in Sub-Saharian Africa, probably due to the prevalence of small-scale disturbance which is hard to map at 30 m, but that areas of large-scale deforestation are well identified and spatial variability of the deforestation is well represented."
 
 **I have added multiple comments to the manuscript that I would like to see addressed. In particular, there is an early focus given to REDD+ but  but do not give this much more comment other than a passing mention in the discussion. The methods presented here are not really appropriate to REDD+ assessment so the authors need to either remove or re word these references.**
+
+We answer to each of the specific comment below. In particular, we answer to the point arguing that the method presented here is not appropriate for implementing REDD+.
 
 ## Specific comments
 
@@ -129,52 +145,101 @@ We have removed this sentence in the abstract but we have kept this statement fo
 
 **line 22: REDD+ does not need historical map so this is irrelevant**
 
-We do not agree with that comment. REDD+ do need historical deforestation maps. The UNFCC REDD+ initiative aimed at Reducing Emissions from Deforestation and forest Degradation. To estimated the avoided deforestation, a baseline deforestation scenario need to be built. This baseline deforestation scenario relies on historical deforestation maps [@]
+We do not agree with that comment. The UNFCCC REDD+ aims at Reducing Emissions from Deforestation and forest Degradation. REDD+ do need historical deforestation maps. To estimated the avoided deforestation, a baseline deforestation scenario need to be built. This baseline deforestation scenario relies on historical deforestation maps [@Olander2008]. Our forest cover change map can be used at the regional scale for pilot REDD+ project [@Vieilledent2013] or at the national scale to build a baseline deforestation scenario and estimate the associated CO$_2$ emissions.
 
 **line 40: Forests in general**
 
+Because we are focused on Madagascar in this study we kept this formulation. As suggested by Reviewer 1 we provided numbers to be more specific. 
+
 **line 67: This contradicts the earlier statement about no map available for post 2000**
+
+The earlier statement was that: "accurate and exhaustive forest cover maps are not available for Madagascar after year 2000". More recent map have been produced but we explain in the rest of the paragraph why these map are not accurate or not exhaustive. 
 
 **line 71: 2013 vs 2014 is one year**
 
+Here we do not say that the forest-cover change maps over the periods 2005-2010-2013 by @ONE2015 are too old in comparison with our maps. We underline the fact that these maps shows large mis-classification in specific areas and that production of such forest maps from a supervised classification approach requires a significant amount of resources compared to our approach combining historical forest cover maps and recent tree cover loss.
+
 **line 75: strange wording**
+
+We rephrase the sentence: "especially in the dry and spiny forest domain for which the spectral signal shows strong seasonal variations due to the deciduousness of such forests"
 
 **line 81: Is a major issue not that each supervision algorithm differs and so there will be increasing inaccuracies.**
 
+Yes, we agree with Reviewer 4 that if a semi-supervised classification is repeated to produce future forest cover change maps, it is better to use the 
+
 **line 111: No mention of redd here despite featureing in abstract**
+
+We prefer to stay general in the introduction. Application to REDD+ is mentioned in the discussion:
+
+"Current rates of deforestation can also be used to build reference scenarios for deforestation in Madagascar and contribute to the implementation
+of deforestation mitigation activities in the framework of REDD+ [@Olander2008]."
 
 **line 161: Explain that the method of Harper et al 2007 meant there were no isolated pixels**
 
+Isolated non-forest pixels might have been present in Harper's maps, except for the 1953 forest map which is a vector map produced by scanning the paper map of Humbert et al. (1965) which was derived from the visual interpretation of aerial photographies. We corrected all the maps from year 1973.
+
 **line 211: Capital F**
+
+Corrected.
 
 **line 219: What area is this?**
 
+We added the area: "We used a moving window of 51 x 51 pixels (corresponding to an area of about 2.34 km2) centered on each forest pixel to compute the percentage of forest pixels in the neighborhood."
+
 **line 220: How did this perform on coastal areas? Was sea masked or included?**
+
+We added a specification in the text: "Water bodies were not masked when computing the percentage of forest pixels, meaning that forest located near a water body was considered as fragmented". This methodological choice does not impact our results as we are focused on the change of forest fragmentation over time (see Tab. 4).
 
 **line 233: Change or variation, not evolution.**
 
+Corrected.
+
 **line 235: This should be in discussion or in intorduction under a clear aims section**
+
+There is a whole part in the introduction on the impact of forest fragmentation on species conservation and carbon stocks: 
+
+"Forest fragmentation can also lead to species extinction by isolating populations from each other and creating forest patches too small to maintain viable populations (Saunders et al., 1991). Fragmentation also increases forest edge where ecological conditions (such as air temperature, light intensity and air moisture) can be dramatically modified, with consequences on the abundance and distribution of species (Broadbent et al., 2008; Gibson et al., 2013; Murcia, 1995). Forest fragmentation can also have substantial effects on forest carbon storage capacity, as carbon stocks are much lower at the forest edge than under a closed canopy (Brinck et al. 2017)."
+
+We found more appropriate to specify the distance within which micro-habitat are altered in the methodological part of the article. This to justify our choice of estimating the amount of forest within a distance of 100 m from forest edge. The references cited in the methodological part on this point are also present in the introduction.
 
 **line 243: Reword**
 
+We replaced the sentence by: "Madagascar has lost 44% of its natural forest between 1953 and 2014, including 37% between 1973 and 2014 (Fig. 2 and Tab. 1)."
+
 **line 275: Variation**
+
+Corrected
 
 **line 276: Delete everything before comma**
 
+Done.
+
 **line 299: "propose the use of.."**
+
+Corrected.
 
 **line 301: Any suggestions as to how many areas this might capture?**
 
+
+
 **line 343: I don't see how this follow from the previous technical / ecological explanations.**
+
+
 
 **line 361: Not actually true - you have shown forest loss has been severe but you have not shown it has been caused by human influence, nor that conservation activiteis have failed to halt it. It almost certainly has, and you are right o make the leap, but your results do not show it. A subtle but important point. Please re word this throughout**
 
 **line 381: "supported by"**
 
+Corrected.
+
 **line 389: Can they? I thought FAO assessments have a very different protocol - please clarify**
+
+We confirm that our estimates of forest cover and deforestation rates can be used as source of information for the next FAO Forest Resources Assessment (FRA) report. The FRA report is based on two primary sources of data: Country Reports prepared by National Correspondents and remote sensing that is conducted by FAO together with national focal points and regional partners (http://www.fao.org/forest-resources-assessment/background/en/). Country Reports can be based on different sources of information, such as national forest inventories or remote sensing studies. For example, Madagascar 2015 FRA report (http://www.fao.org/3/a-az264f.pdf) is partly based on the remote sensing studies by @MEFT2009, @ONE2013, and @ONE2015.
 
 **line 403: How can a study published in 2003 explain events post 2010? You need to expand more here.**
 
-**legend of Table 1: “Change in”, not evolution**
+**legend of Table 1: "Change in", not evolution**
+
+Corrected.
 
 # References
