@@ -455,20 +455,7 @@ Natural forests in Madagascar covered 16.0 Mha in 1953, about 27\% of the nation
 
 The forest cover change map produced on the period 1953-2014 (Fig.~\ref{fig:fcc}) allows to identify hot-spots of deforestation. Among the many recent hot-spots of deforestation visible on the map for the period 2000-2014 , one is located at the south of the CAZ (\emph{``Corridor Ankeniheny Zahamena''}) protected area, in the moist forest at the east of Madagascar (see eastern zoom in Fig.~\ref{fig:fcc}). Another major hot-spot of deforestation is located around the Ranobe-PK32 new protected area, in the dry forest at the south-west of Madagascar (see western zoom in Fig.~\ref{fig:fcc}).
 
-Regarding the deforestation trend, we
-observed a progressive decrease of the deforestation rate after 1990
-from 205,000 ha/yr (1.6\%/yr) over the period 1973-1990 to 42,000
-ha/yr (0.4\%/yr) over the period 2000-2005
-(Tab.~\ref{tab:forest_cover}). Then from 2005, the deforestation rate
-has progressively increased and has more than doubled over the period
-2010-2014 (99,000 ha/yr, 1.1\%/yr) compared to 2000-2005
-(Tab.~\ref{tab:forest_cover}). The deforestation trend, characterized
-by a progressive decrease of the deforestation rate over the period
-1990-2005 and a progressive increase of the deforestation after 2005,
-is valid for all four forest types except the spiny forest
-(Tab.~\ref{tab:comp_defor}). For the spiny forest, the deforestation
-rate during the period 2010-2013 was lower than on the period
-2005-2010 (Tab.~\ref{tab:comp_defor}).
+Regarding the deforestation trend, we observed a progressive decrease of the deforestation rate after 1990 from 205,000 ha/yr (1.6\%/yr) over the period 1973-1990 to 42,000 ha/yr (0.4\%/yr) over the period 2000-2005 (Tab.~\ref{tab:forest_cover}). Then from 2005, the deforestation rate has progressively increased and has more than doubled over the period 2010-2014 (99,000 ha/yr, 1.1\%/yr) compared to 2000-2005 (Tab.~\ref{tab:forest_cover}). The deforestation trend, characterized by a progressive decrease of the deforestation rate over the period 1990-2005 and a progressive increase of the deforestation after 2005, is valid for all four forest types except the spiny forest (Tab.~\ref{tab:comp_defor}). For the spiny forest, the deforestation rate during the period 2010-2013 was lower than on the period 2005-2010 (Tab.~\ref{tab:comp_defor}).
 
 \subsection{Comparison with previous forest cover change studies
 in Madagascar}
@@ -481,9 +468,9 @@ type respectively. Proportions of unclassified areas are not reported
 in the two other existing studies at the national level by
 \citet{MEFT2009} and \citet{ONE2015}. With our approach, we produced
 wall-to-wall forest cover change maps from 1990 to 2014 for the full
-territory of Madagascar (Tab.~\ref{tab:forest_cover}). This allowed us
+territory of Madagascar (Fig.~\ref{fig:fcc}). This allowed us
 to produce more robust estimates of forest cover and deforestation
-rates over this period. Our forest cover estimates over the period
+rates over this period (Tab.~\ref{tab:forest_cover}). Our forest cover estimates over the period
 1953-2013 (considering forest cover estimates at national level and by
 ecoregions for all the available dates) were well correlated
 (Pearson's correlation coefficient $=$ 0.99) to estimates from the
@@ -604,8 +591,10 @@ carbon storage \citep{Martin2013}.
 
 We estimated that natural forest in Madagascar covers 8.9 Mha in 2014
 (corresponding to 15\% of the country) and that Madagascar has lost
-44\% of its natural forest since 1953 (37\% since 1973). There is
-ongoing scientific debate about the extent of the ``original'' forest
+44\% of its natural forest since 1953 (37\% since 1973). If there are no doubts 
+about the direct causes of deforestation in Madagascar, attributable to human 
+activities such as slash-and-burn agriculture and pasture \citep{Scales2011}, there 
+is ongoing scientific debate about the extent of the ``original'' forest
 cover in Madagascar, and the extent to which humans have altered the
 natural forest landscapes since their large-scale settlement around
 800 CE \citep{Burns2016, Cox2012}. Early French naturalists stated
@@ -627,8 +616,9 @@ and development programs in Madagascar have failed to stop
 deforestation in the recent years. Deforestation has strong
 consequences on biodiversity and carbon emissions in
 Madagascar. Around 90\% of Madagascar's species are forest dependent
-\citep{Allnutt2008, Goodman2005} and \citet{Allnutt2008} estimated
-that deforestation between 1953 and 2000 led to an extinction of 9\%
+\citep{Allnutt2008, Goodman2005}. Based on occurrence data for 
+2243 species of plants and invertebrates, \citet{Allnutt2008} estimated
+that deforestation between 1953 and 2000 has led to an extinction of 9\%
 of the species. The additional deforestation we observed over the
 period 2000-2014 (around 1 Mha of natural forest) worsen this
 result. Regarding carbon emissions, using the 2010 aboveground forest
@@ -693,7 +683,7 @@ and their unique biodiversity.
 \section{Author's contribution}
 \label{authors-contribution}
 
-All authors conceived the ideas and designed methodology; GV analysed
+All authors conceived the ideas and designed the methodology; GV analysed
 the data and wrote the {\R}/GRASS script; GV drafted the manuscript. All
 authors contributed critically to the drafts and gave final approval for
 publication.
