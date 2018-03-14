@@ -598,7 +598,7 @@ where forest regeneration is ecologically possible, young forest
 regrowth are more easily re-burnt for agriculture and pasture. Third,
 young secondary forests provide more limited ecosystem services
 compared to old-growth natural forests in terms of biodiversity and
-carbon storage.
+carbon storage \citep{Martin2013}.
 
 \subsection{Natural forest cover change in Madagascar from 1953 to 2014}
 

@@ -224,7 +224,7 @@ Corrected.
 
 **line 343: I don't see how this follow from the previous technical / ecological explanations.**
 
-
+The statement that "young secondary forests provide more limited ecosystem services compared to old-growth natural forests in terms of biodiversity and carbon storage" does not follow from the previous technical/ecological explanations. It comes in addition to the two previous statement: young forest regrowths are 1) rare, 2) easilly reburnt, and 3) of less ecological value than old growth forests. We added a reference [@Martin2013] supporting this last statement.
 
 **line 361: Not actually true - you have shown forest loss has been severe but you have not shown it has been caused by human influence, nor that conservation activiteis have failed to halt it. It almost certainly has, and you are right o make the leap, but your results do not show it. A subtle but important point. Please re word this throughout**
 
