@@ -136,7 +136,7 @@ options(knitr.kable.NA="-")
   rate has progressively increased in Madagascar to reach 99,000 ha/yr
   during 2010-2014 (corresponding to a rate of 1.1\%/yr). Around half of
   the forest (46\%) is now located at less than 100~m from the forest
-  edge. Our approach could be replicated to other developping countries with tropical forest.
+  edge. Our approach could be replicated to other developing countries with tropical forest.
   Accurate forest cover change maps can be used to assess the
   effectiveness of past and current conservation programs and
   implement new strategies for the future. In particular, forest maps
@@ -169,10 +169,10 @@ West coast \citep{Vieilledent2016}. This unparalleled biodiversity is
 severely threatened by deforestation \citep{Harper2007,
   Vieilledent2013} associated with human activities such as slash-and-burn
 agriculture and pasture \citep{Scales2011}. Tropical forests in
-Madagascar also store a large amount of carbon \citep{Vieilledent2016}
-and high rates of deforestation in Madagascar are responsible for
-large CO$_2$ emissions in the atmosphere
-\citep{Achard2014}. Deforestation threatens species survival by
+Madagascar also store a large amount of carbon (136 MgC.ha$^{-1}$ in the moist
+forest, \citealp{Vieilledent2016}) and high rates of deforestation in Madagascar
+(1.4--4.7~\%/yr, \citealp{Achard2002}) are responsible for large CO$_2$ emissions 
+in the atmosphere. Deforestation threatens species survival by
 directly reducing their available habitat \citep{Brooks2002,
   Tidd2001}. Forest fragmentation can also lead to species extinction
 by isolating populations from each other and creating forest patches
@@ -182,7 +182,7 @@ ecological conditions (such as air temperature, light intensity and
 air moisture) can be dramatically modified, with consequences on the
 abundance and distribution of species \citep{Murcia1995, Broadbent2008, Gibson2013}. Forest
 fragmentation can also have substantial effects on forest carbon
-storage capacity, as carbon stocks are much lower at the forest edge
+storage capacity, as carbon stocks are about 50\% lower at the forest edge
 than under a closed canopy \citep{Brinck2017}. Moreover, forest
 carbon stocks vary spatially due to climate or soil factors
 \citep{Saatchi2011, Vieilledent2016}. As a consequence, accurate and
@@ -200,7 +200,7 @@ available for Madagascar after year 2000. \citet{Harper2007} produced
 maps of forest cover and forest cover changes over Madagascar for the
 years 1953, 1973, 1990 and 2000. The
 1953 forest map is a vector map derived from the visual interpretation
-of aerial photographies. Forest maps for
+of aerial photographs. Forest maps for
 the years 1973, 1990, and 2000 were obtained from the supervised
 classification of Landsat satellite images and can be
 used to derive more accurate estimates of forest cover than those from the FAO
@@ -219,7 +219,7 @@ to give recent estimates of deforestation \citep{MEFT2009, ONE2013},
 include large areas of missing information due to images with high
 percentage of cloud cover \citep{ONE2013}, or show large
 mis-classification in specific areas, especially in the dry and spiny
-forest domain for which the spectral signal shows strong seasonal
+forest domain, for which the spectral signal shows strong seasonal
 variations due to the deciduousness of such forests (overall accuracy is
 lower than 0.8 for the dry and spiny forests for the maps produced by
 \citet{ONE2015}). Moreover, the production of such forest maps from a
@@ -318,11 +318,11 @@ millions ha which was left as is.
 
 The 1953 forest cover map from \citet{Harper2007} is a vector map produced by scanning 
 the paper map of \citet{Humbert1965} which was derived from the visual interpretation 
-of aerial photographies. We reprojected the forest cover map of year 1953 in the WGS 84/UTM zone 
+of aerial photographs. We reprojected the forest cover map of year 1953 in the WGS 84/UTM zone 
 38S projected coordinate system. Because of the methodology used to derive the 1953 forest 
 cover map, it was not possible to perfectly aligned this map with the forest cover 
 maps of later years which were produced through digital processing of satellite imagery. 
-As a consequence, the 1953 cannot be merged with the map of laters years to identify 
+As a consequence, the 1953 cannot be merged with the map of later years to identify 
 precisely the location of the deforested areas. Nonetheless, the 1953 forest cover 
 map can be used to have a rough estimate of the forest cover and forest fragmentation at this date.
 To do so, the map was rasterized at 30 m resolution on the same grid 
@@ -332,7 +332,7 @@ Finally for all forest cover maps from 1973, isolated single non-forest pixels
 (i.e.~fully surrounded by forest pixels) were recategorized as forest pixels.
 Doing so, forest cover increased from about 95,000 ha for year 1953 to
 about 600,000 ha for year 2010. This allowed us to avoid counting very small scale
-events (\textless 0.1 ha, such as selective logging or windthrow) as
+events (\textless 0.1 ha, such as selective logging or wind-throw) as
 deforestation. It also prevents us from underestimating forest cover and overestimating 
 forest fragmentation. All the resulting maps have been made permanently and
 freely available on the Zenodo research data repository at
@@ -422,7 +422,7 @@ neighborhood. We used this percentage as an indication of the forest
 fragmentation \citep{Riitters2012, Vogt2017}. The size of the moving windows was based on a
 compromise: a sufficiently high number of cells (here 2601) had to be
 considered to be able to compute a percentage and a reasonably low
-number of cells had to be choosen to have a local estimate of the
+number of cells had to be chosen to have a local estimate of the
 fragmentation. Water bodies were not masked when computing the percentage of forest pixels, meaning that forest located near a water body was considered as fragmented. Computations were done using the function
 \texttt{r.neighbors} of the GRASS GIS software
 \citep{Neteler2008}. Using the density of forest in the neighborhood,
@@ -524,25 +524,31 @@ global tree cover dataset from \citet{Hansen2013} into a
 forest/non-forest map \citep{Tropek2014}. We propose the use of an
 historical national forest cover map, based on a national forest
 definition, as a forest cover mask. This approach could be easily
-extended to other regions or countries for which an accurate
-forest cover map is available at any date within the period 2000-2014,
-but preferably at the beginning of the period to profit from the full
-record of tree cover loss and derive long-term estimates of deforestation. Moreover, this
-approach could be repeated in the future with the release of updated tree cover loss data. 
-We have made the \R{}/GRASS code used for this
+extended to other tropical regions or countries for which an accurate
+forest cover map is available at any date within the period 2000-2014 
+(but preferably at the beginning of the period to profit from the full
+record of tree cover loss and derive long-term estimates of deforestation). For example, 
+forest cover maps are available at 20~m resolution for Cameroon and Central 
+African Republic for years 2000 and 2010 \citep{Gross2017}. When high resolution
+forest cover maps are not available, coarser resolution forest cover maps
+(leading to coarser deforestation estimates) could be extracted from global
+land cover products such as GLC2000 at 1~km resolution \citep{Bartholome2005}
+or CCI Land Cover at 300~m resolution \citep{Li2018}.
+Moreover, this approach could be repeated in the future with the release of
+updated tree cover loss data. We have made the \R{}/GRASS code used for this
 study freely available in a GitHub repository (see Data availability
 statement) to facilitate application to other study areas or repeat
 the analysis in the future for Madagascar.
 
 The accuracy of the derived forest cover change maps depends directly
-on the accuracies of the historical forest cover maps and the tree
+on the accuracy of the historical forest cover maps and the tree
 cover loss dataset. Using visual-interpretation of aerial images in
 342 areas distributed among all forest types, \citet{Harper2007}
 estimated an overall 89.5\% accuracy in identifying forest/non-forest
 classes for the year 2000. The accuracy assessment of the tree cover
 loss dataset for the tropical biome reported 13\% of false positives
 and 16.9\% of false negatives (see Tab. S5 in
-\citet{Hansen2013}). These numbers rise at 20.7\% and 20.6\%
+\citealt{Hansen2013}). These numbers rise at 20.7\% and 20.6\%
 respectively for the subtropical biome. In the subtropical biome, the
 lower density tree cover canopy makes it difficult to detect change
 from tree cover to bare ground. For six countries in Central Africa,
@@ -554,11 +560,11 @@ semi-automated supervised classification of Landsat satellite images
 sets of estimates. Therefore, our forest cover change maps after 2000
 might be more accurate for the dense moist forest than for the dry and
 spiny forest. In another study assessing the accuracy of the tree
-cover loss product accross the tropics \citep{Tyukavina2015}, authors
+cover loss product across the tropics \citep{Tyukavina2015}, authors
 reported 4\% of false positives and 48\% of false negatives in
-Sub-Saharian Africa. They showed that 85\% of missing loss occured on
+Sub-Saharan Africa. They showed that 85\% of missing loss occurred on
 the edges of other loss patches. This means that tree cover loss might
-be underestimated in Sub-Saharian Africa, probably due to the
+be underestimated in Sub-Saharan Africa, probably due to the
 prevalence of small-scale disturbance which is hard to map at 30~m,
 but that areas of large-scale deforestation are well identified and
 spatial variability of the deforestation is well represented. A proper
@@ -616,8 +622,8 @@ and development programs in Madagascar have failed to stop
 deforestation in the recent years. Deforestation has strong
 consequences on biodiversity and carbon emissions in
 Madagascar. Around 90\% of Madagascar's species are forest dependent
-\citep{Allnutt2008, Goodman2005}. Based on occurrence data for 
-2243 species of plants and invertebrates, \citet{Allnutt2008} estimated
+\citep{Allnutt2008, Goodman2005}. Based on occurrence data for 2243 plant and
+invertebrate species, \citet{Allnutt2008} estimated
 that deforestation between 1953 and 2000 has led to an extinction of 9\%
 of the species. The additional deforestation we observed over the
 period 2000-2014 (around 1 Mha of natural forest) worsen this
@@ -670,7 +676,8 @@ explain the increase in deforestation rates. The political crisis of
 2009 \citep{Ploch2012}, followed by several years of political
 instability and weak governance could also explain the increase in the
 deforestation rate observed on the period 2005-2014
-\citep{Smith2003}. These results show that despite the conservation
+(see \citealp{Smith2003} for a discussion on the link between governance and
+forest cover loss). These results show that despite the conservation
 policy in Madagascar \citep{Freudenberger2010}, deforestation has
 dramatically increased at the national level since 2005. Results of
 this study, including recent spatially explicit forest cover change
@@ -692,7 +699,7 @@ publication.
 \label{acknowledgements}
 
 The authors thank two anonymous reviewers for useful comments on a previous
-version of the manuscript. They also thank Peter Vogt for useful advices on which
+version of the manuscript. They also thank Peter Vogt for useful advice on which
 metric to use to estimate forest fragmentation. This study is part of
 the Cirad's BioSceneMada project (\url{https://bioscenemada.cirad.fr})
 and the Joint Research Center's ReCaREDD project
@@ -789,7 +796,7 @@ tab.3$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spi
 col.names <- c("Forest type","Source","1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
 # Caption
 tabcap3 <- "\\textbf{Comparing Madagascar annual deforestation rates
-      with previous studies on the period 1953-2014}. Annual
+      with previous studies on the period 1953-2013}. Annual
     deforested areas (in thousands of hectares per year, Kha/yr) and
     annual deforestation rates (second number in parenthesis, in
     \\%/yr) are provided. For deforestation rates in \\%/yr, exact same
