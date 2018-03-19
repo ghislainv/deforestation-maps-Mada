@@ -1,5 +1,3 @@
-[![DOI](https://zenodo.org/badge/80503650.svg)](https://zenodo.org/badge/latestdoi/80503650)
-
 # deforestation-maps-Mada
 
 This repository includes the R script and data used to derive the results of the following article:
@@ -8,11 +6,11 @@ This repository includes the R script and data used to derive the results of the
 
 ## Reproducibility of the results
 
-The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis can be downloaded from Zenodo: \[DOI: [10.5281/zenodo.1118955](https://doi.org/10.5281/zenodo.1118955)\].
+The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis can be downloaded from the Cirad Dataverse repository: \[DOI: [10.18167/DVN1/2FP7LR](http://dx.doi.org/10.18167/DVN1/2FP7LR)\].
 
 ## Main outputs: forest cover and forest fragmentation maps
 
-Main outputs of the study, including Madagascar forest cover maps and forest fragmentation maps for the years 1953, 1973, 1990, 2000, 2005, 2010 and 2014 are available on Zenodo: \[DOI: [10.5281/zenodo.1145785](https://doi.org/10.5281/zenodo.1145785)\].
+Main outputs of the study, including Madagascar forest cover maps and forest fragmentation maps for the years 1953, 1973, 1990, 2000, 2005, 2010 and 2014 are available on the Cirad Dataverse repository: \[DOI: [10.18167/DVN1/AUBRRC](http://dx.doi.org/10.18167/DVN1/AUBRRC)\].
 
 ## File and folder description
 
@@ -50,9 +48,9 @@ Previous reports on deforestation in Madagascar might not be accessible on the l
 - ONE, DGF, FTM, MNP, and CI. (2013). Evolution de la couverture de forêts naturelles à Madagascar 2005-2010. Antananarivo. [original url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010).
 - ONE, DGF, MNP, WCS, and Etc Terra. (2015). Changement de la couverture de forêts naturelles à Madagascar, 2005-2010-2013. Antananarivo. [original url](https://www.pnae.mg/couverture-de-forets-naturelles-2005-2010-2013).
 
-## Versioning and archiving on Zenodo
+## Versioning and archiving on Cirad Dataverse
 
-The development version of this repository is available on GitHub at <https://github.com/ghislainv/deforestation-maps-Mada>. All versions of this repository, including the last release, are archived on Zenodo: \[DOI: [10.5281/zenodo.1118484](https://doi.org/10.5281/zenodo.1118484)\].
+The development version of this repository is available on GitHub at <https://github.com/ghislainv/deforestation-maps-Mada>. Last version of this repository is archived on Cirad Dataverse: \[DOI: [10.18167/DVN1/275TDF](http://dx.doi.org/10.18167/DVN1/275TDF)\].
 
 ## Figure
 

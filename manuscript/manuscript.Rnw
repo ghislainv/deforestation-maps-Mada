@@ -81,7 +81,7 @@ options(knitr.kable.NA="-")
 {\small
   \begin{flushleft}  
     $[1]$ \textbf{Joint Research Center of the European Commission} -- Bio-economy Unit, I-21027 Ispra (VA), ITALY\\
-    $[2]$ \textbf{Cirad} -- UPR Forêts et Sociétés, F-34398 Montpellier, FRANCE\\
+    $[2]$ \textbf{CIRAD} -- UPR Forêts et Sociétés, F-34398 Montpellier, FRANCE\\
     $[3]$ \textbf{ETC Terra}, F-75020 Paris, FRANCE\\
     $[4]$ \textbf{Office National pour l'Environnement}, 101 Antananarivo, MADAGASCAR\\
     $[5]$ \textbf{Wildlife Conservation Society}, 101 Antananarivo, MADAGASCAR\\
@@ -346,14 +346,12 @@ maps for years 1973, 1990 and 2000.
 
 Finally for all forest cover maps from 1973, isolated single
 non-forest pixels (i.e.~fully surrounded by forest pixels) were
-recategorized as forest pixels.  Doing so, forest cover increased from
+recategorized as forest pixels. Doing so, forest cover increased from
 about 95,000~ha for year 1953 to about 600,000~ha for year 2010. This
 allowed us to avoid counting very small scale events (\textless 0.1
 ha, such as selective logging or wind-throw) as deforestation. It also
 prevents us from underestimating forest cover and overestimating
-forest fragmentation. All the resulting maps have been made
-permanently and freely available on the Zenodo research data
-repository at \url{https://doi.org/10.5281/zenodo.1145785}.
+forest fragmentation.
 
 \subsection{Computing forest cover areas and deforestation rates}
 
@@ -755,7 +753,7 @@ final approval for publication.
 The authors thank two anonymous reviewers for useful comments on a
 previous version of the manuscript. They also thank Peter Vogt for
 useful advice on which metric to use to estimate forest
-fragmentation. This study is part of the Cirad's BioSceneMada project
+fragmentation. This study is part of the CIRAD's BioSceneMada project
 (\url{https://bioscenemada.cirad.fr}) and the Joint Research Center's
 ReCaREDD project (\url{http://forobs.jrc.ec.europa.eu/recaredd}). The
 BioSceneMada project is funded by FRB (Fondation pour la Recherche sur
@@ -767,12 +765,12 @@ there are no conflicts of interest related to this article.
 \section{Data accessibility}
 \label{data-accessibility}
 
-All the data and the script used for this study have been made permanently and publicly available
-on the Zenodo research data repository so that the results are entirely reproducible:
+Data and code used for this study have been made permanently and publicly available
+on the CIRAD Dataverse repository so that the results are entirely reproducible:
 \begin{itemize}
-\item Input data: \url{https://doi.org/10.5281/zenodo.1118955}
-\item Script: \url{https://doi.org/10.5281/zenodo.1118484}
-\item Output data: \url{https://doi.org/10.5281/zenodo.1145785}
+\item Input data: \url{http://dx.doi.org/10.18167/DVN1/2FP7LR}
+\item Code: \url{http://dx.doi.org/10.18167/DVN1/275TDF}
+\item Output data: \url{http://dx.doi.org/10.18167/DVN1/AUBRRC}
 \end{itemize}
 
 \newpage

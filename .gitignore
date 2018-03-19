@@ -14,7 +14,7 @@ outputs/*
 !outputs/defor_Mada.gif
 
 # Manuscript files
-manuscript/cover_letter
+manuscript/coverletter/*.pdf
 manuscript/manuscript.*
 !manuscript/manuscript.Rnw
 

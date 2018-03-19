@@ -19,7 +19,7 @@
 
 ##= Libraries
 pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra","RColorBrewer",
-         "rasterVis","knitr","rmarkdown","rgeos","rgdal","rgrass7","xtable")
+         "rasterVis","knitr","rmarkdown","kableExtra","rgeos","rgdal","rgrass7")
 ## broom: to convert map into data-frame with tiny()
 ## gridExtra: to combine several ggplots
 ## rasterVis: for gplot()
@@ -1093,8 +1093,8 @@ opts_knit$set(root.dir="manuscript")
 knitr::knit2pdf("manuscript/manuscript.Rnw", output="manuscript/manuscript.tex")
 
 ## Cover letter
-rmarkdown::render("manuscript/coverletter.md", output_format=c("pdf_document"),
-                  output_dir="manuscript") # pdf output
+rmarkdown::render("manuscript/coverletter/coverletter3.md", output_format=c("pdf_document"),
+                  output_dir="manuscript/coverletter") # pdf output
 
 ##===========================================================================
 ## End of script
