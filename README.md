@@ -1,5 +1,3 @@
-<script src="https://dataverse.cirad.fr/resources/js/widgets.js?persistentId=doi:10.18167/DVN1/275TDF&amp;dvUrl=https://dataverse.cirad.fr&amp;widget=iframe&amp;heightPx=500"></script>
-
 # deforestation-maps-Mada
 
 This repository includes the R script and data used to derive the results of the following article:
