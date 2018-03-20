@@ -19,6 +19,7 @@
 
 ##= Libraries
 pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra","RColorBrewer",
+         "dataverse",
          "rasterVis","knitr","rmarkdown","kableExtra","rgeos","rgdal","rgrass7")
 ## broom: to convert map into data-frame with tiny()
 ## gridExtra: to combine several ggplots
@@ -58,12 +59,16 @@ initGRASS(gisBase="/usr/lib/grass72",home=tempdir(),
           override=TRUE)
 
 ##==================================================================
-## Download data from Zenodo: https://doi.org/10.5281/zenodo.1118955
+## Download data from Cirad Dataverse: http://dx.doi.org/10.18167/DVN1/2FP7LR
 down <- FALSE
 if (down) {
-  d <- "https://zenodo.org/record/1118956/files/gisdata.zip"
-  download.file(url=d,destfile="gisdata.zip",method="curl",quiet=FALSE)
-  unzip("gisdata.zip", exdir="test")
+  library(dataverse)
+  Sys.setenv("DATAVERSE_SERVER"="dataverse.cirad.fr")
+  dataverse::get_dataset("doi:10.18167/DVN1/2FP7LR")
+  f <- dataverse::get_file(file="gisdata.zip",
+                           dataset="doi:10.18167/DVN1/2FP7LR")
+  writeBin(f, "gisdata.zip")
+  unzip("gisdata.zip", exdir="gisdata")
 }
 
 ##===========================================================
