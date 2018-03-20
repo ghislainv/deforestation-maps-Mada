@@ -238,7 +238,7 @@ updated to cover the period 1975-2005
 (\url{http://glcf.umd.edu/data/landsatFCC/}) but forest cover maps
 after 2005 were not produced. Moreover, the approach used in
 \citet{Kim2014} did not accurately map the forests in the dry and
-spiny ecosystems of Madagascar (see Fig. 8 in \citet{Kim2014}).
+spiny ecosystems of Madagascar (see Fig. 8 in \citealt{Kim2014}).
 \citet{Hansen2013} mapped tree cover percentage, annual tree cover
 loss and gain from 2000 to 2012 at global scale at 30 m
 resolution. This product has since been updated and is now available
