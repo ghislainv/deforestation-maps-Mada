@@ -20,7 +20,7 @@
 ##= Libraries
 pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra","RColorBrewer",
          "dataverse",
-         "rasterVis","knitr","rmarkdown","kableExtra","rgeos","rgdal","rgrass7")
+         "rasterVis","knitr","rmarkdown","kableExtra","rgeos","rgrass7")
 ## broom: to convert map into data-frame with tiny()
 ## gridExtra: to combine several ggplots
 ## rasterVis: for gplot()
@@ -251,7 +251,7 @@ system("r.in.gdal --o input=outputs/treecover2000.tif output=tc2000")
 
 #= Forest in 2000
 # Integrating classes of forest in 2000 (111, 112, 115, 775 and 777) and uncertainties (152, 155, 555 and 755)
-system("r.mapcalc 'for2000_temp = if(harper==111 || harper==112 || harper==115 || \\
+system("r.mapcalc --o 'for2000_temp = if(harper==111 || harper==112 || harper==115 || \\
        harper==775 || harper==777 || harper==152 || harper==155 || \\
        harper==555 || harper==755, 1, null())'")
 
@@ -275,7 +275,7 @@ system(paste("gdalbuildvrt -overwrite ",Output," ",Input,sep=""))
 # Region
 Extent <- "298440 7155900 1100820 8682420"
 Res <- "30"
-nodat <- "None"
+nodat <- "0"
 proj.s <- "EPSG:4326"
 proj.t <- "EPSG:32738"
 otype <- "Byte"
@@ -287,10 +287,10 @@ system(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",p
 #= Import lossyear.tif into grass location
 system("r.in.gdal --o input=outputs/lossyear.tif output=lossyear")
 #system("r.describe lossyear")
-# * 1-14
+# * 1-17
 
-#= Forest in year 2001-2014 ("at the end of the year", since 1 in lossyear is deforestation in 2001)
-for (i in 1:14) {
+#= Forest in year 2001-2017 ("at the end of the year", since 1 in lossyear is deforestation in 2001)
+for (i in 1:17) {
   # Message
   cat(paste("Year: ",i,"\n",sep=""))
   # Computation
@@ -405,7 +405,7 @@ system("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' \\
 # Remove salt and pepper
 # =======================================
 
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
@@ -426,19 +426,19 @@ for (i in 1:length(Year)) {
 system("r.mask -r")
 
 #= Counting how many pixels were set as forest
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
   # Message
   cat(paste0("Year: ",Year[i],"\n"))
   # Computation
-  system(paste0("r.report map=for",Year[i],"_sum unit=h output=outputs/for",Year[i],"_sum.txt"))
+  system(paste0("r.report --o map=for",Year[i],"_sum unit=h output=outputs/for",Year[i],"_sum.txt"))
 }
 system("r.mask -r")
 # Summary data.frame
 df.saltpepper <- data.frame(Year=Year,ha.salt=NA)
-df.saltpepper$ha.salt <- c(95209,375241,482122,456907,540093,605812,590946)
+df.saltpepper$ha.salt <- c(95209,452572,481855,455098,538907,605073,685860,666164)
 write.table(df.saltpepper, file="outputs/saltpepper.txt", sep="\t", row.names=FALSE)
 
 #====================================================================================
@@ -449,34 +449,40 @@ system("echo '1 26:152:80' | r.colors for1953 rules=-")
 system("echo '1 26:152:80 \n 5 grey' | r.colors for1973_5 rules=-")
 system("echo '1 26:152:80' | r.colors for1990 rules=-")
 system("echo '1 26:152:80' | r.colors for2000 rules=-")
+system("echo '1 26:152:80' | r.colors for2005 rules=-")
 system("echo '1 26:152:80' | r.colors for2010 rules=-")
-system("echo '1 26:152:80' | r.colors for2014 rules=-")
+system("echo '1 26:152:80' | r.colors for2015 rules=-")
+system("echo '1 26:152:80' | r.colors for2017 rules=-")
 
 #= PNG
-system("g.region res=1000")
+system("g.region res=1000 -p")
 system("r.out.png --o input=for1953 output=outputs/for1953.png")
 system("r.out.png --o input=for1973_5 output=outputs/for1973.png")
 system("r.out.png --o input=for1990 output=outputs/for1990.png")
 system("r.out.png --o input=for2000 output=outputs/for2000.png")
+system("r.out.png --o input=for2005 output=outputs/for2005.png")
 system("r.out.png --o input=for2010 output=outputs/for2010.png")
-system("r.out.png --o input=for2014 output=outputs/for2014.png")
+system("r.out.png --o input=for2015 output=outputs/for2015.png")
+system("r.out.png --o input=for2017 output=outputs/for2017.png")
 
-# #= Animated GIF
-# # Image Magick library should be installed: https://www.imagemagick.org
-# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1953'\" outputs/for1953.png outputs/for1953.gif")
-# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1973'\" outputs/for1973.png outputs/for1973.gif")
-# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1990'\" outputs/for1990.png outputs/for1990.gif")
-# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2000'\" outputs/for2000.png outputs/for2000.gif")
-# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2010'\" outputs/for2010.png outputs/for2010.gif")
-# system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2014'\" outputs/for2014.png outputs/for2014.gif")
-# system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
-# ## system("rm *.png")
+#= Animated GIF
+# Image Magick library should be installed: https://www.imagemagick.org
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1953'\" outputs/for1953.png outputs/for1953.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1973'\" outputs/for1973.png outputs/for1973.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '1990'\" outputs/for1990.png outputs/for1990.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2000'\" outputs/for2000.png outputs/for2000.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2005'\" outputs/for2005.png outputs/for2005.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2010'\" outputs/for2010.png outputs/for2010.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2015'\" outputs/for2015.png outputs/for2015.gif")
+system("convert -pointsize 72 -gravity North -draw \"text 0,0 '2017'\" outputs/for2017.png outputs/for2017.gif")
+system("convert -delay 100 -loop 0 outputs/*.gif outputs/defor_Mada.gif")
+## system("rm outputs/*.png")
 
 ##==========================
 ## Forest density
 ##==========================
 
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 system("g.region rast=harper -ap")
 
 # Density rules
@@ -498,11 +504,11 @@ for (i in 1:length(Year)) {
   system(paste0("r.out.gdal --o input=fordens",Year[i]," createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordens",Year[i],".tif"))
   system(paste0("r.out.gdal --o input=fordens",Year[i],"_class createopt='compress=lzw,predictor=2' type=Byte output=outputs/fordens",Year[i],"_class.tif"))
 }
-# Prepare fordens2014_class for figures
+# Prepare fordens2017_class for figures
 system("r.mask --o raster=harper")
-system("r.mapcalc --o 'fordens2014_class_mask = if(isnull(fordens2014_class), 0, fordens2014_class)'")
-system("r.out.gdal --o input=fordens2014_class_mask nodata=255 type=Byte createopt='compress=lzw,predictor=2' \\
-       output=outputs/fordens2014_class_mask.tif")
+system("r.mapcalc --o 'fordens2017_class_mask = if(isnull(fordens2017_class), 0, fordens2017_class)'")
+system("r.out.gdal --o input=fordens2017_class_mask nodata=255 type=Byte createopt='compress=lzw,predictor=2' \\
+       output=outputs/fordens2017_class_mask.tif")
 system("r.mask -r")
 
 ##==========================
@@ -512,7 +518,7 @@ system("r.mask -r")
 ## The GRASS Add-on r.forestfrag must be installed
 ## https://grass.osgeo.org/grass72/manuals/addons/r.forestfrag.html
 
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
@@ -529,7 +535,7 @@ system("r.mask -r")
 ## Distance to forest edge
 ##==========================
 
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 system("g.region rast=harper -ap")
 for (i in 1:length(Year)) {
   # Message
@@ -553,7 +559,7 @@ system("r.mask -r")
 ## Histograms forest edge
 ##==========================
 
-Year <- c(1953,1973,1990,2000,2005,2010,2014) 
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017) 
 year <- length(Year)
 # Bins of distance
 bins <- seq(0,5000,by=100)
@@ -601,7 +607,7 @@ ggsave("outputs/histdist.png",pp)
 ##========================
 
 #= Deforestation statistics
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 defor.df <- data.frame(Year=Year,area=NA,clouds=0,ann.defor=NA,theta=NA)
 # Areas
 for (i in 1:length(Year)) {
@@ -629,7 +635,7 @@ defor.df$clouds[defor.df$Year==1973] <- cloud.1973
 write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
 
 #= Deforestation statistics for comparison
-Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2013
+Year <- c(1953,1973,1990,2000,2005,2010,2013,2015,2017)  # Here we add 2013
 defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
 # Areas
 for (i in 1:length(Year)) {
