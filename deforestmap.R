@@ -328,9 +328,6 @@ system("r.mapcalc --o 'for1990 = if(for1990_temp==5, for2000, for1990_temp)'")
 system("r.stats -c for1990") # 1 119582689 * 1241360775, all clouds were reclassified as non-forest
 # system("g.remove -f type=raster name=for1990_temp")
 
-#= Export
-system("r.out.gdal --o input=for1990 createopt='compress=lzw,predictor=2' type=Byte output=outputs/for1990.tif")
-
 #====================================================================================
 # Forest c.1973
 
@@ -397,15 +394,11 @@ system("r.stats -c for1953")
 ## 1 225792265
 ## * 1135151199
 
-#= Export
-system("r.out.gdal --o input=for1953 createopt='compress=lzw,predictor=2' \\
-       type=Byte output=outputs/for1953.tif")
-
 # =======================================
 # Remove salt and pepper
 # =======================================
 
-Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
+Year <- c(1953,1973,1990,2000,2005,2010,2013,2015,2017)
 system("g.region rast=harper -ap")
 system("r.mask --o raster=harper")
 for (i in 1:length(Year)) {
@@ -548,11 +541,11 @@ for (i in 1:length(Year)) {
   file.remove(paste0("outputs/_dist_edge_",Year[i],".tif"))
   system(paste0("r.in.gdal --o input=outputs/dist_edge_",Year[i],".tif output=dist_edge_",Year[i]))
 }
-# Prepare dist_edge_2014 for figures
+# Prepare dist_edge_2017 for figures
 system("r.mask --o raster=harper")
-system("r.mapcalc --o 'dist_edge_2014_mask = if(isnull(dist_edge_2014), 0, dist_edge_2014)'")
-system("r.out.gdal --o input=dist_edge_2014_mask nodata=9999 createopt='compress=lzw,predictor=2' \\
-       output=outputs/dist_edge_2014_mask.tif")
+system("r.mapcalc --o 'dist_edge_2017_mask = if(isnull(dist_edge_2017), 0, dist_edge_2017)'")
+system("r.out.gdal --o input=dist_edge_2017_mask nodata=9999 createopt='compress=lzw,predictor=2' \\
+       output=outputs/dist_edge_2017_mask.tif")
 system("r.mask -r")
 
 ##==========================
@@ -657,7 +650,7 @@ for (i in 2:length(Year)) {
 write.table(defor.df,"outputs/defor_for_comp.txt",row.names=FALSE,sep="\t")
 
 #= Forest density statistics
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 fordens.df <- data.frame(Year=Year,forest=NA,cat1=NA,cat2=NA,
                       cat3=NA,cat4=NA,cat5=NA)
 # Areas
@@ -673,7 +666,7 @@ for (i in 1:length(Year)) {
 write.table(fordens.df,"outputs/fordens.txt",row.names=FALSE,sep="\t")
 
 #= Fragmentation statistics
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 frag.df <- data.frame(Year=Year,forest=NA,patch=NA,transitional=NA,
                       edge=NA,perforated=NA,interior=NA,undetermined=NA)
 # Areas
@@ -689,7 +682,7 @@ for (i in 1:length(Year)) {
 write.table(frag.df,"outputs/frag.txt",row.names=FALSE,sep="\t")
 
 #= Distance to forest edge statistics ## Quantiles with r.quantile
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 dist.quant.df <- data.frame(Year=Year,median=NA,q1=NA,q2=NA)
 # Loop on year
 for (i in 1:length(Year)) {
@@ -705,7 +698,7 @@ for (i in 1:length(Year)) {
 write.table(dist.quant.df,"outputs/dist.quant.txt",row.names=FALSE,sep="\t")
 
 #= Distance to forest edge statistics
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 dist.df <- data.frame(Year=Year,min=NA,max=NA,mean=NA,sd=NA,q1=NA,q2=NA)
 # Areas
 for (i in 1:length(Year)) {
@@ -726,7 +719,7 @@ dist.df$q2 <- dist.quant.df$q2
 write.table(dist.df,"outputs/dist.txt",row.names=FALSE,sep="\t")
   
 #= Percentage of forest at less than 500m from the forest edge
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 perc.500m.dist.df <- data.frame(Year=Year,perc=NA)
 # Intermediate rast
 for (i in 1:length(Year)) {
@@ -747,7 +740,7 @@ for (i in 1:length(Year)) {
 write.table(perc.500m.dist.df,"outputs/perc_500m_dist.txt",row.names=FALSE,sep="\t")
 
 #= Percentage of forest at less than 1km from the forest edge
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 perc.1km.dist.df <- data.frame(Year=Year,perc=NA)
 # Intermediate rast
 for (i in 1:length(Year)) {
@@ -768,7 +761,7 @@ for (i in 1:length(Year)) {
 write.table(perc.1km.dist.df,"outputs/perc_1km_dist.txt",row.names=FALSE,sep="\t")
 
 #= Percentage of forest at less than 100m from the forest edge
-Year <- c(1953,1973,1990,2000,2005,2010,2014)
+Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 perc.100m.dist.df <- data.frame(Year=Year,perc=NA)
 # Intermediate rast
 for (i in 1:length(Year)) {
@@ -806,7 +799,7 @@ for (j in 1:3) {
   system(paste0("r.mask --o raster=ecoregion maskcats=",j,"'"))
   # ===========================
   # A. Deforestation statistics
-  Year <- c(1953,1973,1990,2000,2010,2014)
+  Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
   defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
   # Areas
   for (i in 1:length(Year)) {
@@ -848,40 +841,7 @@ for (j in 1:3) {
   }
   # Export
   write.table(defor.df,paste0("outputs/defor_",ecoregion[j],"_for_comp.txt"),row.names=FALSE,sep="\t")
-  # # ===========================
-  # # B. Fragmentation statistics
-  # Year <- c(1953,1973,1990,2000,2010,2014)
-  # frag.df <- data.frame(Year=Year,forest=NA,patch=NA,transitional=NA,
-  #                       edge=NA,perforated=NA,interior=NA,undetermined=NA)
-  # # Areas
-  # for (i in 1:length(Year)) {
-  #   # Message
-  #   cat(paste("Year: ",Year[i],"\n",sep=""))
-  #   # Computation
-  #   statcell <- system(paste0("r.stats -c frag",Year[i]), intern=TRUE)
-  #   ncells <- as.numeric(matrix(unlist(strsplit(statcell,split=" ")),ncol=2,byrow=TRUE)[-c(1,8),2])
-  #   frag.df$forest[i] <- round(sum(ncells)*(as.numeric(Res)^2)/10000)
-  #   frag.df[i,c(3:8)] <- round(100*ncells/sum(ncells),2)
-  # }
-  # # =====================================
-  # # C. Distance to forest edge statistics
-  # Year <- c(1953,1973,1990,2000,2010,2014)
-  # dist.df <- data.frame(Year=Year,min=NA,max=NA,mean=NA,sd=NA)
-  # # Areas
-  # for (i in 1:length(Year)) {
-  #   # Message
-  #   cat(paste("Year: ",Year[i],"\n",sep=""))
-  #   # Computation
-  #   statcell <- system(paste0("r.univar dist_edge_",Year[i]), intern=TRUE)
-  #   dist.df$min[i] <- unlist(strsplit(statcell[7],split=" "))[2]
-  #   dist.df$max[i] <- unlist(strsplit(statcell[8],split=" "))[2]
-  #   dist.df$mean[i] <- unlist(strsplit(statcell[10],split=" "))[2]
-  #   dist.df$sd[i] <- unlist(strsplit(statcell[12],split=" "))[2]
-  # }
-  
-  #write.table(frag.df,paste0("outputs/frag_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
-  #write.table(dist.df,paste0("outputs/dist_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
-  
+
   # Remove mask
   system("r.mask -r")
 }

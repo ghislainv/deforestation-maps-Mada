@@ -1,8 +1,13 @@
 # deforestation-maps-Mada
 
-This repository includes the R script and data used to derive the results of the following article:
+This repository includes the R/GRASS script and data used to derive the results of the following article:
 
-**Vieilledent G., C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard.** Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar. _bioRxiv_. 147827. \[DOI: [10.1101/147827](https://doi.org/10.1101/147827)\].
+**<span style="text-decoration: underline;">Vieilledent G.</span>, C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard.** 2018. Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar. _Biological Conservation_. **222**: 189-197.
+\[doi:[10.1016/j.biocon.2018.04.008](https://doi.org/10.1016/j.biocon.2018.04.008)\].
+[bioRxiv: 147827](https://doi.org/10.1101/147827).
+[![manuscript in pdf](article/logo-pdf.png "manuscript in pdf")](article/Vieilledent2018-BiologicalConservation.pdf)
+/
+Supplementary materials [![supplements](article/logo-zip.png "supplements")](article/Vieilledent2018-BiologicalConservation-SM.pdf)
 
 ## Reproducibility of the results
 
