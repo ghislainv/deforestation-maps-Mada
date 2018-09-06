@@ -141,9 +141,9 @@ system("r.report --o harper units=h output='outputs/report_harper.txt'")
 
 #= Whole forest
 # Import the GRASS report into R
-#r <- readLines("outputs/report_harper.txt")
-#r <- r[-c(1:15,28:31)]
-#writeLines(r, "outputs/report_harper.txt")
+r <- readLines("outputs/report_harper.txt")
+r <- r[-c(1:15,28:31)]
+writeLines(r, "outputs/report_harper.txt")
 report.harper <- read.table(file="outputs/report_harper.txt", sep="|", header=FALSE)
 report.harper <- report.harper[,c(2,4)]
 names(report.harper) <- c("code", "area")
@@ -171,9 +171,9 @@ system("r.report --o map=ecoregion,harper units=h output='outputs/report_harper_
 
 # Moist ecoregions
 # Import the GRASS report into R
-#r <- readLines("outputs/report_harper_ecoregion.txt")
-#r <- r[c(47:57)] # select outputs for the moist ecoregion
-#writeLines(r, "outputs/report_harper_ecoregion.txt")
+r <- readLines("outputs/report_harper_ecoregion.txt")
+r <- r[c(47:57)] # select outputs for the moist ecoregion
+writeLines(r, "outputs/report_harper_ecoregion.txt")
 report.harper.moist <- read.table(file="outputs/report_harper_ecoregion.txt", sep="|", header=FALSE)
 report.harper.moist <- report.harper.moist[,c(3,5)]
 names(report.harper.moist) <- c("code", "area")
@@ -183,6 +183,30 @@ report.harper.moist$area <- as.numeric(gsub(pattern=",", replacement="", report.
 ha.cloud.2000.moist <- sum(report.harper.moist$area[report.harper.moist$code %in% c(152, 155, 555, 755)]) # 182650 ha
 perc.cloud.moist <- 100*ha.cloud.2000.moist/ha.cloud.2000 # 88%
 SavedObjects <- c(SavedObjects, "ha.cloud.2000.moist", "perc.cloud.moist")
+
+##========================
+## Tree cover 2000
+##========================
+
+#= Mosaic with gdalbuildvrt
+Input <- "gisdata/rasters/hansen/treecover2000/*.tif"
+Output <- "outputs/treecover2000.vrt"
+system(paste0("gdalbuildvrt -overwrite ",Output," ",Input))
+#= Resample with gdalwrap
+# Region
+Extent <- "298440 7155900 1100820 8682420"
+Res <- "30"
+nodat <- "None"
+proj.s <- "EPSG:4326"
+proj.t <- "EPSG:32738"
+otype <- "Byte"
+Input <- "outputs/treecover2000.vrt"
+Output <- "outputs/treecover2000.tif"
+# gdalwarp
+system(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
+              " -tr ",Res," ",Res," -r bilinear -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
+#= Import treecover2000.tif into grass location
+system("r.in.gdal --o input=outputs/treecover2000.tif output=tc2000")
 
 ##========================
 ## Histogram of tree cover
@@ -196,7 +220,7 @@ system("r.mapcalc --o 'tc2000_moist = tc2000'")
 system("r.mask -r")
 hist_tc2000_moist <- system("r.stats -c input=tc2000_moist nsteps=100", intern=TRUE)
 df_tc2000_moist <- data.frame(matrix(unlist(strsplit(hist_tc2000_moist, " ")), ncol=2, byrow=TRUE))
-df_tc2000_moist <- df_tc2000_moist[-c(101),]
+df_tc2000_moist <- df_tc2000_moist[-c(1,102),]
 names(df_tc2000_moist) <- c("tc","npix")
 df_tc2000_moist$npix <- as.numeric(as.character(df_tc2000_moist$npix))
 df_tc2000_moist$tc <- as.numeric(as.character(df_tc2000_moist$tc))
@@ -228,26 +252,6 @@ dev.off()
 #======================================================================================================
 # The objective is to remove clouds in the year 2000 (which are mainly located above the moist forest).
 # To do so, we will use the tree cover map by Hansen et al. using a threshold of 75\%
-
-#= Mosaic with gdalbuildvrt
-Input <- "gisdata/rasters/hansen/treecover2000/*.tif"
-Output <- "outputs/treecover2000.vrt"
-system(paste0("gdalbuildvrt -overwrite ",Output," ",Input))
-#= Resample with gdalwrap
-# Region
-Extent <- "298440 7155900 1100820 8682420"
-Res <- "30"
-nodat <- "None"
-proj.s <- "EPSG:4326"
-proj.t <- "EPSG:32738"
-otype <- "Byte"
-Input <- "outputs/treecover2000.vrt"
-Output <- "outputs/treecover2000.tif"
-# gdalwarp
-system(paste0("gdalwarp -overwrite -ot ",otype," -dstnodata ",nodat," -s_srs ",proj.s," -t_srs ",proj.t," -te ",Extent,
-             " -tr ",Res," ",Res," -r bilinear -co 'COMPRESS=LZW' -co 'PREDICTOR=2' ",Input," ",Output))
-#= Import treecover2000.tif into grass location
-system("r.in.gdal --o input=outputs/treecover2000.tif output=tc2000")
 
 #= Forest in 2000
 # Integrating classes of forest in 2000 (111, 112, 115, 775 and 777) and uncertainties (152, 155, 555 and 755)

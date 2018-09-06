@@ -24,6 +24,9 @@ manuscript/manuscript.*
 Rplots.pdf
 *.rda
 
+# logs
+*.log
+
 # Session Data files
 .RData
 
