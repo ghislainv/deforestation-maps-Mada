@@ -9,7 +9,7 @@ This repository includes the R/GRASS script and data used to derive the results 
 /
 Supplementary materials [![supplements](article/logo-zip.png "supplements")](article/Vieilledent2018-BiologicalConservation-SM.pdf)
 
-Results in the _Biological Conservation_ article have been updated up to year 2017.
+Results from this article have been updated up to year 2017. [![manuscript in pdf](article/logo-pdf.png "manuscript in pdf")](update_2017/update_2017.pdf)
 
 ## Reproducibility of the results
 
@@ -28,7 +28,7 @@ Main outputs of the study, including Madagascar forest cover maps and forest fra
     - `manuscript/tabs`: tables used in the manuscript.
 - `outputs`: outputs from the R script.
 - `R`: R script to plot the forest cover change figure.
-- `update_2017`: update with deforestation and forest fragmentation until 2017
+- `update_2017`: updated estimates of deforestation and forest fragmentation up to year 2017
 
 ## Dependencies
 
