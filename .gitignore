@@ -18,6 +18,11 @@ manuscript/coverletter/*.pdf
 manuscript/manuscript.*
 !manuscript/manuscript.Rnw
 
+# Update
+update_2017/update_2017.*
+!update_2017/update_2017.Rnw
+!update_2017/update_2017.pdf
+
 # History files
 .Rhistory
 .Rapp.history

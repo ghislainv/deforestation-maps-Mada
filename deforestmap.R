@@ -58,10 +58,6 @@ initGRASS(gisBase="/usr/lib/grass72",home=tempdir(),
           location="deforestmap",mapset="PERMANENT",
           override=TRUE)
 
-# TEMP!
-execute <- FALSE
-if (execute) {
-
 ##==================================================================
 ## Download data from Cirad Dataverse: http://dx.doi.org/10.18167/DVN1/2FP7LR
 down <- FALSE
@@ -854,9 +850,6 @@ for (j in 1:length(ecoregion)) {
   system("r.mask -r")
 }
 
-# TEMP!
-} # End if (execute) 
-
 ##========================================================
 ## Comparison with previous studies on forest-cover change
 ##========================================================
@@ -878,18 +871,18 @@ fcc.comp[fcc.comp$ForestType=="Moist" & fcc.comp$Source=="this study", 3:9] <- d
 fcc.comp[fcc.comp$ForestType=="Dry" & fcc.comp$Source=="this study", 3:9] <- defor_dry_for_comp$area
 fcc.comp[fcc.comp$ForestType=="Spiny" & fcc.comp$Source=="this study", 3:9] <- defor_spiny_for_comp$area
 fcc.comp[fcc.comp$ForestType=="Mangroves" & fcc.comp$Source=="this study", 3:9] <- defor_mangroves_for_comp$area
-# This study for year 2014
+# This study for year 2017
 defor <- read.table("outputs/defor.txt",header=TRUE)
 defor_moist <- read.table("outputs/defor_moist.txt",header=TRUE)
 defor_dry <- read.table("outputs/defor_dry.txt",header=TRUE)
 defor_spiny <- read.table("outputs/defor_spiny.txt",header=TRUE)
 defor_mangroves <- read.table("outputs/defor_mangroves.txt",header=TRUE)
-# Complete data for year 2014
-fcc.comp$y2014[fcc.comp$ForestType=="Total" & fcc.comp$Source=="this study"] <- defor$area[defor$Year==2014]
-fcc.comp$y2014[fcc.comp$ForestType=="Moist" & fcc.comp$Source=="this study"] <- defor_moist$area[defor_moist$Year==2014]
-fcc.comp$y2014[fcc.comp$ForestType=="Dry" & fcc.comp$Source=="this study"] <- defor_dry$area[defor_dry$Year==2014]
-fcc.comp$y2014[fcc.comp$ForestType=="Spiny" & fcc.comp$Source=="this study"] <- defor_spiny$area[defor_spiny$Year==2014]
-fcc.comp$y2014[fcc.comp$ForestType=="Mangroves" & fcc.comp$Source=="this study"] <- defor_mangroves$area[defor_mangroves$Year==2014]
+# Complete data for year 2017
+fcc.comp$y2017[fcc.comp$ForestType=="Total" & fcc.comp$Source=="this study"] <- defor$area[defor$Year==2017]
+fcc.comp$y2017[fcc.comp$ForestType=="Moist" & fcc.comp$Source=="this study"] <- defor_moist$area[defor_moist$Year==2017]
+fcc.comp$y2017[fcc.comp$ForestType=="Dry" & fcc.comp$Source=="this study"] <- defor_dry$area[defor_dry$Year==2017]
+fcc.comp$y2017[fcc.comp$ForestType=="Spiny" & fcc.comp$Source=="this study"] <- defor_spiny$area[defor_spiny$Year==2017]
+fcc.comp$y2017[fcc.comp$ForestType=="Mangroves" & fcc.comp$Source=="this study"] <- defor_mangroves$area[defor_mangroves$Year==2017]
 # Save results
 write.table(fcc.comp,file="outputs/fcc_comp.txt",row.names=FALSE)
 SavedObjects <- c(SavedObjects,"fcc.comp")
@@ -901,7 +894,7 @@ rmse.studies <- as.data.frame(cbind(this_study,previous_studies))
 cor.fc <- cor(rmse.studies$this_study,rmse.studies$previous_studies, use="complete.obs") # 0.99
 errors.fc <- rmse.studies$this_study-rmse.studies$previous_studies
 Mean.fc <- mean(rmse.studies$this_study[!is.na(rmse.studies$previous_studies)]) # 4.8 Mha
-RMSE.fc <- sqrt(mean(errors^2, na.rm=TRUE)) # 299750 ha
+RMSE.fc <- sqrt(mean(errors.fc^2, na.rm=TRUE)) # 299750 ha
 PRMSE.fc <- 100*RMSE.fc/Mean.fc # 6%
 SavedObjects <- c(SavedObjects,"cor.fc","Mean.fc","RMSE.fc","PRMSE.fc")
 
@@ -1064,22 +1057,18 @@ save(list=SavedObjects,file="deforestmap.rda")
 ## Knit the document
 ##========================
 
-# ## Set knitr chunk default options
-# library(knitr)
-# opts_chunk$set(echo=FALSE, cache=FALSE,
-#                results="hide", warning=FALSE,
-#                message=FALSE, highlight=TRUE,
-#                fig.show="hide", size="small",
-#                tidy=FALSE)
-# options(knitr.kable.NA="-")
-# opts_knit$set(root.dir="manuscript")
-# 
-# ## Knit
-# knitr::knit2pdf("manuscript/manuscript.Rnw", output="manuscript/manuscript.tex")
+# Set knitr chunk default options
+library(knitr)
+opts_chunk$set(echo=FALSE, cache=FALSE,
+               results="hide", warning=FALSE,
+               message=FALSE, highlight=TRUE,
+               fig.show="hide", size="small",
+               tidy=FALSE)
+options(knitr.kable.NA="-")
+opts_knit$set(root.dir="update_2017")
 
-# ## Cover letter
-# rmarkdown::render("manuscript/coverletter/coverletter3.md", output_format=c("pdf_document"),
-#                   output_dir="manuscript/coverletter") # pdf output
+# Knit
+knitr::knit2pdf("update_2017/update_2017.Rnw", output="update_2017/update_2017.tex")
 
 ##===========================================================================
 ## End of script

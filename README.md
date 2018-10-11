@@ -9,23 +9,26 @@ This repository includes the R/GRASS script and data used to derive the results 
 /
 Supplementary materials [![supplements](article/logo-zip.png "supplements")](article/Vieilledent2018-BiologicalConservation-SM.pdf)
 
+Results in the _Biological Conservation_ article have been updated up to year 2017.
+
 ## Reproducibility of the results
 
 The results of the study are fully reproducible running the R/GRASS script `deforestmap.R`. Data used for the analysis can be downloaded from the Cirad Dataverse repository: \[DOI: [10.18167/DVN1/2FP7LR](http://dx.doi.org/10.18167/DVN1/2FP7LR)\].
 
 ## Main outputs: forest cover and forest fragmentation maps
 
-Main outputs of the study, including Madagascar forest cover maps and forest fragmentation maps for the years 1953, 1973, 1990, 2000, 2005, 2010 and 2014 are available on the Cirad Dataverse repository: \[DOI: [10.18167/DVN1/AUBRRC](http://dx.doi.org/10.18167/DVN1/AUBRRC)\].
+Main outputs of the study, including Madagascar forest cover maps and forest fragmentation maps for the years 1953, 1973, 1990, 2000, 2005, 2010, 2015 and 2017 are available on the Cirad Dataverse repository: \[DOI: [10.18167/DVN1/AUBRRC](http://dx.doi.org/10.18167/DVN1/AUBRRC)\].
 
 ## File and folder description
 
-- `data`: folder including two tables with forest-cover and deforestation data from previous studies.
-- `manuscript`: folder including all the files (in particular the `.Rnw` file) used to produce the manuscript.
-    - `manuscript/bib`: folder including bibliographic files (references and style).
-    - `manuscript/figs`: folder including figures used in the manuscript.
-    - `manuscript/tabs`: folder including tables used in the manuscript.
-- `outputs`: folder including outputs from the R script.
-- `R`: folder including an R script to plot the forest cover change figure.
+- `data`: tables with forest-cover and deforestation data from previous studies.
+- `manuscript`: all the files (in particular the `.Rnw` file) used to produce the manuscript published in _Biological Conservation_.
+    - `manuscript/bib`: bibliographic files (references and style).
+    - `manuscript/figs`: figures used in the manuscript.
+    - `manuscript/tabs`: tables used in the manuscript.
+- `outputs`: outputs from the R script.
+- `R`: R script to plot the forest cover change figure.
+- `update_2017`: update with deforestation and forest fragmentation until 2017
 
 ## Dependencies
 
@@ -59,6 +62,6 @@ The development version of this repository is available on GitHub at <https://gi
 
 ## Figure
 
-Figure 2. **Forest-cover change on six decades from 1953 to 2014 in Madagascar.** Forest cover changes from _c._ 1973 to 2014 are shown in the main figure, and forest cover in _c._ 1953 is shown in the bottom-right inset. Two zooms in the western dry (left part) and eastern moist (right part) ecoregions present more detailed views of (from top to bottom): forest-cover in 1950s, forest-cover change from _c._ 1973 to 2014, forest fragmentation in 2014 and distance to forest edge in 2014. Data on water bodies (blue) and water seasonality (light blue for seasonal water to dark blue for permanent water) has been extracted from Pekel et al. (2016).
+Figure: **Forest-cover change on six decades from 1953 to 2017 in Madagascar.** Forest cover changes from _c._ 1973 to 2017 are shown in the main figure, and forest cover in _c._ 1953 is shown in the bottom-right inset. Two zooms in the western dry (left part) and eastern moist (right part) ecoregions present more detailed views of (from top to bottom): forest-cover in 1950s, forest-cover change from _c._ 1973 to 2017, forest fragmentation in 2017 and distance to forest edge in 2017. Data on water bodies (blue) and water seasonality (light blue for seasonal water to dark blue for permanent water) has been extracted from Pekel et al. (2016).
 
 <img alt="Evolution deforestation" src="outputs/fig_fcc.png" width="1000">

@@ -1,0 +1,351 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preambule %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper, 12pt, leqno, dvipsnames]{article} %leqno: numéro d'équation à gauche
+\pagenumbering{arabic} % choose how to number the pages
+\usepackage{a4wide}
+\usepackage[utf8]{inputenc} % accents interprétés
+\usepackage{graphicx}
+%\usepackage{subfig}
+%\usepackage[hmargin=2cm, vmargin = 2cm, noheadfoot]{geometry} %% Pour gérer le format des pages
+%\usepackage{layout} %% Pour avoir la longueur des marges
+\usepackage[round,sort]{natbib} %% Natbib is a popular style for formatting references.
+%\usepackage{multibib}
+%\newcites{secnm}{Bibliographie} 
+%\usepackage{verbatim} % for multiline comments
+\usepackage{amssymb} %symbole de maths
+\usepackage{amsmath} %idem
+%\usepackage{stmaryrd} %% Symbole flèche à l'envers
+%\usepackage{amsfonts}
+\usepackage[english]{babel} %% Les titres en anglais
+\usepackage{array} %% Pour centrer verticalement le contenu d'un tableau, entre autres...
+\setcounter{secnumdepth}{4} %% Profondeur des sections, subsections
+\usepackage{setspace} %% Gère l'interligne: singlespacing, doublespacing
+\usepackage{booktabs}
+%\singlespacing
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\setlength{\LTleft}{-5cm plus 1 fill}
+\setlength{\LTright}{-5cm plus 1 fill}
+\usepackage[colorlinks=true,citecolor=Blue,urlcolor=Maroon]{hyperref} %% Gère les hyperliens
+%\usepackage{lineno} %% Numérotation des lignes
+%\linenumbers
+\newcommand{\logit}{\text{logit}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\p}{\text{p}}
+\newcommand{\R}{\textnormal{\sffamily\bfseries R}}
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+
+<<options, echo=FALSE, results="hide">>=
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo=FALSE, cache=FALSE,
+               #results="hide", 
+               warning=FALSE,
+               message=FALSE, highlight=TRUE,
+               fig.show="hide", size="small",
+               fig.align="center",
+               tidy=FALSE)
+options(knitr.kable.NA="-")
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Update to: Combining global tree cover loss data with historical national
+  forest cover maps to look at six decades of deforestation and forest
+  fragmentation in Madagascar$^{\S}$}
+\author{}
+\date{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+\vspace{-1cm}
+\begin{center}
+  Ghislain Vieilledent$^{1,\star}$, Clovis Grinand$^{2}$,
+  Fety A. Rakotomalala$^{2}$,\\
+  Rija Ranaivosoa$^{3}$, Jean-Roger Rakotoarijaona$^{3}$,\\
+  Thomas F. Allnutt$^{4,5}$, and Frédéric Achard$^{6}$\\
+\end{center}
+
+\vspace{0.3cm}
+
+{\small
+\noindent$^{\S}$ This article was initially published as:
+
+\noindent\textbf{Vieilledent G., C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard.} 2018. Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar. \emph{Biological Conservation.} \textbf{222}: 189-197. [doi: \href{https://doi.org/10.1016/j.biocon.2018.04.008}{10.1016/j.biocon.2018.04.008}].} 
+
+\vspace{0.3cm}
+
+{\small
+  \begin{flushleft}  
+    $[1]$ \textbf{CIRAD} -- UPR Forêts et Sociétés, F-34398 Montpellier, FRANCE\\
+    $[2]$ \textbf{Nitid\ae}, F-75020 Paris, FRANCE\\
+    $[3]$ \textbf{Office National pour l'Environnement}, 101 Antananarivo, MADAGASCAR\\
+    $[4]$ \textbf{Wildlife Conservation Society}, 101 Antananarivo, MADAGASCAR\\
+    $[5]$ \textbf{GreenInfo Network}, Oakland, California, USA\\
+    $[6]$ \textbf{Joint Research Center of the European Commission} -- Bio-economy Unit, I-21027 Ispra (VA), ITALY\\
+    ~\\
+    $[\star]$ \textbf{Corresponding author:}
+    \textbackslash{E-mail}:~ghislain.vieilledent@cirad.fr
+  \end{flushleft}}
+
+% \vspace{0.3cm}
+
+% {\small
+%   \begin{flushleft}
+%     \textbf{Highlights:}\\
+%     - We produced new 30 m resolution forest cover maps for Madagascar for the period 2000-2014.\\
+%     - Madagascar has lost 44\% of its natural forest cover over the period 1953-2014.\\
+%     - Annual deforestation rate has increased in Madagascar since 2005 to reach 1.1\%/yr in 2014.\\
+%     - Half of the tropical forest in Madagascar is now located at less than 100~m from forest edge.\\
+%     - Conservation efforts must be intensified to save Madagascar unique forests and biodiversity.\\
+%   \end{flushleft}
+% }
+
+\newpage
+
+\doublespacing
+%\linenumbers
+
+\newcommand{\keywords}[1]{\par\noindent
+{\small{\em Keywords\/}: #1}}
+
+\begin{abstract}
+
+Blabla
+
+\vspace{0.5cm}
+
+\keywords{biodiversity, climate-change, deforestation, forest-fragmentation, Madagascar, tropical forest}
+
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+\label{introduction}
+
+Blabla
+
+\section{Data accessibility}
+\label{data-accessibility}
+
+Data and code used for this study have been made permanently and publicly available
+on the CIRAD Dataverse repository so that the results are entirely reproducible:
+\begin{itemize}
+\item Input data: \url{http://dx.doi.org/10.18167/DVN1/2FP7LR}
+\item Code: \url{http://dx.doi.org/10.18167/DVN1/275TDF}
+\item Output data: \url{http://dx.doi.org/10.18167/DVN1/AUBRRC}
+\end{itemize}
+
+\newpage
+\singlespacing
+
+\renewcommand{\bibname}{References}
+\renewcommand{\bibsection}{\section{\bibname}}
+\bibliographystyle{bib/besjournals}
+\bibliography{bib/biblio}
+
+\newpage
+
+\section{Tables}
+\label{tables}
+
+\nopagebreak
+
+\vfill
+<<forest_cover, results="asis">>=
+# Import and format
+defor.df <- read.table(file="tabs/defor.txt", sep="\t", header=TRUE)
+perc.1 <- round(100*(defor.df$area[defor.df$Year==1973]-defor.df$area[defor.df$Year==2014])/defor.df$area[defor.df$Year==1973])
+perc.2 <- round(100*(defor.df$area[defor.df$Year==1953]-defor.df$area[defor.df$Year==2014])/defor.df$area[defor.df$Year==1953])
+d.1 <- defor.df$theta[defor.df$Year==1990]
+d.2 <- defor.df$theta[defor.df$Year==2010]
+tab.1 <- defor.df
+tab.1[,c(2:4)] <- round(tab.1[,c(2:4)]/1000)
+tab.1$Year <- as.character(tab.1$Year)
+names(tab.1) <- c("Year", "Forest (Kha)", "Unmap (Kha)", "Annual defor. (Kha/yr)", "Rate (%/yr)")
+# Caption
+tabcap1 <- "\\textbf{Change in natural forest cover and deforestation rates from 1953 to 2017 in Madagascar.} Areas are provided in thousands of hectares (Kha). Forest map for the year 1973 has 3.3 Mha of unclassified areas due to the presence of clouds on satellite images. As a consequence, partial deforestation rates for the periods 1953-1973 and 1973-1990 are computed based on the available forest extent. The last two columns indicate the annual deforested areas and annual deforestation rates on the previous time-period (e.g.~1953-1973 for year 1973, 1973-1990 for year 1990, etc.)."
+# Kable
+knitr::kable(tab.1, digits=1, format.args=list(big.mark=","), booktabs=TRUE, format="latex", 
+             caption=tabcap1, align=c("l","r","r","r","r"), linesep="") %>% 
+  kable_styling(latex_options=c("striped","hold_position"))
+@
+\vfill
+
+\newpage
+
+\vspace*{\stretch{1}}
+<<comp_forest, results="asis">>=
+# Import and format
+fcc.comp <- read.table(file="tabs/fcc_comp.txt", sep=" ", header=TRUE)
+tab.2 <- fcc.comp
+tab.2 <- tab.2[,c(2,1,3:10)]
+tab.2[,c(3:10)] <- round(tab.2[,c(3:10)]/1000)
+tab.2$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
+col.names <- c("Forest type","Source","1953","1973","1990","2000","2005","2010","2013","2017")
+# Caption
+tabcap2 <- "\\textbf{Comparing Madagascar forest cover estimates with
+      previous studies on the period 1953-2017}. We compared our
+    estimates of forest cover with the estimates from three previous
+    studies \\citep{Harper2007, MEFT2009, ONE2015}. Areas are provided
+    in thousands of hectares (Kha). We obtained a Pearson's
+    correlation coefficient of 0.99 between our forest cover estimates
+    and forest cover estimates from previous studies. The increase in
+    mangrove and spiny forest covers from 1953 to 1973 in \\citet{Harper2007} and our study is most probably due to
+    differences in forest definition and mapping methods between the
+    1953 aerial-photography derived map and the 1973 Landsat image
+    derived map."
+# Kable
+knitr::kable(tab.2, col.names=col.names, align=c("l","l",rep("r",8)), format.args=list(big.mark=","), 
+             booktabs=TRUE, format="latex", caption=tabcap2, linesep=c("","","","\\addlinespace")) %>% 
+  kable_styling(latex_options=c("striped","hold_position","scale_down"))
+@
+\vspace*{\stretch{1}}
+
+\newpage
+
+\vspace*{\stretch{1}}
+<<comp_defor, results="asis">>=
+# Import and format
+tab.3 <- read.table(file="tabs/defor_comp.txt", sep=" ", header=TRUE)
+tab.3$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
+col.names <- c("Forest type","Source","1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
+# Caption
+tabcap3 <- "\\textbf{Comparing Madagascar annual deforestation rates
+      with previous studies on the period 1953-2013}. Annual
+    deforested areas (in thousands of hectares per year, Kha/yr) and
+    annual deforestation rates (second number in parenthesis, in
+    \\%/yr) are provided. For deforestation rates in \\%/yr, exact same
+    numbers as in scientific articles and reports from previous
+    studies \\citep{Harper2007, MEFT2009, ONE2015} have been
+    reported. The way annual deforestation rates in \\%/yr have been
+    computed in these previous studies can slightly differ from one
+    study to another, but estimates always correct for the potential
+    presences of clouds on satellite images and unclassified areas on
+    forest maps. Annual deforested areas in Kha/yr have been
+    recomputed from forest cover estimates in
+    Tab.~\\ref{tab:comp_forest} (except for \\citet{Harper2007} for the
+    periods 1973-1990 and 1990-2000 for which annual deforested areas
+    in Kha/yr were derived from numbers reported in the original
+    publication, see methods) and do not correct for the potential
+    presence of clouds."
+# Kable
+knitr::kable(tab.3, col.names=col.names, align=c("l","l",rep("r",6)), booktabs=TRUE, format="latex",
+             caption=tabcap3, linesep=c("","","","\\addlinespace")) %>% 
+  kable_styling(latex_options=c("striped","hold_position","scale_down"))
+@
+\vspace*{\stretch{1}}
+
+\newpage
+
+\vspace*{\stretch{1}}
+<<frag, results="asis">>=
+# Import and format
+frag.df <- read.table(file="tabs/fordens.txt", sep="\t", header=TRUE)
+tab.4 <- frag.df
+tab.4$Year <- as.character(tab.4$Year)
+tab.4$forest <- round(tab.4$forest/1000)
+names(tab.4) <- c("Year","Forest (Kha)", "0-20", "21-40", "41-60", "61-80", "81-100")
+# Caption
+tabcap4 <- "\\textbf{Change in forest fragmentation from 1953 to
+      2017 in Madagascar}. Five forest fragmentation classes, based on
+    the percentage of forest in the neighborhood, are defined: 0-20\\%
+    (highly fragmented), 21-40\\%, 41-60\\%, 61-80\\% and 81-100\\% (lowly
+    fragmented). The percentage of forest falling in each forest
+    fragmentation class is reported for each year. Forest areas are
+    provided in thousands of hectares (Kha)."
+# Kable
+knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE, format="latex",
+             caption=tabcap4, linesep="") %>%
+  kable_styling(latex_options=c("striped","hold_position"))
+@
+\vspace*{\stretch{1}}
+
+\newpage
+
+\section{Figures}
+\label{figures}
+
+\nopagebreak
+
+\vfill
+\begin{figure}[h!]
+  \centering
+    
+    \includegraphics[width=10cm]{figs/ecoregion.png}
+
+    \caption{\textbf{Ecoregions and forest types in Madagascar.}
+      Madagascar can be divided into four climatic ecoregions with
+      four forest types: the moist forest in the East (green), the dry
+      forest in the West (orange), the spiny forest in the South
+      (red), and the mangroves on the West coast (blue). Ecoregions
+      were defined following climatic \citep{Cornet1974} and
+      vegetation \citep{IEFN1996} criteria. The dark grey areas
+      represent the remaining natural forest cover for the year 2017.
+      Forest types are defined on the basis of their belonging to
+      one of the four ecoregions.}
+   
+    \label{fig:ecoregion}
+    
+\end{figure}
+\vfill
+
+\newpage
+
+\vspace*{\stretch{1}}
+\begin{figure}[h!]
+  \centering
+  
+  \includegraphics[width=16cm]{figs/fig_fcc.png}
+
+  \caption{\textbf{Forest cover change on six decades from 1953 to
+      2017 in Madagascar.} forest cover changes from 1973 to
+    2017 are shown in the main figure, and forest cover in 1953 is shown 
+    in the bottom-right inset. Two zooms in the western
+    dry (left part) and eastern moist (right part) ecoregions present
+    more detailed views of (from top to bottom): forest cover in
+    1953, forest cover change from 1973 to 2017, forest
+    fragmentation in 2017 and distance to forest edge in 2017. Data on
+    water bodies (blue) and water seasonality (light blue for seasonal
+    water to dark blue for permanent water) has been extracted from
+    \citet{Pekel2016}.}
+
+  \label{fig:fcc}
+
+\end{figure}
+\vspace*{\stretch{1}}
+
+\newpage
+
+\vspace*{\stretch{1}}
+\begin{figure}[h!]
+  \centering
+  
+  \includegraphics[width=12cm]{figs/dist.png}
+
+  \caption{\textbf{Change in distance to forest edge from 1953
+      to 2017 in Madagascar.} Black dots represent the mean distance
+    to forest edge for each year. Vertical dashed segments represent
+    the 90\% quantiles (5\% and 95\%) of the distance to forest
+    edge. Horizontal dashed grey line indicates a distance to forest
+    edge of 100~m. Numbers at the bottom of each vertical segments are
+    the percentage of forest at a distance to forest edge lower than
+    100~m for each year.}
+  
+  \label{fig:dist_edge}
+
+\end{figure}
+\vspace*{\stretch{1}}
+
+\end{document}
