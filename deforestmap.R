@@ -58,6 +58,10 @@ initGRASS(gisBase="/usr/lib/grass72",home=tempdir(),
           location="deforestmap",mapset="PERMANENT",
           override=TRUE)
 
+# TEMP!
+execute <- FALSE
+if (execute) {
+
 ##==================================================================
 ## Download data from Cirad Dataverse: http://dx.doi.org/10.18167/DVN1/2FP7LR
 down <- FALSE
@@ -632,7 +636,7 @@ defor.df$clouds[defor.df$Year==1973] <- cloud.1973
 write.table(defor.df,"outputs/defor.txt",row.names=FALSE,sep="\t")
 
 #= Deforestation statistics for comparison
-Year <- c(1953,1973,1990,2000,2005,2010,2013,2015,2017)  # Here we add 2013
+Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2013
 defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
 # Areas
 for (i in 1:length(Year)) {
@@ -673,6 +677,7 @@ write.table(fordens.df,"outputs/fordens.txt",row.names=FALSE,sep="\t")
 Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
 frag.df <- data.frame(Year=Year,forest=NA,patch=NA,transitional=NA,
                       edge=NA,perforated=NA,interior=NA,undetermined=NA)
+Res <- "30"
 # Areas
 for (i in 1:length(Year)) {
   # Message
@@ -785,7 +790,6 @@ for (i in 1:length(Year)) {
 }
 write.table(perc.100m.dist.df,"outputs/perc_100m_dist.txt",row.names=FALSE,sep="\t")
 
-
 ##========================
 ## Statistics by ecoregion
 ##========================
@@ -793,14 +797,14 @@ write.table(perc.100m.dist.df,"outputs/perc_100m_dist.txt",row.names=FALSE,sep="
 # Ecoregions
 # 1: spiny, 2: mangroves, 3: moist, 4: dry
 ecoregion <- c("spiny","mangroves","moist","dry")
+Res <- 30
 
 # Loop on ecoregions
-#for (j in 1:length(ecoregion)) {
-for (j in 1:3) {
+for (j in 1:length(ecoregion)) {
   # Message
   cat(paste0("Ecoregion: ",ecoregion[j]))
   # Mask
-  system(paste0("r.mask --o raster=ecoregion maskcats=",j,"'"))
+  system(paste0("r.mask --o raster=ecoregion maskcats='",j,"'"))
   # ===========================
   # A. Deforestation statistics
   Year <- c(1953,1973,1990,2000,2005,2010,2015,2017)
@@ -825,7 +829,7 @@ for (j in 1:3) {
   write.table(defor.df,paste0("outputs/defor_",ecoregion[j],".txt"),row.names=FALSE,sep="\t")
   # ==========================================
   # B. Deforestation statistics for comparison
-  Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2005 and 2013 for comparison
+  Year <- c(1953,1973,1990,2000,2005,2010,2013)  # Here we add 2013 for comparison
   defor.df <- data.frame(Year=Year,area=NA,ann.defor=NA,theta=NA)
   # Areas
   for (i in 1:length(Year)) {
@@ -849,6 +853,9 @@ for (j in 1:3) {
   # Remove mask
   system("r.mask -r")
 }
+
+# TEMP!
+} # End if (execute) 
 
 ##========================================================
 ## Comparison with previous studies on forest-cover change
@@ -956,9 +963,9 @@ system("r.in.gdal --o input=outputs/water.tif output=water")
 system("r.null map=harper setnull=0 --verbose")
 system("r.mask --o raster=harper")
 # Compute fcc
-system(paste0("r.mapcalc --o 'fcc = if(!isnull(for2014),24,if(!isnull(for2000),23,if(!isnull(for1990),22, \\
+system(paste0("r.mapcalc --o 'fcc = if(!isnull(for2017),25,if(!isnull(for2010),24,if(!isnull(for2000),23,if(!isnull(for1990),22, \\
        if(!isnull(for1973) &&& for1973==1,21,if(!isnull(water) &&& water>0,water, \\
-              if(!isnull(for1953),20,if(!isnull(for1973) &&& for1973==5,215,0)))))))'"))
+              if(!isnull(for1953),20,if(!isnull(for1973) &&& for1973==5,215,0))))))))'"))
 # Color palette
 system("r.colors map=fcc rules=- << EOF
 0 243:243:220
@@ -967,9 +974,10 @@ system("r.colors map=fcc rules=- << EOF
 20 243:243:220
 21 100:100:100
 215 243:243:220
-22 255:165:0
-23 255:0:0
-24 34:139:34
+22 255:237:160
+23 254:178:76
+24 240:59:32
+25 34:139:34
 nv 255:255:255
 EOF")
 # Export
@@ -1004,14 +1012,14 @@ dist.df <- read.table(file="outputs/dist.txt", header=TRUE)
 perc.100m.df <- read.table(file="outputs/perc_100m_dist.txt", header=TRUE)
 
 # Plot
-png(file="outputs/dist.png",width=600,height=450)
+png(file="outputs/dist.png",width=850,height=600)
 par(mar=c(4,4,0,0),cex=2,lwd=2)
-plot(NA, xlim=c(1953,2014), ylim=c(0,5000),
+plot(NA, xlim=c(1953,2017), ylim=c(0,5000),
      xlab="Year",
      ylab="Distance to forest edge (km)",
      axes=FALSE)
 # Perc
-segments(x0=1953,x1=2014,y0=100,y1=100,lty=3,col=grey(0.5))
+segments(x0=1953,x1=2017,y0=100,y1=100,lty=3,col=grey(0.5))
 label.perc <- round(perc.100m.df$perc)
 label.perc[1] <- paste0(label.perc[1], "%")
 #text(x=perc.100m.df$Year, y=-200, labels=label.perc, cex=0.9, adj=0.5)
@@ -1020,27 +1028,29 @@ mtext(text=label.perc, at=perc.100m.df$Year, side=1, line=-0.5, cex=1.4, adj=0.5
 segments(x0=dist.df$Year,x1=dist.df$Year,y0=dist.df$q1,y1=dist.df$q2,lty=2)
 segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q2,y1=dist.df$q2,lty=1)
 segments(x0=dist.df$Year-1,x1=dist.df$Year+1,y0=dist.df$q1,y1=dist.df$q1,lty=1)
-axis(1,at=c(1953,1973,1990,2000,2005,2010,2014),labels=c(1953,1973,1990,2000,2005,2010,2014),
+axis(1,at=c(1953,1973,1990,2000,2005,2010,2015,2017),labels=c(1953,1973,1990,2000,2005,2010,2015,2017),
      las=3, pos=-500)
 axis(2,at=seq(0,5000,by=1000),labels=seq(0,5,by=1))
 points(dist.df$Year, dist.df$mean, type="b", pch=19)
 dev.off()
 
 ##==================================================
-## Carbon emissions between 2010 and 2014
+## Carbon emissions between 2010 and 2017
 ##==================================================
 
 system("r.in.gdal --o input=gisdata/rasters/carbon/ACD_RF_2010.tif output=acd")
 system("g.region rast=for2010 -ap")
 system("r.mask --o raster=for2010")
-system("r.univar map=acd")
-system("g.region rast=for2014 -ap")
-system("r.mask --o raster=for2014")
-system("r.univar map=acd")
+univar_2010 <- system("r.univar map=acd", intern=TRUE)
+univar_2010_sum <- as.numeric(sub("sum: ","",univar_2010[15]))
+system("g.region rast=for2017 -ap")
+system("r.mask --o raster=for2017")
+univar_2017 <- system("r.univar map=acd", intern=TRUE)
+univar_2017_sum <- as.numeric(sub("sum: ","",univar_2017[15]))
 system("r.mask -r")
-acd_2010 <- 9700502114*30*30/10000 # 873045190
-acd_2014 <- 9253573526*30*30/10000 # 832821617
-carbon_emissions <- acd_2010-acd_2014
+acd_2010 <- univar_2010_sum*30*30/10000
+acd_2017 <- univar_2017_sum*30*30/10000
+carbon_emissions <- acd_2010-acd_2017
 SavedObjects <- c(SavedObjects,"carbon_emissions")
 
 ##========================
@@ -1054,22 +1064,22 @@ save(list=SavedObjects,file="deforestmap.rda")
 ## Knit the document
 ##========================
 
-## Set knitr chunk default options
-library(knitr)
-opts_chunk$set(echo=FALSE, cache=FALSE,
-               results="hide", warning=FALSE,
-               message=FALSE, highlight=TRUE,
-               fig.show="hide", size="small",
-               tidy=FALSE)
-options(knitr.kable.NA="-")
-opts_knit$set(root.dir="manuscript")
+# ## Set knitr chunk default options
+# library(knitr)
+# opts_chunk$set(echo=FALSE, cache=FALSE,
+#                results="hide", warning=FALSE,
+#                message=FALSE, highlight=TRUE,
+#                fig.show="hide", size="small",
+#                tidy=FALSE)
+# options(knitr.kable.NA="-")
+# opts_knit$set(root.dir="manuscript")
+# 
+# ## Knit
+# knitr::knit2pdf("manuscript/manuscript.Rnw", output="manuscript/manuscript.tex")
 
-## Knit
-knitr::knit2pdf("manuscript/manuscript.Rnw", output="manuscript/manuscript.tex")
-
-## Cover letter
-rmarkdown::render("manuscript/coverletter/coverletter3.md", output_format=c("pdf_document"),
-                  output_dir="manuscript/coverletter") # pdf output
+# ## Cover letter
+# rmarkdown::render("manuscript/coverletter/coverletter3.md", output_format=c("pdf_document"),
+#                   output_dir="manuscript/coverletter") # pdf output
 
 ##===========================================================================
 ## End of script

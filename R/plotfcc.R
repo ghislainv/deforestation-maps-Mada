@@ -7,12 +7,12 @@
 # license         :GPLv3
 # ==============================================================================
 
-library(ggplot2)
-library(rasterVis)
-library(gridExtra)
-library(grid)
-library(rgdal)
-library(ggspatial)  # for geom_spatial()
+require(ggplot2)
+require(rasterVis)
+require(gridExtra)
+require(grid)
+require(rgdal)
+require(ggspatial)  # for geom_spatial()
 
 # Zooms
 zoom.w <- list(xmin=346000,xmax=439000,ymin=7387000,ymax=7480000)
@@ -22,7 +22,7 @@ zooms <- list(zoom.w,zoom.e)
 # Compute zooms
 for (z in 1:length(zooms)) {
   ExtentZ <- paste(zooms[[z]]$xmin,zooms[[z]]$ymin,zooms[[z]]$xmax,zooms[[z]]$ymax)
-  Input <- c("fcc.tif","fcc_for1953.tif","fordens2014_class_mask.tif","dist_edge_2014_mask.tif")
+  Input <- c("fcc.tif","fcc_for1953.tif","fordens2017_class_mask.tif","dist_edge_2017_mask.tif")
   nodata <- c(rep(255,3),9999)
   Output <- paste0(sub(".tif","",Input),"_zoom",z,".tif")
   for (i in 1:length(Input)) {
@@ -45,9 +45,10 @@ get_legend <- function(myggplot) {
 
 # ======
 # Colors
-for2014.col = rgb(34/255,139/255,34/255) # forest green
-defor00_14.col = rgb(255/255,0/255,0/255) # red
-defor90_00.col = rgb(255/255,165/255,0/255) # orange
+for2017.col = rgb(34/255,139/255,34/255) # forest green
+defor10_17.col = rgb(240/255,59/255,32/255) # red
+defor00_10.col = rgb(254/255,178/255,76/255) # orange
+defor90_00.col = rgb(255/255,237/255,160/255) # light orange
 defor73_90.col = rgb(100/255,100/255,100/255) # grey
 nofor73.col = rgb(243/255,243/255,220/255) # light yellow
 w1.col = rgb(153/255,217/255,234/255) # light blue
@@ -58,12 +59,12 @@ water.col <-colorRampPalette(c(w1.col,w2.col))(12)
 # Palette
 # fcc (discrete)
 fcc.col <- c(nofor73.col,water.col,nofor73.col,defor73_90.col,nofor73.col,
-             defor90_00.col,defor00_14.col,for2014.col)
-fcc.name <- c(0,1:12,20,21,215,22,23,24)
+             defor90_00.col,defor00_10.col,defor10_17.col,for2017.col)
+fcc.name <- c(0,1:12,20,21,215,22,23,24,25)
 fcc.palette <- paste0("c(",paste0("\"",fcc.name,"\"","=","\"",fcc.col,"\"",collapse=","),")")
 fcc.palette <- eval(parse(text=fcc.palette))
 # fcc_for1953 (discrete)
-fcc_for1953.col <- c(nofor73.col,water.col,for2014.col)
+fcc_for1953.col <- c(nofor73.col,water.col,for2017.col)
 fcc_for1953.name <- c(0,1:12,20)
 fcc_for1953.palette <- paste0("c(",paste0("\"",fcc_for1953.name,"\"","=","\"",
                                           fcc_for1953.col,"\"",collapse=","),")")
@@ -133,7 +134,7 @@ plot_zoom_fcc <- function(rast_file,palette=fcc.palette) {
 plot_zoom_frag <- function(rast_file,palette=frag.palette) {
   r <- raster(rast_file)
   pzoom <- gplot(r,maxpixels=res) +
-    geom_raster(aes(fill=factor(value))) + ylab("Fragmentation 2014") +
+    geom_raster(aes(fill=factor(value))) + ylab("Fragmentation 2017") +
     scale_fill_manual(values=palette,breaks=c(1:5),
                       na.value="transparent",
                       guide=guide_legend(title="Frag. class",title.position="top",
@@ -148,7 +149,7 @@ plot_zoom_frag <- function(rast_file,palette=frag.palette) {
 plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
   r <- raster(rast_file)
   pzoom <- gplot(r,maxpixels=res) +
-    geom_raster(aes(fill=value)) + ylab("Dist. to forest edge 2014") +
+    geom_raster(aes(fill=value)) + ylab("Dist. to forest edge 2017") +
     scale_fill_gradientn(colours=palette,na.value="transparent",
                          values=vr,
                          breaks=c(1,500,1000,1500,2000),
@@ -170,14 +171,15 @@ ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_tenaizy_3
 ecoregion.data <- ecoregion@data
 ecoregion.data$code <- c("s","m","h","d") # spiny, mangroves, dry, humid
 ecoregion@data <- ecoregion.data
+df.eco <- df_spatial(ecoregion)
 
 # Text
 xt <- c(850000,580000,530000,600000)
 yt <- c(7920000,8060000,7250000,8460000)
 t.df <- data.frame(text=c("Moist","Dry","Spiny","Mangroves"),x=xt,y=yt)
 
-# Forest 2014
-for2014 <- raster("outputs/for2014.tif")
+# Forest 2017
+for2017 <- raster("outputs/for2017.tif")
 
 # Segments
 seg.df <- data.frame(x=c(720000),y=c(8282000),
@@ -192,8 +194,8 @@ black.t <- adjustcolor("black",alpha.f=0.5)
 eco.col <- c("h"=green.t,"d"=orange.t,"s"=red.t,"m"="blue","1"=black.t)
 
 # Plot
-plot.ecoregion <- gplot(for2014, maxpixels=10e5) +
-  geom_spatial(ecoregion, aes(x=long,y=lat,group=group,fill=factor(code)), crsto=32738) +
+plot.ecoregion <- gplot(for2017, maxpixels=res) +
+  geom_polypath(aes(x,y,group=piece_id,fill=factor(code)),df.eco) +
   geom_raster(aes(fill=factor(value))) +
   scale_fill_manual(values=eco.col, na.value="transparent") +
   geom_text(data=t.df, aes(x=x, y=y, label=text), size=5) +
@@ -234,9 +236,9 @@ fcc.plot <- gplot(fcc,maxpixels=res) +
   geom_rect(aes(xmin=793000,xmax=886000,ymin=7810000,ymax=7903000),
             fill="transparent",colour="black",size=0.3) +
   scale_fill_manual(values=fcc.palette,
-                    name="Cover 1973-2014",
-                    breaks=c(24,23,22,21,0,12),
-                    labels=c("Forest 2014","Defor. 2000-2014","Defor. 1990-2000",
+                    name="Cover 1973-2017",
+                    breaks=c(25,24,23,22,21,0,12),
+                    labels=c("Forest 2017","Defor. 2010-2017","Defor. 2000-2010","Defor. 1990-2000",
                              "Defor. 1973-1990", "Non-forest 1973","Water"),
                     na.value="transparent") +
   theme_bw() + theme_base +
@@ -263,12 +265,12 @@ zw.fcc <- plot_zoom_fcc("outputs/fcc_zoom1.tif",fcc.palette) + ylab("Cover 1973-
 ze.fcc <- plot_zoom_fcc("outputs/fcc_zoom2.tif",fcc.palette) + ylab("")
 
 ## Zooms frag
-zw.frag <- plot_zoom_frag("outputs/fordens2014_class_mask_zoom1.tif")
-ze.frag <- plot_zoom_frag("outputs/fordens2014_class_mask_zoom2.tif") + ylab("") + theme(legend.position="none")
+zw.frag <- plot_zoom_frag("outputs/fordens2017_class_mask_zoom1.tif")
+ze.frag <- plot_zoom_frag("outputs/fordens2017_class_mask_zoom2.tif") + ylab("") + theme(legend.position="none")
 
 ## Zooms dist
-zw.dist <- plot_zoom_dist("outputs/dist_edge_2014_mask_zoom1.tif")
-ze.dist <- plot_zoom_dist("outputs/dist_edge_2014_mask_zoom2.tif") + ylab("") + theme(legend.position="none")
+zw.dist <- plot_zoom_dist("outputs/dist_edge_2017_mask_zoom1.tif")
+ze.dist <- plot_zoom_dist("outputs/dist_edge_2017_mask_zoom2.tif") + ylab("") + theme(legend.position="none")
 
 ## Combine and export
 lay <- rbind(c(NA,NA,NA,NA),
