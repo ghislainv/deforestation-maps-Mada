@@ -79,7 +79,7 @@ options(knitr.kable.NA="-")
 \vspace{0.3cm}
 
 {\small
-\noindent$^{\S}$ This article was initially published as:
+\noindent$^{\S}$ Article originally published as:
 
 \noindent\textbf{Vieilledent G., C. Grinand, F. A. Rakotomalala, R. Ranaivosoa, J.-R. Rakotoarijaona, T. F. Allnutt, and F. Achard.} 2018. Combining global tree cover loss data with historical national forest-cover maps to look at six decades of deforestation and forest fragmentation in Madagascar. \emph{Biological Conservation.} \textbf{222}: 189-197. [doi: \href{https://doi.org/10.1016/j.biocon.2018.04.008}{10.1016/j.biocon.2018.04.008}].} 
 
@@ -113,42 +113,32 @@ options(knitr.kable.NA="-")
 
 \newpage
 
-\doublespacing
+%\doublespacing
 %\linenumbers
 
-\newcommand{\keywords}[1]{\par\noindent
-{\small{\em Keywords\/}: #1}}
+\section{Summary}
 
-\begin{abstract}
+In a recent paper \citep{Vieilledent2018}, we have published estimates of deforestation and forest fragmentation in Madagascar for the period 1953-2014. We had used a method combining historical forest cover maps (1953-2000) with annual tree cover loss data (2000-2014) to derive new forest cover maps for the period 2000-2014. We had shown that deforestation rate had increased since 2005 to reach about 100,000 ha/yr (1\%/yr) for the period 2010-2014 and that remaining forest was highly fragmented, 46\% of the remaining forest in 2014 (covering 8.9 Mha) being at less than 100 m from forest edge or a forest clearing.
 
-Blabla
+In this follow-up study, we have used version 1.5 of the Global Forest Change data \citep{Hansen2013}, providing updated tree cover loss data for the period 2014-2017 (\url{http://earthenginepartners.appspot.com/science-2013-global-forest}), to provide updated estimates of deforestation and forest fragmentation in Madagascar on the periods 2010-2015 and 2015-2017. To do so, we used the exact same methodology as the one described in \citet{Vieilledent2018}.
 
-\vspace{0.5cm}
+We provide new forest cover and forest fragmentation maps for Madagascar for the years 2015 and 2017 (Fig.~\ref{fig:fcc}). We estimate that tropical forests cover 8.4 Mha in 2017 in Madagascar. We show that the deforestation trend observed on the period 2005-2014 in \citet{Vieilledent2018} has been accelerating on the period 2015-2017. During these two years, 324,000 hectares have been deforested at the national scale in Madagascar (Tab.~\ref{tab:forest_cover}). This corresponds to a 56\% increase in the annual deforestation rate compared to the period 2010-2015 (Tab.~\ref{tab:forest_cover}). Associated to deforestation, remaining forest keeps on being highly fragmented (Tab.~\ref{tab:frag}). At the end of the year 2017, almost half (49\%) of the forest in Madagascar was located at a distance lower than 100 m from forest edge or a forest clearing (Fig.~\ref{fig:dist_edge}).
 
-\keywords{biodiversity, climate-change, deforestation, forest-fragmentation, Madagascar, tropical forest}
+Some limitations about using version 1.5 of the tree cover loss data to analyze the deforestation trend on the full period 2000-2017 are discussed on the Global Forest Change website. Only the satellite data from 2011 onward have been reprocessed in this new version, so that comparing deforestation on the period 2000-2012 with deforestation on the period 2011-2017 should be performed with caution. In our case, we can confidently compare deforestation on the period 2010-2015 with deforestation on the period 2015-2017.
 
-\end{abstract}
+Increase in the deforestation rates in Madagascar is most likely associated to demographic growth and poor environmental law enforcement. These news results are alarming. If nothing is done to rapidly curb deforestation in the country, Madagascar risks loosing almost all its tropical forest and associated biodiversity in the next 50 years.
 
 \newpage
-
-\section{Introduction}
-\label{introduction}
-
-Blabla
 
 \section{Data accessibility}
 \label{data-accessibility}
 
-Data and code used for this study have been made permanently and publicly available
-on the CIRAD Dataverse repository so that the results are entirely reproducible:
+Results of this study are entirely reproducible. Data and code used in the analysis have been archived on the CIRAD Dataverse repository:
 \begin{itemize}
 \item Input data: \url{http://dx.doi.org/10.18167/DVN1/2FP7LR}
 \item Code: \url{http://dx.doi.org/10.18167/DVN1/275TDF}
 \item Output data: \url{http://dx.doi.org/10.18167/DVN1/AUBRRC}
 \end{itemize}
-
-\newpage
-\singlespacing
 
 \renewcommand{\bibname}{References}
 \renewcommand{\bibsection}{\section{\bibname}}
@@ -185,69 +175,69 @@ knitr::kable(tab.1, digits=1, format.args=list(big.mark=","), booktabs=TRUE, for
 
 \newpage
 
-\vspace*{\stretch{1}}
-<<comp_forest, results="asis">>=
-# Import and format
-fcc.comp <- read.table(file="tabs/fcc_comp.txt", sep=" ", header=TRUE)
-tab.2 <- fcc.comp
-tab.2 <- tab.2[,c(2,1,3:10)]
-tab.2[,c(3:10)] <- round(tab.2[,c(3:10)]/1000)
-tab.2$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
-col.names <- c("Forest type","Source","1953","1973","1990","2000","2005","2010","2013","2017")
-# Caption
-tabcap2 <- "\\textbf{Comparing Madagascar forest cover estimates with
-      previous studies on the period 1953-2017}. We compared our
-    estimates of forest cover with the estimates from three previous
-    studies \\citep{Harper2007, MEFT2009, ONE2015}. Areas are provided
-    in thousands of hectares (Kha). We obtained a Pearson's
-    correlation coefficient of 0.99 between our forest cover estimates
-    and forest cover estimates from previous studies. The increase in
-    mangrove and spiny forest covers from 1953 to 1973 in \\citet{Harper2007} and our study is most probably due to
-    differences in forest definition and mapping methods between the
-    1953 aerial-photography derived map and the 1973 Landsat image
-    derived map."
-# Kable
-knitr::kable(tab.2, col.names=col.names, align=c("l","l",rep("r",8)), format.args=list(big.mark=","), 
-             booktabs=TRUE, format="latex", caption=tabcap2, linesep=c("","","","\\addlinespace")) %>% 
-  kable_styling(latex_options=c("striped","hold_position","scale_down"))
-@
-\vspace*{\stretch{1}}
-
-\newpage
-
-\vspace*{\stretch{1}}
-<<comp_defor, results="asis">>=
-# Import and format
-tab.3 <- read.table(file="tabs/defor_comp.txt", sep=" ", header=TRUE)
-tab.3$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
-col.names <- c("Forest type","Source","1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
-# Caption
-tabcap3 <- "\\textbf{Comparing Madagascar annual deforestation rates
-      with previous studies on the period 1953-2013}. Annual
-    deforested areas (in thousands of hectares per year, Kha/yr) and
-    annual deforestation rates (second number in parenthesis, in
-    \\%/yr) are provided. For deforestation rates in \\%/yr, exact same
-    numbers as in scientific articles and reports from previous
-    studies \\citep{Harper2007, MEFT2009, ONE2015} have been
-    reported. The way annual deforestation rates in \\%/yr have been
-    computed in these previous studies can slightly differ from one
-    study to another, but estimates always correct for the potential
-    presences of clouds on satellite images and unclassified areas on
-    forest maps. Annual deforested areas in Kha/yr have been
-    recomputed from forest cover estimates in
-    Tab.~\\ref{tab:comp_forest} (except for \\citet{Harper2007} for the
-    periods 1973-1990 and 1990-2000 for which annual deforested areas
-    in Kha/yr were derived from numbers reported in the original
-    publication, see methods) and do not correct for the potential
-    presence of clouds."
-# Kable
-knitr::kable(tab.3, col.names=col.names, align=c("l","l",rep("r",6)), booktabs=TRUE, format="latex",
-             caption=tabcap3, linesep=c("","","","\\addlinespace")) %>% 
-  kable_styling(latex_options=c("striped","hold_position","scale_down"))
-@
-\vspace*{\stretch{1}}
-
-\newpage
+% \vspace*{\stretch{1}}
+% <<comp_forest, results="asis">>=
+% # Import and format
+% fcc.comp <- read.table(file="tabs/fcc_comp.txt", sep=" ", header=TRUE)
+% tab.2 <- fcc.comp
+% tab.2 <- tab.2[,c(2,1,3:10)]
+% tab.2[,c(3:10)] <- round(tab.2[,c(3:10)]/1000)
+% tab.2$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
+% col.names <- c("Forest type","Source","1953","1973","1990","2000","2005","2010","2013","2017")
+% # Caption
+% tabcap2 <- "\\textbf{Comparing Madagascar forest cover estimates with
+%       previous studies on the period 1953-2017}. We compared our
+%     estimates of forest cover with the estimates from three previous
+%     studies \\citep{Harper2007, MEFT2009, ONE2015}. Areas are provided
+%     in thousands of hectares (Kha). We obtained a Pearson's
+%     correlation coefficient of 0.99 between our forest cover estimates
+%     and forest cover estimates from previous studies. The increase in
+%     mangrove and spiny forest covers from 1953 to 1973 in \\citet{Harper2007} and our study is most probably due to
+%     differences in forest definition and mapping methods between the
+%     1953 aerial-photography derived map and the 1973 Landsat image
+%     derived map."
+% # Kable
+% knitr::kable(tab.2, col.names=col.names, align=c("l","l",rep("r",8)), format.args=list(big.mark=","), 
+%              booktabs=TRUE, format="latex", caption=tabcap2, linesep=c("","","","\\addlinespace")) %>% 
+%   kable_styling(latex_options=c("striped","hold_position","scale_down"))
+% @
+% \vspace*{\stretch{1}}
+% 
+% \newpage
+% 
+% \vspace*{\stretch{1}}
+% <<comp_defor, results="asis">>=
+% # Import and format
+% tab.3 <- read.table(file="tabs/defor_comp.txt", sep=" ", header=TRUE)
+% tab.3$ForestType <- c("Total",rep("",3),"Moist",rep(" ",3),"Dry",rep(" ",3),"Spiny",rep(" ",3),"Mangroves",rep(" ",3))
+% col.names <- c("Forest type","Source","1953-1973","1973-1990","1990-2000","2000-2005","2005-2010","2010-2013")
+% # Caption
+% tabcap3 <- "\\textbf{Comparing Madagascar annual deforestation rates
+%       with previous studies on the period 1953-2013}. Annual
+%     deforested areas (in thousands of hectares per year, Kha/yr) and
+%     annual deforestation rates (second number in parenthesis, in
+%     \\%/yr) are provided. For deforestation rates in \\%/yr, exact same
+%     numbers as in scientific articles and reports from previous
+%     studies \\citep{Harper2007, MEFT2009, ONE2015} have been
+%     reported. The way annual deforestation rates in \\%/yr have been
+%     computed in these previous studies can slightly differ from one
+%     study to another, but estimates always correct for the potential
+%     presences of clouds on satellite images and unclassified areas on
+%     forest maps. Annual deforested areas in Kha/yr have been
+%     recomputed from forest cover estimates in
+%     Tab.~\\ref{tab:comp_forest} (except for \\citet{Harper2007} for the
+%     periods 1973-1990 and 1990-2000 for which annual deforested areas
+%     in Kha/yr were derived from numbers reported in the original
+%     publication, see methods) and do not correct for the potential
+%     presence of clouds."
+% # Kable
+% knitr::kable(tab.3, col.names=col.names, align=c("l","l",rep("r",6)), booktabs=TRUE, format="latex",
+%              caption=tabcap3, linesep=c("","","","\\addlinespace")) %>% 
+%   kable_styling(latex_options=c("striped","hold_position","scale_down"))
+% @
+% \vspace*{\stretch{1}}
+% 
+% \newpage
 
 \vspace*{\stretch{1}}
 <<frag, results="asis">>=
@@ -279,31 +269,32 @@ knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE, for
 
 \nopagebreak
 
+% \vfill
+% \begin{figure}[h!]
+%   \centering
+%     
+%     \includegraphics[width=10cm]{figs/ecoregion.png}
+% 
+%     \caption{\textbf{Ecoregions and forest types in Madagascar.}
+%       Madagascar can be divided into four climatic ecoregions with
+%       four forest types: the moist forest in the East (green), the dry
+%       forest in the West (orange), the spiny forest in the South
+%       (red), and the mangroves on the West coast (blue). Ecoregions
+%       were defined following climatic \citep{Cornet1974} and
+%       vegetation \citep{IEFN1996} criteria. The dark grey areas
+%       represent the remaining natural forest cover for the year 2017.
+%       Forest types are defined on the basis of their belonging to
+%       one of the four ecoregions.}
+%    
+%     \label{fig:ecoregion}
+%     
+% \end{figure}
+% \vfill
+% 
+% \newpage
+
+\enlargethispage{\baselineskip}
 \vfill
-\begin{figure}[h!]
-  \centering
-    
-    \includegraphics[width=10cm]{figs/ecoregion.png}
-
-    \caption{\textbf{Ecoregions and forest types in Madagascar.}
-      Madagascar can be divided into four climatic ecoregions with
-      four forest types: the moist forest in the East (green), the dry
-      forest in the West (orange), the spiny forest in the South
-      (red), and the mangroves on the West coast (blue). Ecoregions
-      were defined following climatic \citep{Cornet1974} and
-      vegetation \citep{IEFN1996} criteria. The dark grey areas
-      represent the remaining natural forest cover for the year 2017.
-      Forest types are defined on the basis of their belonging to
-      one of the four ecoregions.}
-   
-    \label{fig:ecoregion}
-    
-\end{figure}
-\vfill
-
-\newpage
-
-\vspace*{\stretch{1}}
 \begin{figure}[h!]
   \centering
   
@@ -324,7 +315,7 @@ knitr::kable(tab.4, digits=0, format.args=list(big.mark=","), booktabs=TRUE, for
   \label{fig:fcc}
 
 \end{figure}
-\vspace*{\stretch{1}}
+\vfill
 
 \newpage
 
