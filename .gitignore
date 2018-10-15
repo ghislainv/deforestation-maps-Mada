@@ -8,6 +8,9 @@ grassdata
 # biblio bak
 manuscript/bib/biblio.bib.bak
 
+# Dataverse
+R/upload_dataverse.R
+
 # Outputs
 outputs/*
 !outputs/fig_fcc.png
