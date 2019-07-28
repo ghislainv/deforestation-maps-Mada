@@ -996,6 +996,39 @@ system("r.mask -r")
 ## Plot raster with gplot() from rasterVis
 source(file="R/plotfcc.R")
 
+##=================================================
+## Forest-cover change map for ForestAtRisk website
+## 2000-2005-2010-2015-2017
+##=================================================
+
+## FCC map
+
+# Mask on Harper map
+system("r.mask --o raster=harper")
+# Compute fcc
+system(paste0("r.mapcalc --o 'fcc_recent = if(!isnull(for2017),27,if(!isnull(for2015),26,if(!isnull(for2010),25,\\
+if(!isnull(for2005),24,if(!isnull(for2000),23,if(!isnull(water) &&& water>0,water,null()))))))'"))
+# Color palette
+system("r.colors map=fcc_recent rules=- << EOF
+1 153:217:234
+12 0:0:170
+23 220:105:0
+24 235:140:0
+25 224:48:30
+26 163:32:32
+27 34:139:34
+nv 255:255:255
+EOF")
+# Export
+system("r.out.gdal --o input=fcc_recent createopt='compress=lzw,predictor=2' type=Byte output=outputs/fcc_recent.tif")
+
+# Check in R
+## fcc_recent <- raster("outputs/fcc_recent.tif")
+## plot(fcc_recent, maxpixels=10e5, colNA="transparent")
+
+# Remove mask
+system("r.mask -r")
+
 ##==================================================
 ## Plot for evolution of the distance to forest edge
 ##==================================================
