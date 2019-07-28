@@ -1006,17 +1006,15 @@ source(file="R/plotfcc.R")
 # Mask on Harper map
 system("r.mask --o raster=harper")
 # Compute fcc
-system(paste0("r.mapcalc --o 'fcc_recent = if(!isnull(for2017),27,if(!isnull(for2015),26,if(!isnull(for2010),25,\\
-if(!isnull(for2005),24,if(!isnull(for2000),23,if(!isnull(water) &&& water>0,water,null()))))))'"))
+system(paste0("r.mapcalc --o 'fcc_recent = if(!isnull(for2017),5,if(!isnull(for2015),4,if(!isnull(for2010),3,\\
+if(!isnull(for2005),2,if(!isnull(for2000),1,null())))))'"))
 # Color palette
 system("r.colors map=fcc_recent rules=- << EOF
-1 153:217:234
-12 0:0:170
-23 220:105:0
-24 235:140:0
-25 224:48:30
-26 163:32:32
-27 34:139:34
+1 220:105:0
+2 235:140:0
+3 224:48:30
+4 163:32:32
+5 34:139:34
 nv 255:255:255
 EOF")
 # Export
