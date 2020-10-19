@@ -13,6 +13,7 @@ require(gridExtra)
 require(grid)
 require(rgdal)
 require(ggspatial)  # for geom_spatial()
+require(sf)
 
 # Zooms
 zoom.w <- list(xmin=346000,xmax=439000,ymin=7387000,ymax=7480000)
@@ -32,7 +33,7 @@ for (z in 1:length(zooms)) {
 }
 
 # Resolution
-res <- 10e5
+res <- 1e6
 
 # get_legend()
 get_legend <- function(myggplot) {
@@ -169,9 +170,8 @@ plot_zoom_dist <- function(rast_file,palette=dist.palette,vr=dist.vr) {
 ecoregion <- readOGR(dsn="gisdata/vectors",layer="madagascar_ecoregion_tenaizy_38s")
 # Recode ecoregion
 ecoregion.data <- ecoregion@data
-ecoregion.data$code <- c("s","m","h","d") # spiny, mangroves, dry, humid
+ecoregion.data$code <- c("s","m","h","d") # spiny, mangroves, humid, dry
 ecoregion@data <- ecoregion.data
-df.eco <- df_spatial(ecoregion)
 
 # Text
 xt <- c(850000,580000,530000,600000)
@@ -195,7 +195,7 @@ eco.col <- c("h"=green.t,"d"=orange.t,"s"=red.t,"m"="blue","1"=black.t)
 
 # Plot
 plot.ecoregion <- gplot(for2017, maxpixels=res) +
-  geom_polypath(aes(x,y,group=piece_id,fill=factor(code)),df.eco) +
+  layer_spatial(mapping=aes(group=code, fill=factor(code)), data=ecoregion) +
   geom_raster(aes(fill=factor(value))) +
   scale_fill_manual(values=eco.col, na.value="transparent") +
   geom_text(data=t.df, aes(x=x, y=y, label=text), size=5) +
@@ -204,8 +204,9 @@ plot.ecoregion <- gplot(for2017, maxpixels=res) +
   theme(legend.position="null") +
   scale_y_continuous(limits=c(7165000,8685000),expand=c(0,0)) +
   scale_x_continuous(limits=c(300000,1100000),expand=c(0,0)) +
-  coord_equal()
+  coord_equal() + coord_sf(datum=st_crs(32738))
 ggsave("outputs/ecoregion.png", plot.ecoregion, width=10, height=15, units="cm")
+ggsave("outputs/ecoregion.svg", plot.ecoregion, width=10, height=15, units="cm")
 
 # ================
 # Maps
