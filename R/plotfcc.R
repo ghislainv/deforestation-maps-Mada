@@ -206,7 +206,6 @@ plot.ecoregion <- gplot(for2017, maxpixels=res) +
   scale_x_continuous(limits=c(300000,1100000),expand=c(0,0)) +
   coord_equal() + coord_sf(datum=st_crs(32738))
 ggsave("outputs/ecoregion.png", plot.ecoregion, width=10, height=15, units="cm")
-ggsave("outputs/ecoregion.svg", plot.ecoregion, width=10, height=15, units="cm")
 
 # ================
 # Maps
