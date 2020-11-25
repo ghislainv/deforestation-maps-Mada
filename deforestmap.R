@@ -17,6 +17,8 @@
 ## GRASS GIS 7.2.x is also needed to run this script
 ## https://grass.osgeo.org/
 
+Sys.unsetenv("PROJ_LIB")
+
 ##= Libraries
 pkg <- c("broom","sp","rgdal","raster","ggplot2","gridExtra","RColorBrewer",
          "dataverse",
@@ -50,10 +52,10 @@ SavedObjects <- c()
 ## It should be somethin like: "/usr/lib/grass72"
 ## On Windows, find the path to GRASS GIS with: C:\>grass72.bat --config path
 ## If you use OSGeo4W, it should be: "C:\OSGeo4W\apps\grass\grass-7.2"
-Sys.setenv(LD_LIBRARY_PATH=paste("/usr/lib/grass72/lib", Sys.getenv("LD_LIBRARY_PATH"),sep=":"))
+Sys.setenv(LD_LIBRARY_PATH=paste("/usr/lib/grass76/lib", Sys.getenv("LD_LIBRARY_PATH"),sep=":"))
 
 ## Initialize GRASS
-initGRASS(gisBase="/usr/lib/grass72",home=tempdir(), 
+initGRASS(gisBase="/usr/lib/grass76",home=tempdir(), 
           gisDbase="grassdata",
           location="deforestmap",mapset="PERMANENT",
           override=TRUE)
@@ -437,6 +439,64 @@ system("r.mask -r")
 df.saltpepper <- data.frame(Year=Year,ha.salt=NA)
 df.saltpepper$ha.salt <- c(95209,452572,481855,455098,538907,605073,685860,666164)
 write.table(df.saltpepper, file="outputs/saltpepper.txt", sep="\t", row.names=FALSE)
+
+# ===========================================
+# Annual fcc from 2000 to 2017, GV 24.11.2020
+# ===========================================
+
+# Remove salt and pepper
+Year <- 2000:2017
+system("g.region rast=harper -ap")
+system("r.mask --o raster=harper")
+for (i in 1:length(Year)) {
+  # Message
+  cat(paste0("Year: ",Year[i],"\n"))
+  # Computation  
+  system(paste0("r.neighbors --o input=for",Year[i]," output=for",Year[i],"_sum method=sum size=3"))
+  system(paste0("r.mapcalc --o 'for",Year[i]," = if(isnull(for",Year[i],") &&& for",Year[i],"_sum==8, 1, for",Year[i],")'"))
+}
+system("r.mask -r")
+
+# Combine fcc in one raster
+system("r.mapcalc --o 'fcc_2000_2017 = 118*for2017'")
+for (i in (length(Year)-1):1) {
+  system(paste0("r.mapcalc --o 'fcc_2000_2017 = if(isnull(fcc_2000_2017) && !isnull(for",Year[i],"), ", i,", fcc_2000_2017)'"))
+}
+
+#Colors
+system("r.colors map=fcc_2000_2017 rules=- << EOF
+1 255:165:0
+17 227:26:28
+118 34:139:34
+nv 255:255:255
+EOF")
+
+# Export as GeoTIFF
+system("r.out.gdal --o input=fcc_2000_2017 nodata=0 createopt='compress=lzw,predictor=2' \\
+       type=Byte output=outputs/fcc_2000_2017.tif")
+
+# Deforestation by year
+system("r.report -n map=fcc_2000_2017 units=h output=outputs/fcc_2000_2017.txt")
+fcc_data <- read.table("outputs/fcc_2000_2017.txt", skip=15, nrows=17, sep="|", header=FALSE)
+df <- data.frame(Year=c(2001:2018), d=as.numeric(c(sub(",", "", fcc_data$V4), NA)))
+
+# Forest cover at 1sr January 2001
+fc2001_in <- read.table("outputs/fcc_2000_2017.txt", skip=34, nrows=1, sep="|", header=FALSE)$V3
+fc2001 <- as.numeric(gsub(",", "", (sub(" ", "", as.character(fc2001_in)))))
+fc <- fc2001
+for (i in 1:(length(Year)-1)) {fc[i+1] <- fc[i]-df$d[i]}
+df$fc <- fc
+write.table(df, "outputs/fcc_2000_2017.csv", sep=",", row.names=FALSE)
+
+# Plot
+p <- ggplot(data=df, aes(x=Year, y=d, group=1)) +
+  geom_smooth(method=lm) +
+  geom_line() +
+  geom_point() +
+  ylab("Annual deforested area (ha/yr)") +
+  theme_bw()
+ggsave("outputs/fcc_2000_2017.png", plot=p)
+  
 
 #====================================================================================
 # Export images as .png and .gif
